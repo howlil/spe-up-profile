@@ -1,6 +1,10 @@
 /** @format */
 
 import Image from 'next/image';
+import PrimaryButton from '../components/PrimaryButton';
+import SectionTitle from '../components/SectionTitle';
+import MoreText from '../components/MoreText';
+import CompanyLogosGrid from '../components/CompanyLogosGrid';
 
 export default function Home() {
   return (
@@ -57,19 +61,13 @@ export default function Home() {
       >
         {/* Heading - dalam container */}
         <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-          <div className=' '>
-            <div className='flex items-center gap-4'>
-              <h2
-                id='about-heading'
-                className='text-4xl font-normal text-[#3C8C98] sm:text-5xl lg:text-6xl'
-              >
-                About Us
-              </h2>
-              <div
-                className='h-1 flex-1 bg-[#3C8C98]'
-                aria-hidden='true'
-              />
-            </div>
+          <div className='mb-8 sm:mb-12'>
+            <SectionTitle
+              id='about-heading'
+              variant='left'
+            >
+              About Us
+            </SectionTitle>
           </div>
         </div>
 
@@ -122,18 +120,12 @@ export default function Home() {
         <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
           {/* Heading dengan garis */}
           <div className='mb-8 sm:mb-12'>
-            <div className='flex items-center gap-4'>
-              <div
-                className='h-1 flex-1 bg-[#3C8C98]'
-                aria-hidden='true'
-              />
-              <h2
-                id='achievement-heading'
-                className='text-4xl font-normal text-[#3C8C98] sm:text-5xl lg:text-6xl'
-              >
-                Achievement
-              </h2>
-            </div>
+            <SectionTitle
+              id='achievement-heading'
+              variant='right'
+            >
+              Achievement
+            </SectionTitle>
           </div>
 
           {/* Achievement Content */}
@@ -224,140 +216,27 @@ export default function Home() {
               </h2>
             </div>
             {/* Desktop: Horizontal layout */}
-            <div className='hidden items-center gap-4 sm:flex'>
-              <div
-                className='h-1 flex-1 bg-[#3C8C98] max-w-xs'
-                aria-hidden='true'
-              />
-              <h2
+            <div className='hidden sm:block'>
+              <SectionTitle
                 id='collaboration-heading'
-                className='text-4xl font-normal text-[#3C8C98] sm:text-5xl lg:text-6xl whitespace-nowrap'
+                variant='center'
               >
                 <span className='font-[var(--font-playfair)] italic text-[#3C8C98]'>
                   Our Previous
                 </span>{' '}
                 <span className='text-[#3C8C98]'>Company Collaboration</span>
-              </h2>
-              <div
-                className='h-1 flex-1 bg-[#3C8C98] max-w-xs'
-                aria-hidden='true'
-              />
+              </SectionTitle>
             </div>
           </div>
 
           {/* Company Logos Grid */}
-          <div className='grid grid-cols-2 gap-4 sm:gap-6 sm:grid-cols-4 lg:grid-cols-8 lg:gap-8'>
-            {/* PWC */}
-            <div className='flex items-center justify-center rounded-lg bg-white p-3 shadow-md transition-transform hover:scale-105 sm:p-4'>
-              <div className='relative h-10 w-full sm:h-12'>
-                <Image
-                  src='/home/pwc.webp'
-                  alt='PwC - PricewaterhouseCoopers'
-                  fill
-                  className='object-contain'
-                  sizes='(max-width: 640px) 120px, 150px'
-                />
-              </div>
-            </div>
-
-            {/* Pertamina */}
-            <div className='flex items-center justify-center rounded-lg bg-white p-3 shadow-md transition-transform hover:scale-105 sm:p-4'>
-              <div className='relative h-10 w-full sm:h-12'>
-                <Image
-                  src='/home/pertaminia.webp'
-                  alt='Pertamina'
-                  fill
-                  className='object-contain'
-                  sizes='(max-width: 640px) 120px, 150px'
-                />
-              </div>
-            </div>
-
-            {/* SLB */}
-            <div className='flex items-center justify-center rounded-lg bg-white p-3 shadow-md transition-transform hover:scale-105 sm:p-4'>
-              <div className='relative h-10 w-full sm:h-12'>
-                <Image
-                  src='/home/slb.webp'
-                  alt='SLB - Schlumberger'
-                  fill
-                  className='object-contain'
-                  sizes='(max-width: 640px) 120px, 150px'
-                />
-              </div>
-            </div>
-
-            {/* RFD */}
-            <div className='flex items-center justify-center rounded-lg bg-white p-3 shadow-md transition-transform hover:scale-105 sm:p-4'>
-              <div className='relative h-10 w-full sm:h-12'>
-                <Image
-                  src='/home/rfd.webp'
-                  alt='RFD'
-                  fill
-                  className='object-contain'
-                  sizes='(max-width: 640px) 120px, 150px'
-                />
-              </div>
-            </div>
-
-            {/* HCML */}
-            <div className='flex items-center justify-center rounded-lg bg-white p-3 shadow-md transition-transform hover:scale-105 sm:p-4'>
-              <div className='relative h-10 w-full sm:h-12'>
-                <Image
-                  src='/home/hcml.webp'
-                  alt='HCML'
-                  fill
-                  className='object-contain'
-                  sizes='(max-width: 640px) 120px, 150px'
-                />
-              </div>
-            </div>
-
-            {/* BP */}
-            <div className='flex items-center justify-center rounded-lg bg-white p-3 shadow-md transition-transform hover:scale-105 sm:p-4'>
-              <div className='relative h-10 w-full sm:h-12'>
-                <Image
-                  src='/home/bp.webp'
-                  alt='BP - British Petroleum'
-                  fill
-                  className='object-contain'
-                  sizes='(max-width: 640px) 120px, 150px'
-                />
-              </div>
-            </div>
-
-            {/* PetroChina */}
-            <div className='flex items-center justify-center rounded-lg bg-white p-3 shadow-md transition-transform hover:scale-105 sm:p-4'>
-              <div className='relative h-10 w-full sm:h-12'>
-                <Image
-                  src='/home/petrocina.webp'
-                  alt='PetroChina'
-                  fill
-                  className='object-contain'
-                  sizes='(max-width: 640px) 120px, 150px'
-                />
-              </div>
-            </div>
-
-            {/* AIV */}
-            <div className='flex items-center justify-center rounded-lg bg-white p-3 shadow-md transition-transform hover:scale-105 sm:p-4'>
-              <div className='relative h-10 w-full sm:h-12'>
-                <Image
-                  src='/home/aiv.webp'
-                  alt='AIV'
-                  fill
-                  className='object-contain'
-                  sizes='(max-width: 640px) 120px, 150px'
-                />
-              </div>
-            </div>
-          </div>
+          <CompanyLogosGrid />
 
           {/* And many more text */}
-          <div className='mt-6 text-center sm:mt-8'>
-            <p className='font-[var(--font-playfair)] italic text-base text-gray-600 sm:text-lg lg:text-xl'>
-              and many more...
-            </p>
-          </div>
+          <MoreText
+            content='and many more...'
+            position='right'
+          />
         </div>
       </section>
 
@@ -369,18 +248,15 @@ export default function Home() {
         <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
           {/* Heading dengan garis yang menyambung ke hanging photos */}
           <div className='relative mb-8 sm:mb-12'>
-            <div className='flex items-center gap-4'>
-              <h2
-                id='what-we-do-heading'
-                className='whitespace-nowrap font-[var(--font-playfair)] text-4xl font-normal italic text-[#3C8C98] sm:text-5xl lg:text-6xl'
-              >
-                What We Do
-              </h2>
-              <div
-                className='h-[6px] flex-1 bg-[#3C8C98]'
-                aria-hidden='true'
-              />
-            </div>
+            <SectionTitle
+              id='what-we-do-heading'
+              variant='left'
+              italic={true}
+              lineThickness='thick'
+              className='whitespace-nowrap'
+            >
+              What We Do
+            </SectionTitle>
 
             {/* Hanging Photos - positioned from the teal line, 1/3 width */}
             {/* Hanging Photos - only visible on desktop (lg+) */}
@@ -525,15 +401,8 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Explore Button - positioned at bottom right */}
-              <div className='mt-8 flex justify-end'>
-                <a
-                  href='/event'
-                  className='inline-flex items-center rounded-full border border-white bg-gradient-to-r from-[#3C8C98] to-[#52e8ff] px-8 py-3 text-base font-semibold italic text-white shadow-lg transition-all hover:scale-105 hover:shadow-xl sm:px-10 sm:py-4 sm:text-lg'
-                >
-                  Explore for More
-                </a>
-              </div>
+              {/* Primary Button - positioned at bottom right */}
+              <PrimaryButton href='/about' />
             </div>
           </div>
         </div>

@@ -61,10 +61,15 @@ export default function Footer() {
                     strokeWidth={1.5}
                   />
                 </div>
-                <p className='pt-1 text-base leading-relaxed text-white sm:text-lg lg:text-xl'>
+                <a
+                  href='https://www.google.com/maps/place/Universitas+Pertamina/@-6.2285678,106.789164,962m/data=!3m2!1e3!4b1!4m6!3m5!1s0x2e69f13094c83677:0x1f4300031365732b!8m2!3d-6.2285678!4d106.789164!16s%2Fg%2F11c3x30f9b?entry=ttu&g_ep=EgoyMDI2MDExMy4wIKXMDSoASAFQAw%3D%3D'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='pt-1 text-base leading-relaxed text-white transition-colors hover:text-[#3C8C98] sm:text-lg lg:text-xl'
+                >
                   Jl. Teuku Nyak Arief, RT.7/RW.8, Simprug, Kec. Kby. Lama, Kota
                   Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12220
-                </p>
+                </a>
               </div>
 
               {/* Email */}
@@ -75,9 +80,12 @@ export default function Footer() {
                     strokeWidth={1.5}
                   />
                 </div>
-                <p className='text-base text-white sm:text-lg lg:text-xl'>
+                <a
+                  href='mailto:speupsc@gmail.com'
+                  className='text-base text-white transition-colors hover:text-[#3C8C98] sm:text-lg lg:text-xl'
+                >
                   speupsc@gmail.com
-                </p>
+                </a>
               </div>
 
               {/* Instagram */}
@@ -88,9 +96,14 @@ export default function Footer() {
                     strokeWidth={1.5}
                   />
                 </div>
-                <p className='text-base text-white sm:text-lg lg:text-xl'>
-                  speupsc
-                </p>
+                <a
+                  href='https://www.instagram.com/speupsc/'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='text-base text-white transition-colors hover:text-[#3C8C98] sm:text-lg lg:text-xl'
+                >
+                  @speupsc
+                </a>
               </div>
 
               {/* LinkedIn */}
@@ -101,9 +114,14 @@ export default function Footer() {
                     strokeWidth={1.5}
                   />
                 </div>
-                <p className='text-base text-white sm:text-lg lg:text-xl'>
+                <a
+                  href='https://www.linkedin.com/company/spe-universitas-pertamina-sc/'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='text-base text-white transition-colors hover:text-[#3C8C98] sm:text-lg lg:text-xl'
+                >
                   SPE Universitas Pertamina SC
-                </p>
+                </a>
               </div>
             </div>
           </div>

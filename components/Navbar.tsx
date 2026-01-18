@@ -19,18 +19,25 @@ const navigationItems: NavigationItem[] = [
     href: '/about',
     label: 'About Us',
     submenu: [
-      {href: '/about/achievement', label: 'Achievement'},
-      {href: '/about/vision-mission', label: 'Vision & Mission'},
-      {href: '/about/core-value', label: 'Core Value'},
-      {href: '/about/face-of-spe', label: 'Face of SPE'},
-      {href: '/about/partnership', label: 'Partnership'},
+      {href: '/about#achievement', label: 'Achievement'},
+      {href: '/about#vision-mission', label: 'Vision & Mission'},
+      {href: '/about#core-value', label: 'Core Value'},
+      {href: '/about#face-of-spe', label: 'Face of SPE'},
+      {href: '/about#partnership', label: 'Partnership'},
     ],
   },
   {href: '/event', label: 'Event'},
+  {href: '/article', label: 'Article'},
   {href: '/membership', label: 'Membership'},
   {href: '/alumnae', label: 'Alumnae'},
-  {href: '/protect', label: 'PROTECT'},
-  {href: '/spe-java', label: 'SPE Java'},
+  {
+    href: '#',
+    label: 'More',
+    submenu: [
+      {href: 'https://www.spe.org/en/', label: 'SPE International'},
+      {href: 'https://spejava.com/aes', label: 'SPE Java Indonesia Section'},
+    ],
+  },
 ];
 
 export default function Navbar() {
@@ -154,6 +161,12 @@ export default function Navbar() {
                         aria-haspopup='true'
                         aria-expanded={isDropdownOpen}
                         onFocus={() => setOpenDropdown(item.href)}
+                        onClick={(e) => {
+                          if (item.href === '#') {
+                            e.preventDefault();
+                            toggleDropdown(item.href);
+                          }
+                        }}
                       >
                         <span
                           className={`transition-all ${
@@ -250,18 +263,18 @@ export default function Navbar() {
                           ? 'bg-gradient-to-t from-[#3C8C98] to-[#52e8ff] bg-clip-text text-transparent'
                           : 'text-white'
                       }`}
-                    >
-                      {item.label}
+                  >
+                    {item.label}
                     </span>
                     {/* Line span untuk hover dan aktif */}
-                    <span
+                      <span
                       className={`absolute bottom-0 left-1/2 h-0.5 w-0 -translate-x-1/2 bg-gradient-to-t from-[#3C8C98] to-[#52e8ff] transition-all duration-300 ${
                         isActive
                           ? 'w-8 opacity-100'
                           : 'group-hover:w-8 group-hover:opacity-100 opacity-0'
                       }`}
-                      aria-hidden='true'
-                    />
+                        aria-hidden='true'
+                      />
                   </Link>
                 );
               })}
@@ -444,8 +457,8 @@ export default function Navbar() {
                         ? 'bg-gradient-to-t from-[#3C8C98] to-[#52e8ff] bg-clip-text text-transparent'
                         : 'text-white'
                     }`}
-                  >
-                    {item.label}
+                >
+                  {item.label}
                   </span>
                   {/* Line span untuk hover dan aktif */}
                   <span

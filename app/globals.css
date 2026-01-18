@@ -1,4 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Metal&display=swap');
 @import "tailwindcss";
+
+/* Font Geller */
+@font-face {
+  font-family: 'Geller';
+  src: url('/font/fonnts.com-Geller-Text-Italic.otf') format('opentype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Font Metal from Google Fonts */
+.metal-regular {
+  font-family: "Metal", serif;
+  font-weight: 400;
+  font-style: normal;
+}
 
 :root {
   --background: #ffffff;
@@ -6,6 +23,7 @@
   --brand-primary: #3C8C98;
   --brand-primary-dark: #2d6b75;
   --brand-primary-light: #4da3b0;
+  --font-geller: 'Geller', serif;
 }
 
 /* Smooth scroll animation */
@@ -32,6 +50,7 @@ html {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-playfair: var(--font-playfair);
+  --font-geller: var(--font-geller);
 }
 
 @media (prefers-color-scheme: dark) {
