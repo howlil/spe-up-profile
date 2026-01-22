@@ -30,6 +30,7 @@ server :
                 describtion : "describ"
                 datePost : # must be DD-MM-YYYY
                 createdBy : "howlil"
+                topic : "topic name"
                 
             }
         ] 
@@ -61,6 +62,7 @@ server :
                 datePost : # must be DD-MM-YYYY
                 createdBy : # ambil dari midlleware
                 content  : "content" 
+                topic : "topic name"
                 
             }
     {
@@ -74,6 +76,7 @@ server :
                 datePost : # must be DD-MM-YYYY
                 createdBy : "howlil"
                 content  : "content" 
+                topic : "topic name"
                 
             }
         
@@ -90,6 +93,7 @@ server :
                 datePost : # must be DD-MM-YYYY
                 createdBy : # ambil dari midlleware
                 content  : "content" 
+                topic : "topic name"
                 
             }
     {
@@ -103,6 +107,7 @@ server :
                 datePost : # must be DD-MM-YYYY
                 createdBy : "howlil"
                 content  : "content" 
+                topic : "topic name"
                 
             }
         
@@ -113,6 +118,20 @@ server :
         success : true
         message : "data :id"
         
+    }
+
+    GET
+    api/v1/topics
+    {
+        success : true
+        message : "all topics"
+        data : [
+            {
+                id : 1
+                name : "topic name"
+                count : 5 # jumlah artikel dengan topic ini
+            }
+        ]
     }
 
 6. api partnertship 
