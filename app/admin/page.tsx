@@ -3,10 +3,10 @@
 'use client';
 
 import { useState } from 'react';
-import { 
-  FileText, 
-  Handshake, 
-  Users, 
+import {
+  FileText,
+  Handshake,
+  Users,
   TrendingUp,
   Calendar,
   Eye,
@@ -96,7 +96,7 @@ export default function AdminDashboard() {
           <h1 className="text-sm font-semibold text-gray-900">Dashboard</h1>
           <p className="text-xs text-gray-500">SPE UP SC Admin Panel</p>
         </div>
-        
+
         <div className="flex items-center gap-2">
           {/* Period Selector */}
           <select
@@ -108,11 +108,6 @@ export default function AdminDashboard() {
             <option value="30d">Last 30 days</option>
             <option value="90d">Last 90 days</option>
           </select>
-          
-          <button className="h-8 px-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 text-xs flex items-center gap-1.5 transition-all">
-            <Plus className="w-3.5 h-3.5" />
-            Quick Add
-          </button>
         </div>
       </header>
 
@@ -125,19 +120,17 @@ export default function AdminDashboard() {
             return (
               <div key={stat.id} className="bg-white rounded-lg border border-gray-200 p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <Icon className={`w-4 h-4 ${
-                    stat.color === 'blue' ? 'text-blue-600' :
+                  <Icon className={`w-4 h-4 ${stat.color === 'blue' ? 'text-blue-600' :
                     stat.color === 'green' ? 'text-green-600' :
-                    stat.color === 'purple' ? 'text-purple-600' :
-                    'text-orange-600'
-                  }`} />
+                      stat.color === 'purple' ? 'text-purple-600' :
+                        'text-orange-600'
+                    }`} />
                   <h3 className="text-xs font-medium text-gray-700">{stat.title}</h3>
                 </div>
                 <div className="flex items-end justify-between">
                   <p className="text-xl font-semibold text-gray-900">{stat.value}</p>
-                  <p className={`text-xs ${
-                    stat.trend === 'up' ? 'text-green-600' : 'text-red-600'
-                  }`}>
+                  <p className={`text-xs ${stat.trend === 'up' ? 'text-green-600' : 'text-red-600'
+                    }`}>
                     {stat.change}
                   </p>
                 </div>
@@ -157,14 +150,13 @@ export default function AdminDashboard() {
               <div className="space-y-3">
                 {recentActivities.map((activity) => (
                   <div key={activity.id} className="flex items-start gap-3 p-3 rounded-md hover:bg-gray-50 transition-colors">
-                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${
-                      activity.type === 'article' ? 'bg-blue-100 text-blue-600' :
+                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${activity.type === 'article' ? 'bg-blue-100 text-blue-600' :
                       activity.type === 'partnership' ? 'bg-green-100 text-green-600' :
-                      'bg-purple-100 text-purple-600'
-                    }`}>
+                        'bg-purple-100 text-purple-600'
+                      }`}>
                       {activity.type === 'article' ? <FileText className="w-3 h-3" /> :
-                       activity.type === 'partnership' ? <Handshake className="w-3 h-3" /> :
-                       <Users className="w-3 h-3" />}
+                        activity.type === 'partnership' ? <Handshake className="w-3 h-3" /> :
+                          <Users className="w-3 h-3" />}
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-xs text-gray-900 font-medium">{activity.title}</p>
@@ -177,7 +169,7 @@ export default function AdminDashboard() {
                   </div>
                 ))}
               </div>
-              
+
               <div className="mt-4 pt-4 border-t border-gray-100">
                 <button className="text-xs text-blue-600 hover:underline">
                   View all activities
@@ -202,7 +194,7 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                 </button>
-                
+
                 <button className="w-full p-3 text-left rounded-md border border-gray-200 hover:bg-gray-50 transition-colors">
                   <div className="flex items-center gap-3">
                     <Handshake className="w-4 h-4 text-green-600" />
@@ -212,7 +204,7 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                 </button>
-                
+
                 <button className="w-full p-3 text-left rounded-md border border-gray-200 hover:bg-gray-50 transition-colors">
                   <div className="flex items-center gap-3">
                     <Users className="w-4 h-4 text-purple-600" />
@@ -227,30 +219,7 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* System Status */}
-        <div className="mt-6 bg-white rounded-lg border border-gray-200 p-4">
-          <h2 className="text-sm font-semibold text-gray-900 mb-3">System Status</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="flex items-center justify-between p-3 bg-green-50 rounded-md">
-              <span className="text-xs text-green-700">API Status</span>
-              <span className="h-4 px-2 text-xs bg-green-100 text-green-700 rounded-full flex items-center">
-                Online
-              </span>
-            </div>
-            <div className="flex items-center justify-between p-3 bg-blue-50 rounded-md">
-              <span className="text-xs text-blue-700">Database</span>
-              <span className="h-4 px-2 text-xs bg-blue-100 text-blue-700 rounded-full flex items-center">
-                Connected
-              </span>
-            </div>
-            <div className="flex items-center justify-between p-3 bg-orange-50 rounded-md">
-              <span className="text-xs text-orange-700">Storage</span>
-              <span className="h-4 px-2 text-xs bg-orange-100 text-orange-700 rounded-full flex items-center">
-                85% Used
-              </span>
-            </div>
-          </div>
-        </div>
+
       </main>
     </>
   );

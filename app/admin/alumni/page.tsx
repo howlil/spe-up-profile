@@ -3,11 +3,11 @@
 'use client';
 
 import { useState } from 'react';
-import { 
-  Search, 
-  Plus, 
-  Edit, 
-  Trash2, 
+import {
+  Search,
+  Plus,
+  Edit,
+  Trash2,
   Eye,
   Download,
   Filter,
@@ -32,7 +32,6 @@ const alumniData = [
     file: 'alshavira-photo.jpg',
     dateRegistered: '2026-01-20',
     graduationYear: '2019',
-    status: 'verified',
   },
   {
     id: 2,
@@ -44,7 +43,6 @@ const alumniData = [
     file: 'bima-photo.jpg',
     dateRegistered: '2026-01-18',
     graduationYear: '2021',
-    status: 'verified',
   },
   {
     id: 3,
@@ -56,7 +54,6 @@ const alumniData = [
     file: 'naufal-photo.jpg',
     dateRegistered: '2026-01-15',
     graduationYear: '2020',
-    status: 'pending',
   },
   {
     id: 4,
@@ -68,7 +65,6 @@ const alumniData = [
     file: null,
     dateRegistered: '2026-01-12',
     graduationYear: '2022',
-    status: 'pending',
   },
   {
     id: 5,
@@ -80,7 +76,6 @@ const alumniData = [
     file: 'kenan-photo.jpg',
     dateRegistered: '2026-01-10',
     graduationYear: '2021',
-    status: 'verified',
   },
 ];
 
@@ -98,13 +93,13 @@ export default function AlumniAdmin() {
 
   // Filter alumni
   const filteredAlumni = alumniData.filter(alumni => {
-    const matchesSearch = 
+    const matchesSearch =
       alumni.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       alumni.institution.toLowerCase().includes(searchQuery.toLowerCase()) ||
       alumni.position.toLowerCase().includes(searchQuery.toLowerCase()) ||
       alumni.email.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesYear = selectedYear === 'All Years' || alumni.graduationYear === selectedYear;
-    
+
     return matchesSearch && matchesYear;
   });
 
@@ -135,11 +130,6 @@ export default function AlumniAdmin() {
     setShowEditModal(true);
   };
 
-  const handleStatusChange = (id: number, newStatus: string) => {
-    // Handle status change logic here
-    console.log('Change status:', id, newStatus);
-  };
-
   const handleExportAll = () => {
     // Handle bulk export logic here - exports all filtered alumni
     console.log('Export all alumni:', filteredAlumni);
@@ -151,23 +141,6 @@ export default function AlumniAdmin() {
     setSelectedAlumni(null);
   };
 
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'verified':
-        return 'bg-emerald-100 text-emerald-800 border border-emerald-200';
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800 border border-yellow-200';
-      case 'rejected':
-        return 'bg-red-100 text-red-800 border border-red-200';
-      default:
-        return 'bg-gray-100 text-gray-700 border border-gray-200';
-    }
-  };
-
-  const formatStatus = (status: string) => {
-    return status.charAt(0).toUpperCase() + status.slice(1);
-  };
-
   return (
     <>
       {/* Header */}
@@ -176,9 +149,9 @@ export default function AlumniAdmin() {
           <h1 className="text-sm font-semibold text-gray-900">Alumni Management</h1>
           <p className="text-xs text-gray-500">{filteredAlumni.length} alumni records found</p>
         </div>
-        
+
         <div className="flex items-center gap-2">
-          <button 
+          <button
             onClick={handleExportAll}
             className="h-8 px-3 border border-emerald-200 bg-emerald-50 text-emerald-700 rounded-md hover:bg-emerald-100 hover:border-emerald-300 text-xs flex items-center gap-1.5 transition-all"
           >
@@ -202,7 +175,7 @@ export default function AlumniAdmin() {
               className="w-full h-9 pl-9 pr-3 text-xs border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
           </div>
-          
+
           {/* Filters */}
           <div className="flex gap-2">
             <select
@@ -253,7 +226,6 @@ export default function AlumniAdmin() {
                   <th className="text-left p-3 font-medium text-gray-700">Position</th>
                   <th className="text-left p-3 font-medium text-gray-700">Year</th>
                   <th className="text-left p-3 font-medium text-gray-700">Date Registered</th>
-                  <th className="text-left p-3 font-medium text-gray-700">Status</th>
                   <th className="text-left p-3 font-medium text-gray-700">Photo</th>
                   <th className="text-center p-3 font-medium text-gray-700">Actions</th>
                 </tr>
@@ -288,17 +260,7 @@ export default function AlumniAdmin() {
                         <span>{alumni.dateRegistered}</span>
                       </div>
                     </td>
-                    <td className="p-3">
-                      <select
-                        value={alumni.status}
-                        onChange={(e) => handleStatusChange(alumni.id, e.target.value)}
-                        className={`h-6 px-2 text-xs rounded-full border-0 ${getStatusBadge(alumni.status)} appearance-none cursor-pointer`}
-                      >
-                        <option value="pending">Pending</option>
-                        <option value="verified">Verified</option>
-                        <option value="rejected">Rejected</option>
-                      </select>
-                    </td>
+
                     <td className="p-3">
                       {alumni.file ? (
                         <div className="w-8 h-8 rounded-full bg-gray-100 overflow-hidden">
@@ -316,21 +278,21 @@ export default function AlumniAdmin() {
                     </td>
                     <td className="p-3">
                       <div className="flex items-center justify-center gap-1">
-                        <button 
+                        <button
                           onClick={() => handleViewDetail(alumni)}
                           className="w-7 h-7 flex items-center justify-center hover:bg-blue-50 rounded-md transition-all group"
                           title="View Details"
                         >
                           <Eye className="w-3.5 h-3.5 text-blue-600 group-hover:text-blue-700" />
                         </button>
-                        <button 
+                        <button
                           onClick={() => handleEdit(alumni)}
                           className="w-7 h-7 flex items-center justify-center hover:bg-amber-50 rounded-md transition-all group"
                           title="Edit"
                         >
                           <Edit className="w-3.5 h-3.5 text-amber-600 group-hover:text-amber-700" />
                         </button>
-                        <button 
+                        <button
                           onClick={() => handleDelete(alumni)}
                           className="w-7 h-7 flex items-center justify-center hover:bg-red-50 rounded-md transition-all group"
                           title="Delete"
@@ -357,7 +319,7 @@ export default function AlumniAdmin() {
               >
                 Previous
               </button>
-              
+
               <div className="flex items-center gap-1">
                 {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                   let pageNum;
@@ -370,23 +332,22 @@ export default function AlumniAdmin() {
                   } else {
                     pageNum = currentPage - 2 + i;
                   }
-                  
+
                   return (
                     <button
                       key={pageNum}
                       onClick={() => setCurrentPage(pageNum)}
-                      className={`h-8 w-8 text-xs rounded-md transition-all ${
-                        currentPage === pageNum
+                      className={`h-8 w-8 text-xs rounded-md transition-all ${currentPage === pageNum
                           ? 'bg-blue-600 text-white'
                           : 'border border-gray-200 hover:bg-gray-50'
-                      }`}
+                        }`}
                     >
                       {pageNum}
                     </button>
                   );
                 })}
               </div>
-              
+
               <button
                 onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                 disabled={currentPage === totalPages}
@@ -395,7 +356,7 @@ export default function AlumniAdmin() {
                 Next
               </button>
             </div>
-            
+
             <div className="text-xs text-gray-600">
               Page {currentPage} of {totalPages}
             </div>
@@ -419,14 +380,14 @@ export default function AlumniAdmin() {
           <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[80vh] overflow-hidden">
             <div className="p-4 border-b border-gray-200 flex items-center justify-between">
               <h2 className="text-sm font-semibold text-gray-900">Alumni Details</h2>
-              <button 
+              <button
                 onClick={() => setShowDetailModal(false)}
                 className="w-7 h-7 flex items-center justify-center hover:bg-gray-100 rounded transition-all"
               >
                 ✕
               </button>
             </div>
-            
+
             <div className="p-4 overflow-y-auto">
               <div className="space-y-4">
                 {/* Profile Section */}
@@ -450,7 +411,7 @@ export default function AlumniAdmin() {
                     <p className="text-sm text-gray-500">{selectedAlumni.institution}</p>
                   </div>
                 </div>
-                
+
                 {/* Details Grid */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
@@ -465,23 +426,18 @@ export default function AlumniAdmin() {
                     <label className="text-xs font-medium text-gray-700">Registration Date</label>
                     <p className="text-xs text-gray-900 mt-1">{selectedAlumni.dateRegistered}</p>
                   </div>
-                  <div>
-                    <label className="text-xs font-medium text-gray-700">Status</label>
-                    <span className={`inline-block h-4 px-2 text-xs rounded-full mt-1 ${getStatusBadge(selectedAlumni.status)}`}>
-                      {formatStatus(selectedAlumni.status)}
-                    </span>
-                  </div>
+
                 </div>
-                
+
                 <div>
                   <label className="text-xs font-medium text-gray-700">Message</label>
                   <p className="text-xs text-gray-900 mt-1 leading-relaxed">{selectedAlumni.message}</p>
                 </div>
               </div>
             </div>
-            
+
             <div className="p-4 border-t border-gray-200 flex justify-end gap-2">
-              <button 
+              <button
                 onClick={() => setShowDetailModal(false)}
                 className="h-8 px-4 border border-gray-200 rounded-md hover:bg-gray-50 text-xs transition-all"
               >
@@ -498,14 +454,14 @@ export default function AlumniAdmin() {
           <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[80vh] overflow-hidden">
             <div className="p-4 border-b border-gray-200 flex items-center justify-between">
               <h2 className="text-sm font-semibold text-gray-900">Edit Alumni</h2>
-              <button 
+              <button
                 onClick={() => setShowEditModal(false)}
                 className="w-7 h-7 flex items-center justify-center hover:bg-gray-100 rounded transition-all"
               >
                 ✕
               </button>
             </div>
-            
+
             <form className="p-4 overflow-y-auto space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -525,7 +481,7 @@ export default function AlumniAdmin() {
                   />
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-2">Institution</label>
@@ -544,7 +500,7 @@ export default function AlumniAdmin() {
                   />
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-2">Graduation Year</label>
@@ -557,19 +513,8 @@ export default function AlumniAdmin() {
                     ))}
                   </select>
                 </div>
-                <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-2">Status</label>
-                  <select
-                    defaultValue={selectedAlumni.status}
-                    className="w-full h-9 px-3 text-xs border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  >
-                    <option value="pending">Pending</option>
-                    <option value="verified">Verified</option>
-                    <option value="rejected">Rejected</option>
-                  </select>
-                </div>
               </div>
-              
+
               <div>
                 <label className="block text-xs font-medium text-gray-700 mb-2">Message</label>
                 <textarea
@@ -577,7 +522,7 @@ export default function AlumniAdmin() {
                   className="w-full h-24 p-3 text-xs border border-gray-200 rounded-md resize-none focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-xs font-medium text-gray-700 mb-2">Photo</label>
                 <input
@@ -588,15 +533,15 @@ export default function AlumniAdmin() {
                 <p className="text-xs text-gray-500 mt-1">Max file size: 5MB</p>
               </div>
             </form>
-            
+
             <div className="p-4 border-t border-gray-200 flex justify-end gap-2">
-              <button 
+              <button
                 onClick={() => setShowEditModal(false)}
                 className="h-8 px-4 border border-gray-200 rounded-md hover:bg-gray-50 text-xs transition-all"
               >
                 Cancel
               </button>
-              <button 
+              <button
                 type="submit"
                 className="h-8 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 text-xs transition-all"
               >
@@ -614,21 +559,21 @@ export default function AlumniAdmin() {
             <div className="p-4 border-b border-gray-200">
               <h2 className="text-sm font-semibold text-gray-900">Delete Alumni Record</h2>
             </div>
-            
+
             <div className="p-4">
               <p className="text-xs text-gray-600">
                 Are you sure you want to delete the alumni record for <strong>{selectedAlumni?.name}</strong>? This action cannot be undone.
               </p>
             </div>
-            
+
             <div className="p-4 border-t border-gray-200 flex justify-end gap-2">
-              <button 
+              <button
                 onClick={() => setShowDeleteModal(false)}
                 className="h-8 px-4 border border-gray-200 rounded-md hover:bg-gray-50 text-xs transition-all"
               >
                 Cancel
               </button>
-              <button 
+              <button
                 onClick={confirmDelete}
                 className="h-8 px-4 bg-red-500 text-white rounded-md hover:bg-red-600 text-xs transition-all"
               >

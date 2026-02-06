@@ -3,530 +3,473 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { 
-  Save, 
-  ArrowLeft, 
-  Bold, 
-  Italic, 
-  Underline,
-  Link,
-  Image,
-  List,
-  ListOrdered,
-  Quote,
-  Type,
+import { useRouter, useParams } from 'next/navigation';
+import dynamic from 'next/dynamic';
+import {
+  Save,
+  ArrowLeft,
   Eye,
-  Upload
+  Upload,
+  X,
+  Trash2
 } from 'lucide-react';
+import 'react-quill-new/dist/quill.snow.css';
 
-// Mock article data - in real app, this would come from API
-const mockArticle = {
-  id: 1,
-  title: 'Advanced Petroleum Engineering Techniques in Deep Water Drilling',
-  content: `
-    <h2>Introduction</h2>
-    <p>Exploring cutting-edge methodologies and technologies that are revolutionizing deep water drilling operations in the petroleum industry.</p>
-    
-    <h3>Key Technologies</h3>
-    <p>The advancement of petroleum engineering has led to breakthrough technologies that enable efficient deep water drilling operations. These include:</p>
-    
-    <ul>
-      <li>Advanced drilling fluid systems</li>
-      <li>Real-time monitoring technologies</li>
-      <li>Enhanced safety protocols</li>
-      <li>Environmental protection measures</li>
-    </ul>
-    
-    <h3>Implementation Challenges</h3>
-    <p>While these technologies offer significant advantages, implementation comes with unique challenges that require careful consideration and planning.</p>
-    
-    <blockquote>
-      "The future of petroleum engineering lies in the successful integration of advanced technologies with sustainable practices." - Industry Expert
-    </blockquote>
-    
-    <h3>Conclusion</h3>
-    <p>As the industry continues to evolve, these advanced techniques will play a crucial role in meeting global energy demands while maintaining environmental responsibility.</p>
-  `,
-  topic: 'Technology',
-  status: 'published',
-  author: 'Dr. Sarah Johnson',
-  dateCreated: '2026-01-15',
-  coverImage: '/articles/article1.webp',
-  tags: ['drilling', 'technology', 'petroleum', 'engineering']
-};
+// Dynamic import for Quill to avoid SSR issues
+const ReactQuill = dynamic(() => import('react-quill-new'), {
+  ssr: false,
+  loading: () => <div className="h-[400px] bg-gray-50 animate-pulse rounded-md"></div>
+});
 
-const topics = ['Technology', 'Research', 'Innovation', 'Sustainability', 'Career Development', 'Academic'];
+// Mock categories
+const categories = [
+  { id: 1, name: 'Technology', color: '#3B82F6' },
+  { id: 2, name: 'Research', color: '#8B5CF6' },
+  { id: 3, name: 'Innovation', color: '#F59E0B' },
+  { id: 4, name: 'Sustainability', color: '#10B981' },
+  { id: 5, name: 'Career Development', color: '#EC4899' },
+  { id: 6, name: 'Academic', color: '#6366F1' },
+];
+
 const statuses = ['draft', 'published', 'archived'];
 
+// Mock article data - in real app, fetch from API
+const mockArticle = {
+  id: '1',
+  title: 'Advances in Deep Water Drilling Technologies',
+  excerpt: 'Exploring cutting-edge methodologies and technologies that are revolutionizing deep water drilling operations in the petroleum industry.',
+  content: '<h2>Introduction</h2><p>Exploring cutting-edge methodologies and technologies that are revolutionizing deep water drilling operations in the petroleum industry.</p><h2>Key Technologies</h2><p>The advancement of petroleum engineering has led to breakthrough technologies that enable efficient deep water drilling operations.</p><ul><li>Advanced drilling fluid systems</li><li>Real-time monitoring technologies</li><li>Enhanced safety protocols</li><li>Environmental protection measures</li></ul><blockquote>"The future of petroleum engineering lies in the successful integration of advanced technologies with sustainable practices." - Industry Expert</blockquote>',
+  topic: 'Technology',
+  status: 'published',
+  author: 'Dr. Sarah Chen',
+  coverImage: 'https://images.unsplash.com/photo-1518709766631-a6a7f45921c3?w=1200',
+  tags: ['drilling', 'technology', 'innovation'],
+  dateCreated: '2024-01-15'
+};
+
+// Quill modules configuration
+const quillModules = {
+  toolbar: [
+    [{ 'header': [1, 2, 3, false] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ 'align': [] }],
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+    ['blockquote'],
+    ['link', 'image'],
+    ['clean']
+  ],
+};
+
+const quillFormats = [
+  'header',
+  'bold', 'italic', 'underline', 'strike',
+  'align',
+  'list',
+  'blockquote',
+  'link', 'image'
+];
+
 export default function EditArticlePage() {
-  const params = useParams();
   const router = useRouter();
-  const editorRef = useRef<HTMLDivElement>(null);
-  
+  const params = useParams();
+  const coverInputRef = useRef<HTMLInputElement>(null);
+
   const [article, setArticle] = useState(mockArticle);
   const [isPreview, setIsPreview] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [showImageModal, setShowImageModal] = useState(false);
-  const [showLinkModal, setShowLinkModal] = useState(false);
-  const [imageUrl, setImageUrl] = useState('');
-  const [linkUrl, setLinkUrl] = useState('');
-  const [linkText, setLinkText] = useState('');
+  const [tagInput, setTagInput] = useState('');
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  // Format toolbar functions
-  const formatText = (command: string, value?: string) => {
-    document.execCommand(command, false, value);
-    editorRef.current?.focus();
-  };
-
-  const insertImage = () => {
-    if (imageUrl) {
-      formatText('insertImage', imageUrl);
-      setImageUrl('');
-      setShowImageModal(false);
-    }
-  };
-
-  const insertLink = () => {
-    if (linkUrl && linkText) {
-      const selection = window.getSelection();
-      if (selection && selection.rangeCount > 0) {
-        const range = selection.getRangeAt(0);
-        range.deleteContents();
-        const link = document.createElement('a');
-        link.href = linkUrl;
-        link.textContent = linkText;
-        link.target = '_blank';
-        link.className = 'text-blue-600 hover:underline';
-        range.insertNode(link);
-        selection.removeAllRanges();
-      }
-      setLinkUrl('');
-      setLinkText('');
-      setShowLinkModal(false);
-    }
-  };
-
-  const handleContentChange = () => {
-    if (editorRef.current) {
-      setArticle(prev => ({
-        ...prev,
-        content: editorRef.current!.innerHTML
-      }));
-    }
-  };
-
-  const handleSave = async () => {
-    setIsSaving(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    console.log('Saving article:', article);
-    setIsSaving(false);
-    // Show success message or redirect
-  };
+  useEffect(() => {
+    // In real app, fetch article by params.id
+    console.log('Loading article:', params.id);
+  }, [params.id]);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      // In real app, upload to server and get URL
       const reader = new FileReader();
       reader.onload = (e) => {
         const url = e.target?.result as string;
-        formatText('insertImage', url);
+        setArticle(prev => ({ ...prev, coverImage: url }));
       };
       reader.readAsDataURL(file);
     }
   };
 
+  const handleContentChange = (content: string) => {
+    setArticle(prev => ({ ...prev, content }));
+  };
+
+  const handleAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && tagInput.trim()) {
+      e.preventDefault();
+      if (!article.tags.includes(tagInput.trim().toLowerCase())) {
+        setArticle(prev => ({
+          ...prev,
+          tags: [...prev.tags, tagInput.trim().toLowerCase()]
+        }));
+      }
+      setTagInput('');
+    }
+  };
+
+  const handleRemoveTag = (tagToRemove: string) => {
+    setArticle(prev => ({
+      ...prev,
+      tags: prev.tags.filter(tag => tag !== tagToRemove)
+    }));
+  };
+
+  const handleSave = async () => {
+    setIsSaving(true);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    console.log('Saving article:', article);
+    setIsSaving(false);
+  };
+
+  const handleDelete = async () => {
+    await new Promise(resolve => setTimeout(resolve, 500));
+    console.log('Deleting article:', params.id);
+    router.push('/admin/articles');
+  };
+
+  // Calculate word count
+  const wordCount = article.content.replace(/<[^>]*>/g, '').trim().split(/\s+/).filter(Boolean).length;
+
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <>
       {/* Header */}
-      <header className="flex-shrink-0 bg-white border-b border-gray-200 px-6 py-4 sticky top-0 z-10">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => router.back()}
-              className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span className="text-sm">Back to Articles</span>
-            </button>
-            <div className="h-6 w-px bg-gray-300" />
-            <h1 className="text-lg font-semibold text-gray-900">Edit Article</h1>
+      <header className="h-14 px-6 bg-white border-b border-gray-200 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => router.back()}
+            className="flex items-center gap-1.5 text-gray-500 hover:text-gray-900 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+          </button>
+          <div>
+            <h1 className="text-sm font-semibold text-gray-900">Edit Article</h1>
+            <p className="text-xs text-gray-500">{wordCount} words</p>
           </div>
-          
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setIsPreview(!isPreview)}
-              className={`flex items-center gap-2 px-4 py-2 text-sm rounded-lg font-medium transition-all ${
-                isPreview 
-                  ? 'bg-blue-600 text-white shadow-md hover:bg-blue-700' 
-                  : 'bg-white border-2 border-blue-600 text-blue-600 hover:bg-blue-50'
+        </div>
+
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowDeleteModal(true)}
+            className="h-8 px-3 border border-red-200 text-red-600 text-xs rounded-md hover:bg-red-50 flex items-center gap-1.5 transition-all"
+          >
+            <Trash2 className="w-3.5 h-3.5" />
+            Delete
+          </button>
+
+          <button
+            onClick={() => setIsPreview(!isPreview)}
+            className={`h-8 px-3 text-xs rounded-md flex items-center gap-1.5 transition-all ${isPreview
+              ? 'bg-blue-500 text-white hover:bg-blue-600'
+              : 'border border-gray-200 text-gray-700 hover:bg-gray-50'
               }`}
-            >
-              <Eye className="w-4 h-4" />
-              {isPreview ? 'Edit Mode' : 'Preview'}
-            </button>
-            
-            <button
-              onClick={handleSave}
-              disabled={isSaving}
-              className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white text-sm rounded-lg font-medium hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md"
-            >
-              <Save className="w-4 h-4" />
-              {isSaving ? 'Saving...' : 'Save Article'}
-            </button>
-          </div>
+          >
+            <Eye className="w-3.5 h-3.5" />
+            {isPreview ? 'Edit' : 'Preview'}
+          </button>
+
+          <button
+            onClick={handleSave}
+            disabled={isSaving}
+            className="h-8 px-3 bg-emerald-500 text-white text-xs rounded-md hover:bg-emerald-600 flex items-center gap-1.5 disabled:opacity-50 transition-all"
+          >
+            <Save className="w-3.5 h-3.5" />
+            {isSaving ? 'Saving...' : 'Save'}
+          </button>
         </div>
       </header>
 
-      <div className="flex-1 overflow-auto">
-        <div className="max-w-6xl mx-auto p-6">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Main Editor */}
-          <div className="lg:col-span-3">
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-              {/* Article Meta */}
-              <div className="p-6 border-b border-gray-200">
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Article Title *
-                    </label>
-                    <input
-                      type="text"
-                      value={article.title}
-                      onChange={(e) => setArticle(prev => ({ ...prev, title: e.target.value }))}
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 placeholder-gray-500 transition-all"
-                      placeholder="Enter article title..."
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Cover Image URL
-                    </label>
-                    <div className="flex gap-2">
+      {/* Main Content */}
+      <main className="flex-1 overflow-auto p-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Main Editor - 2/3 width */}
+            <div className="lg:col-span-2">
+              <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                {!isPreview ? (
+                  <>
+                    {/* Cover Image */}
+                    <div className="relative border-b border-gray-200">
+                      {article.coverImage ? (
+                        <div className="relative h-48 bg-gray-100">
+                          <img
+                            src={article.coverImage}
+                            alt="Cover"
+                            className="w-full h-full object-cover"
+                          />
+                          <button
+                            onClick={() => setArticle(prev => ({ ...prev, coverImage: '' }))}
+                            className="absolute top-3 right-3 w-7 h-7 flex items-center justify-center bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
+                          >
+                            <X className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      ) : (
+                        <div
+                          onClick={() => coverInputRef.current?.click()}
+                          className="h-32 bg-gray-50 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-100 transition-all"
+                        >
+                          <Upload className="w-6 h-6 text-gray-400 mb-2" />
+                          <p className="text-xs text-gray-500">Click to upload cover image</p>
+                        </div>
+                      )}
+                      <input
+                        ref={coverInputRef}
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                      />
+                    </div>
+
+                    {/* Title */}
+                    <div className="p-4 border-b border-gray-200">
                       <input
                         type="text"
-                        value={article.coverImage}
-                        onChange={(e) => setArticle(prev => ({ ...prev, coverImage: e.target.value }))}
-                        className="flex-1 px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 placeholder-gray-500 transition-all"
-                        placeholder="https://example.com/image.jpg"
+                        value={article.title}
+                        onChange={(e) => setArticle(prev => ({ ...prev, title: e.target.value }))}
+                        className="w-full text-xl font-semibold text-gray-900 focus:outline-none placeholder-gray-400"
+                        placeholder="Article title..."
                       />
-                      <label className="flex items-center gap-2 px-4 py-3 bg-blue-50 border-2 border-blue-200 rounded-lg cursor-pointer hover:bg-blue-100 hover:border-blue-300 transition-all text-blue-700 font-medium">
-                        <Upload className="w-4 h-4" />
-                        <span className="text-sm">Upload</span>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={handleImageUpload}
-                          className="hidden"
-                        />
-                      </label>
+                      <textarea
+                        value={article.excerpt}
+                        onChange={(e) => setArticle(prev => ({ ...prev, excerpt: e.target.value }))}
+                        className="w-full mt-2 text-sm text-gray-600 focus:outline-none placeholder-gray-400 resize-none"
+                        placeholder="Write a brief excerpt..."
+                        rows={2}
+                      />
                     </div>
-                  </div>
-                </div>
-              </div>
 
-              {!isPreview ? (
-                <>
-                  {/* Toolbar */}
-                  <div className="p-4 border-b border-gray-200 bg-slate-50">
-                    <div className="flex flex-wrap items-center gap-3">
-                      {/* Text Formatting */}
-                      <div className="flex items-center gap-1 border-r border-gray-300 pr-3">
-                        <button
-                          onClick={() => formatText('bold')}
-                          className="p-2 hover:bg-blue-100 hover:text-blue-700 rounded-md transition-all text-gray-700 border border-transparent hover:border-blue-200"
-                          title="Bold"
-                        >
-                          <Bold className="w-4 h-4" />
-                        </button>
-                        <button
-                          onClick={() => formatText('italic')}
-                          className="p-2 hover:bg-blue-100 hover:text-blue-700 rounded-md transition-all text-gray-700 border border-transparent hover:border-blue-200"
-                          title="Italic"
-                        >
-                          <Italic className="w-4 h-4" />
-                        </button>
-                        <button
-                          onClick={() => formatText('underline')}
-                          className="p-2 hover:bg-blue-100 hover:text-blue-700 rounded-md transition-all text-gray-700 border border-transparent hover:border-blue-200"
-                          title="Underline"
-                        >
-                          <Underline className="w-4 h-4" />
-                        </button>
-                      </div>
-
-                      {/* Headings */}
-                      <div className="flex items-center gap-1 border-r border-gray-300 pr-3">
-                        <select
-                          onChange={(e) => formatText('formatBlock', e.target.value)}
-                          className="px-3 py-2 text-sm border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-700 font-medium transition-all"
-                          defaultValue=""
-                        >
-                          <option value="">Format</option>
-                          <option value="h1">Heading 1</option>
-                          <option value="h2">Heading 2</option>
-                          <option value="h3">Heading 3</option>
-                          <option value="p">Paragraph</option>
-                        </select>
-                      </div>
-
-                      {/* Lists */}
-                      <div className="flex items-center gap-1 border-r border-gray-300 pr-3">
-                        <button
-                          onClick={() => formatText('insertUnorderedList')}
-                          className="p-2 hover:bg-amber-100 hover:text-amber-700 rounded-md transition-all text-gray-700 border border-transparent hover:border-amber-200"
-                          title="Bullet List"
-                        >
-                          <List className="w-4 h-4" />
-                        </button>
-                        <button
-                          onClick={() => formatText('insertOrderedList')}
-                          className="p-2 hover:bg-amber-100 hover:text-amber-700 rounded-md transition-all text-gray-700 border border-transparent hover:border-amber-200"
-                          title="Numbered List"
-                        >
-                          <ListOrdered className="w-4 h-4" />
-                        </button>
-                      </div>
-
-                      {/* Insert */}
-                      <div className="flex items-center gap-1">
-                        <button
-                          onClick={() => setShowLinkModal(true)}
-                          className="p-2 hover:bg-emerald-100 hover:text-emerald-700 rounded-md transition-all text-gray-700 border border-transparent hover:border-emerald-200"
-                          title="Insert Link"
-                        >
-                          <Link className="w-4 h-4" />
-                        </button>
-                        <button
-                          onClick={() => setShowImageModal(true)}
-                          className="p-2 hover:bg-emerald-100 hover:text-emerald-700 rounded-md transition-all text-gray-700 border border-transparent hover:border-emerald-200"
-                          title="Insert Image"
-                        >
-                          <Image className="w-4 h-4" />
-                        </button>
-                        <button
-                          onClick={() => formatText('formatBlock', 'blockquote')}
-                          className="p-2 hover:bg-purple-100 hover:text-purple-700 rounded-md transition-all text-gray-700 border border-transparent hover:border-purple-200"
-                          title="Quote"
-                        >
-                          <Quote className="w-4 h-4" />
-                        </button>
-                      </div>
+                    {/* Quill Editor */}
+                    <div className="quill-wrapper">
+                      <ReactQuill
+                        theme="snow"
+                        value={article.content}
+                        onChange={handleContentChange}
+                        modules={quillModules}
+                        formats={quillFormats}
+                        placeholder="Start writing your article here..."
+                        className="quill-editor"
+                      />
                     </div>
-                  </div>
-
-                  {/* Editor */}
-                  <div className="p-6 bg-white">
-                    <div
-                      ref={editorRef}
-                      contentEditable
-                      dangerouslySetInnerHTML={{ __html: article.content }}
-                      onInput={handleContentChange}
-                      className="min-h-96 prose max-w-none focus:outline-none border-2 border-dashed border-gray-200 rounded-lg p-6 focus:border-blue-400 focus:bg-blue-50/30 transition-all"
-                      style={{
-                        lineHeight: '1.7',
-                        fontSize: '16px'
-                      }}
-                    />
-                  </div>
-                </>
-              ) : (
-                /* Preview */
-                <div className="p-6">
-                  <div className="mb-6">
+                  </>
+                ) : (
+                  /* Preview */
+                  <div className="p-6">
                     {article.coverImage && (
                       <img
                         src={article.coverImage}
                         alt={article.title}
-                        className="w-full h-64 object-cover rounded-lg mb-4"
+                        className="w-full h-48 object-cover rounded-lg mb-4"
                       />
                     )}
-                    <h1 className="text-3xl font-bold text-gray-900 mb-2">{article.title}</h1>
-                    <div className="flex items-center gap-4 text-sm text-gray-600">
-                      <span>By {article.author}</span>
+                    <h1 className="text-2xl font-bold text-gray-900 mb-2">{article.title || 'Untitled Article'}</h1>
+                    {article.excerpt && (
+                      <p className="text-sm text-gray-600 mb-4">{article.excerpt}</p>
+                    )}
+                    <div className="flex items-center gap-3 text-xs text-gray-500 mb-4 pb-4 border-b border-gray-200">
+                      <span>By {article.author || 'Anonymous'}</span>
                       <span>•</span>
-                      <span>{article.dateCreated}</span>
-                      <span>•</span>
-                      <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs">
+                      <span>{new Date().toLocaleDateString()}</span>
+                      <span className="px-2 py-0.5 rounded-full text-xs" style={{
+                        backgroundColor: `${categories.find(c => c.name === article.topic)?.color}15`,
+                        color: categories.find(c => c.name === article.topic)?.color
+                      }}>
                         {article.topic}
                       </span>
                     </div>
+                    <div
+                      className="text-sm text-gray-700 leading-relaxed prose prose-sm max-w-none"
+                      dangerouslySetInnerHTML={{ __html: article.content || '<p class="text-gray-400">No content yet...</p>' }}
+                    />
+                    {article.tags.length > 0 && (
+                      <div className="mt-4 pt-4 border-t border-gray-200">
+                        <div className="flex flex-wrap gap-1.5">
+                          {article.tags.map(tag => (
+                            <span key={tag} className="px-2 py-0.5 bg-gray-100 text-gray-600 rounded-md text-xs">
+                              #{tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
-                  <div 
-                    className="prose max-w-none"
-                    dangerouslySetInnerHTML={{ __html: article.content }}
-                  />
-                </div>
-              )}
+                )}
+              </div>
             </div>
-          </div>
 
-          {/* Sidebar */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Article Settings</h3>
-              
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Topic *
-                  </label>
-                  <select
-                    value={article.topic}
-                    onChange={(e) => setArticle(prev => ({ ...prev, topic: e.target.value }))}
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 font-medium transition-all"
-                  >
-                    {topics.map(topic => (
-                      <option key={topic} value={topic}>{topic}</option>
-                    ))}
-                  </select>
-                </div>
+            {/* Sidebar - 1/3 width */}
+            <div className="lg:col-span-1 space-y-4">
+              {/* Article Settings */}
+              <div className="bg-white rounded-lg border border-gray-200 p-4">
+                <h3 className="text-xs font-semibold text-gray-900 mb-3">Article Settings</h3>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Status *
-                  </label>
-                  <select
-                    value={article.status}
-                    onChange={(e) => setArticle(prev => ({ ...prev, status: e.target.value }))}
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 font-medium transition-all"
-                  >
-                    {statuses.map(status => (
-                      <option key={status} value={status}>
-                        {status.charAt(0).toUpperCase() + status.slice(1)}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">Category</label>
+                    <select
+                      value={article.topic}
+                      onChange={(e) => setArticle(prev => ({ ...prev, topic: e.target.value }))}
+                      className="w-full h-8 px-2 text-xs text-gray-900 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 bg-white"
+                    >
+                      {categories.map(cat => (
+                        <option key={cat.id} value={cat.name}>{cat.name}</option>
+                      ))}
+                    </select>
+                  </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Author
-                  </label>
-                  <input
-                    type="text"
-                    value={article.author}
-                    onChange={(e) => setArticle(prev => ({ ...prev, author: e.target.value }))}
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 placeholder-gray-500 transition-all"
-                  />
-                </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">Status</label>
+                    <select
+                      value={article.status}
+                      onChange={(e) => setArticle(prev => ({ ...prev, status: e.target.value }))}
+                      className="w-full h-8 px-2 text-xs text-gray-900 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 bg-white"
+                    >
+                      {statuses.map(status => (
+                        <option key={status} value={status}>
+                          {status.charAt(0).toUpperCase() + status.slice(1)}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Tags
-                  </label>
-                  <input
-                    type="text"
-                    value={article.tags.join(', ')}
-                    onChange={(e) => setArticle(prev => ({ 
-                      ...prev, 
-                      tags: e.target.value.split(',').map(tag => tag.trim()).filter(Boolean)
-                    }))}
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 placeholder-gray-500 transition-all"
-                    placeholder="tag1, tag2, tag3"
-                  />
-                  <p className="text-xs text-gray-500 mt-1">Separate tags with commas</p>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">Author</label>
+                    <input
+                      type="text"
+                      value={article.author}
+                      onChange={(e) => setArticle(prev => ({ ...prev, author: e.target.value }))}
+                      className="w-full h-8 px-2 text-xs text-gray-900 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                      placeholder="Author name"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">Tags</label>
+                    <input
+                      type="text"
+                      value={tagInput}
+                      onChange={(e) => setTagInput(e.target.value)}
+                      onKeyDown={handleAddTag}
+                      className="w-full h-8 px-2 text-xs text-gray-900 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                      placeholder="Type and press Enter"
+                    />
+                    {article.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-1 mt-2">
+                        {article.tags.map(tag => (
+                          <span
+                            key={tag}
+                            className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-gray-100 text-gray-600 rounded text-xs"
+                          >
+                            #{tag}
+                            <button
+                              onClick={() => handleRemoveTag(tag)}
+                              className="hover:text-red-600 transition-colors"
+                            >
+                              <X className="w-3 h-3" />
+                            </button>
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          </div>
         </div>
-      </div>
+      </main>
 
-      {/* Image Modal */}
-      {showImageModal && (
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-sm">
             <div className="p-4 border-b border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900">Insert Image</h3>
+              <h3 className="text-sm font-semibold text-gray-900">Delete Article</h3>
             </div>
             <div className="p-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Image URL
-              </label>
-              <input
-                type="text"
-                value={imageUrl}
-                onChange={(e) => setImageUrl(e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 placeholder-gray-500 transition-all"
-                placeholder="https://example.com/image.jpg"
-                autoFocus
-              />
+              <p className="text-sm text-gray-600">Are you sure you want to delete this article? This action cannot be undone.</p>
             </div>
-            <div className="p-4 border-t border-gray-200 flex justify-end gap-3">
+            <div className="p-4 border-t border-gray-200 flex justify-end gap-2">
               <button
-                onClick={() => setShowImageModal(false)}
-                className="px-6 py-3 text-gray-700 border-2 border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all font-medium"
+                onClick={() => setShowDeleteModal(false)}
+                className="h-8 px-3 text-xs text-gray-700 border border-gray-200 rounded-md hover:bg-gray-50"
               >
                 Cancel
               </button>
               <button
-                onClick={insertImage}
-                className="px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-all font-medium shadow-md"
+                onClick={handleDelete}
+                className="h-8 px-3 text-xs bg-red-500 text-white rounded-md hover:bg-red-600"
               >
-                Insert Image
+                Delete
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Link Modal */}
-      {showLinkModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
-            <div className="p-4 border-b border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900">Insert Link</h3>
-            </div>
-            <div className="p-4 space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Link Text
-                </label>
-                <input
-                  type="text"
-                  value={linkText}
-                  onChange={(e) => setLinkText(e.target.value)}
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 placeholder-gray-500 transition-all"
-                  placeholder="Link text"
-                  autoFocus
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  URL
-                </label>
-                <input
-                  type="text"
-                  value={linkUrl}
-                  onChange={(e) => setLinkUrl(e.target.value)}
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 placeholder-gray-500 transition-all"
-                  placeholder="https://example.com"
-                />
-              </div>
-            </div>
-            <div className="p-4 border-t border-gray-200 flex justify-end gap-3">
-              <button
-                onClick={() => setShowLinkModal(false)}
-                className="px-6 py-3 text-gray-700 border-2 border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all font-medium"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={insertLink}
-                className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all font-medium shadow-md"
-              >
-                Insert Link
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+      <style jsx global>{`
+        .quill-wrapper .quill-editor {
+          border: none;
+        }
+        .quill-wrapper .ql-toolbar {
+          border: none;
+          border-bottom: 1px solid #e5e7eb;
+          background: #f9fafb;
+          padding: 8px 12px;
+        }
+        .quill-wrapper .ql-container {
+          border: none;
+          font-size: 14px;
+          min-height: 400px;
+        }
+        .quill-wrapper .ql-editor {
+          padding: 16px;
+          min-height: 400px;
+          color: #374151;
+          line-height: 1.7;
+        }
+        .quill-wrapper .ql-editor.ql-blank::before {
+          color: #9ca3af;
+          font-style: normal;
+        }
+        .quill-wrapper .ql-editor h1 {
+          font-size: 1.5rem;
+          font-weight: 700;
+          margin-bottom: 0.5rem;
+          color: #111827;
+        }
+        .quill-wrapper .ql-editor h2 {
+          font-size: 1.25rem;
+          font-weight: 600;
+          margin-bottom: 0.5rem;
+          color: #1f2937;
+        }
+        .quill-wrapper .ql-editor h3 {
+          font-size: 1rem;
+          font-weight: 600;
+          margin-bottom: 0.25rem;
+          color: #374151;
+        }
+        .quill-wrapper .ql-editor blockquote {
+          border-left: 3px solid #3b82f6;
+          padding-left: 12px;
+          margin: 12px 0;
+          color: #4b5563;
+          font-style: italic;
+        }
+        .quill-wrapper .ql-editor img {
+          max-width: 100%;
+          border-radius: 8px;
+          margin: 16px 0;
+        }
+      `}</style>
+    </>
   );
 }

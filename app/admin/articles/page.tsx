@@ -4,17 +4,18 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { 
-  Search, 
-  Plus, 
-  Edit, 
-  Trash2, 
+import {
+  Search,
+  Plus,
+  Edit,
+  Trash2,
   Eye,
   Filter,
   MoreHorizontal,
   Calendar,
   User,
-  Tag
+  Tag,
+  FileText
 } from 'lucide-react';
 
 // Mock data untuk artikel
@@ -169,10 +170,10 @@ export default function ArticlesAdmin() {
   // Filter articles
   const filteredArticles = articlesData.filter(article => {
     const matchesSearch = article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         article.createdBy.toLowerCase().includes(searchQuery.toLowerCase());
+      article.createdBy.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesTopic = selectedTopic === 'All Topics' || article.topic === selectedTopic;
     const matchesStatus = selectedStatus === 'All Status' || article.status === selectedStatus;
-    
+
     return matchesSearch && matchesTopic && matchesStatus;
   });
 
@@ -231,17 +232,20 @@ export default function ArticlesAdmin() {
           <h1 className="text-sm font-semibold text-gray-900">Articles Management</h1>
           <p className="text-xs text-gray-500">{filteredArticles.length} articles found</p>
         </div>
-        
+
         <div className="flex items-center gap-2">
-          <button 
-            onClick={handleExportAll}
-            className="h-8 px-3 border border-emerald-200 bg-emerald-50 text-emerald-700 rounded-md hover:bg-emerald-100 hover:border-emerald-300 text-xs flex items-center gap-1.5 transition-all"
+          <button
+            onClick={() => router.push('/admin/articles/categories')}
+            className="h-8 px-3 border border-purple-200 bg-purple-50 text-purple-700 rounded-md hover:bg-purple-100 hover:border-purple-300 text-xs flex items-center gap-1.5 transition-all"
           >
-            <Filter className="w-3.5 h-3.5" />
-            Export All
+            <Tag className="w-3.5 h-3.5" />
+            Categories
           </button>
-          
-          <button className="h-8 px-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 shadow-sm text-xs flex items-center gap-1.5 transition-all">
+
+          <button
+            onClick={() => router.push('/admin/articles/new')}
+            className="h-8 px-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 shadow-sm text-xs flex items-center gap-1.5 transition-all"
+          >
             <Plus className="w-3.5 h-3.5" />
             New Article
           </button>
@@ -262,7 +266,7 @@ export default function ArticlesAdmin() {
               className="w-full h-9 pl-9 pr-3 text-xs border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
           </div>
-          
+
           {/* Filters */}
           <div className="flex gap-2">
             <select
@@ -274,7 +278,7 @@ export default function ArticlesAdmin() {
                 <option key={topic} value={topic}>{topic}</option>
               ))}
             </select>
-            
+
             <select
               value={selectedStatus}
               onChange={(e) => handleFilterChange('status', e.target.value)}
@@ -366,7 +370,7 @@ export default function ArticlesAdmin() {
                     <td className="p-3">
                       <div className="flex items-center gap-1 text-gray-500">
                         <Eye className="w-3 h-3" />
-                        <span>{article.views.toLocaleString()}</span>
+                        <span>{article.views.toLocaleString('en-US')}</span>
                       </div>
                     </td>
                     <td className="p-3">
@@ -376,20 +380,20 @@ export default function ArticlesAdmin() {
                     </td>
                     <td className="p-3">
                       <div className="flex items-center justify-center gap-1">
-                        <button 
+                        <button
                           className="w-7 h-7 flex items-center justify-center hover:bg-blue-50 rounded-md transition-all group"
                           title="View Article"
                         >
                           <Eye className="w-3.5 h-3.5 text-blue-600 group-hover:text-blue-700" />
                         </button>
-                        <button 
+                        <button
                           onClick={() => handleEditArticle(article.id)}
                           className="w-7 h-7 flex items-center justify-center hover:bg-amber-50 rounded-md transition-all group"
                           title="Edit Article"
                         >
                           <Edit className="w-3.5 h-3.5 text-amber-600 group-hover:text-amber-700" />
                         </button>
-                        <button 
+                        <button
                           onClick={() => handleDelete(article.id)}
                           className="w-7 h-7 flex items-center justify-center hover:bg-red-50 rounded-md transition-all group"
                           title="Delete Article"
@@ -416,7 +420,7 @@ export default function ArticlesAdmin() {
               >
                 Previous
               </button>
-              
+
               <div className="flex items-center gap-1">
                 {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                   let pageNum;
@@ -429,23 +433,22 @@ export default function ArticlesAdmin() {
                   } else {
                     pageNum = currentPage - 2 + i;
                   }
-                  
+
                   return (
                     <button
                       key={pageNum}
                       onClick={() => setCurrentPage(pageNum)}
-                      className={`h-8 w-8 text-xs rounded-md transition-all ${
-                        currentPage === pageNum
-                          ? 'bg-blue-600 text-white'
-                          : 'border border-gray-200 hover:bg-gray-50'
-                      }`}
+                      className={`h-8 w-8 text-xs rounded-md transition-all ${currentPage === pageNum
+                        ? 'bg-blue-600 text-white'
+                        : 'border border-gray-200 hover:bg-gray-50'
+                        }`}
                     >
                       {pageNum}
                     </button>
                   );
                 })}
               </div>
-              
+
               <button
                 onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                 disabled={currentPage === totalPages}
@@ -454,7 +457,7 @@ export default function ArticlesAdmin() {
                 Next
               </button>
             </div>
-            
+
             <div className="text-xs text-gray-600">
               Page {currentPage} of {totalPages}
             </div>
@@ -482,21 +485,21 @@ export default function ArticlesAdmin() {
             <div className="p-4 border-b border-gray-200">
               <h2 className="text-sm font-semibold text-gray-900">Delete Article</h2>
             </div>
-            
+
             <div className="p-4">
               <p className="text-xs text-gray-600">
                 Are you sure you want to delete this article? This action cannot be undone.
               </p>
             </div>
-            
+
             <div className="p-4 border-t border-gray-200 flex justify-end gap-2">
-              <button 
+              <button
                 onClick={() => setShowDeleteModal(false)}
                 className="h-8 px-4 border border-gray-200 rounded-md hover:bg-gray-50 text-xs transition-all"
               >
                 Cancel
               </button>
-              <button 
+              <button
                 onClick={confirmDelete}
                 className="h-8 px-4 bg-red-500 text-white rounded-md hover:bg-red-600 text-xs transition-all"
               >
