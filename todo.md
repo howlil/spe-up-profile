@@ -1,1 +1,4 @@
 - perbaiki desain event
+- dimana kita tau kalau gambar di hapus/diupdate di aplikasi, di bucket juga otomatis kehapus
+- updaet foto organisasi
+- tambahin badge

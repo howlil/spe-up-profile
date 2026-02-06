@@ -1,5 +1,7 @@
 /** @format */
 
+import { ChangeEvent } from 'react';
+
 interface FormTextareaProps {
   id: string;
   name: string;
@@ -8,6 +10,8 @@ interface FormTextareaProps {
   rows?: number;
   required?: boolean;
   className?: string;
+  value?: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
 export default function FormTextarea({
@@ -18,6 +22,8 @@ export default function FormTextarea({
   rows = 4,
   required = false,
   className = '',
+  value,
+  onChange,
 }: FormTextareaProps) {
   return (
     <div className={`group ${className}`}>
@@ -33,6 +39,8 @@ export default function FormTextarea({
           name={name}
           required={required}
           rows={rows}
+          value={value}
+          onChange={onChange}
           className='w-full px-4 py-3 bg-white border-2 border-gray-300 rounded-xl text-gray-900 focus:border-[#3C8C98] focus:bg-white focus:outline-none transition-all duration-300 placeholder:text-gray-400 resize-none'
           placeholder={placeholder}
         />

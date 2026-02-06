@@ -1,13 +1,17 @@
 /** @format */
 
+import { ChangeEvent } from 'react';
+
 interface FormInputProps {
   id: string;
   name: string;
-  type?: 'text' | 'email';
+  type?: 'text' | 'email' | 'tel';
   label: string;
   placeholder: string;
   required?: boolean;
   className?: string;
+  value?: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
 export default function FormInput({
@@ -18,6 +22,8 @@ export default function FormInput({
   placeholder,
   required = false,
   className = '',
+  value,
+  onChange,
 }: FormInputProps) {
   return (
     <div className={`group ${className}`}>
@@ -33,6 +39,8 @@ export default function FormInput({
           id={id}
           name={name}
           required={required}
+          value={value}
+          onChange={onChange}
           className='w-full px-4 py-3 bg-white border-2 border-gray-300 rounded-xl text-gray-900 focus:border-[#3C8C98] focus:bg-white focus:outline-none transition-all duration-300 placeholder:text-gray-400'
           placeholder={placeholder}
         />
