@@ -1,13 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { UserRole } from '@prisma/client'
+import { requireRole } from '@/lib/auth'
 import prisma from '@/lib/prisma'
 
 // GET - List partnerships with filtering
 export async function GET(request: NextRequest) {
+    // Check authorization - EXTERNAL or SUPERADMIN can access
+    const userOrError = await requireRole([UserRole.EXTERNAL, UserRole.SUPERADMIN])
+    if (userOrError instanceof NextResponse) {
+        return userOrError
+    }
+
     try {
         const { searchParams } = new URL(request.url)
         const page = parseInt(searchParams.get('page') || '1')
         const limit = parseInt(searchParams.get('limit') || '10')
-        const status = searchParams.get('status') || ''
         const type = searchParams.get('type') || ''
         const search = searchParams.get('search') || ''
 
@@ -15,10 +22,6 @@ export async function GET(request: NextRequest) {
 
         // Build where clause
         const where: any = {}
-
-        if (status) {
-            where.status = status
-        }
 
         if (type) {
             where.partnershipType = type
@@ -61,6 +64,12 @@ export async function GET(request: NextRequest) {
 
 // POST - Create partnership application
 export async function POST(request: NextRequest) {
+    // Check authorization - EXTERNAL or SUPERADMIN can create
+    const userOrError = await requireRole([UserRole.EXTERNAL, UserRole.SUPERADMIN])
+    if (userOrError instanceof NextResponse) {
+        return userOrError
+    }
+
     try {
         const body = await request.json()
         const {
@@ -92,17 +101,6 @@ export async function POST(request: NextRequest) {
                 contactPhone: contactPhone || null,
                 partnershipType,
                 description: description || null,
-                status: 'pending'
-            }
-        })
-
-        // Log activity
-        await prisma.analytics.create({
-            data: {
-                resource: 'partnership',
-                resourceId: partnership.id,
-                action: 'create',
-                metadata: { companyName: partnership.companyName }
             }
         })
 

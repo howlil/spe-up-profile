@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { UserRole } from '@prisma/client'
+import { requireRole } from '@/lib/auth'
 import prisma from '@/lib/prisma'
 
 // GET - Get single alumni
@@ -6,6 +8,11 @@ export async function GET(
     request: NextRequest,
     { params }: { params: { id: string } }
 ) {
+    const userOrError = await requireRole([UserRole.SUPERADMIN])
+    if (userOrError instanceof NextResponse) {
+        return userOrError
+    }
+
     try {
         const alumni = await prisma.alumni.findUnique({
             where: { id: params.id }
@@ -33,6 +40,11 @@ export async function DELETE(
     request: NextRequest,
     { params }: { params: { id: string } }
 ) {
+    const userOrError = await requireRole([UserRole.SUPERADMIN])
+    if (userOrError instanceof NextResponse) {
+        return userOrError
+    }
+
     try {
         const alumni = await prisma.alumni.findUnique({
             where: { id: params.id }

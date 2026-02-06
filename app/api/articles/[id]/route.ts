@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { ArticleStatus, UserRole } from '@prisma/client'
+import { requireRole } from '@/lib/auth'
 import prisma from '@/lib/prisma'
 import { deleteImage } from '@/lib/storage'
 
@@ -15,6 +17,12 @@ export async function GET(
     request: NextRequest,
     { params }: { params: { id: string } }
 ) {
+    // Check authorization
+    const userOrError = await requireRole([UserRole.WRITER, UserRole.SUPERADMIN])
+    if (userOrError instanceof NextResponse) {
+        return userOrError
+    }
+
     try {
         const article = await prisma.article.findUnique({
             where: { id: params.id },
@@ -51,6 +59,12 @@ export async function PUT(
     request: NextRequest,
     { params }: { params: { id: string } }
 ) {
+    // Check authorization
+    const userOrError = await requireRole([UserRole.WRITER, UserRole.SUPERADMIN])
+    if (userOrError instanceof NextResponse) {
+        return userOrError
+    }
+
     try {
         const body = await request.json()
         const {
@@ -107,20 +121,10 @@ export async function PUT(
                 status: status || existing.status,
                 categoryId: categoryId !== undefined ? categoryId : existing.categoryId,
                 tags: tags || existing.tags,
-                publishedAt: status === 'published' && !existing.publishedAt ? new Date() : existing.publishedAt
+                publishedAt: status === ArticleStatus.PUBLISHED && !existing.publishedAt ? new Date() : existing.publishedAt
             },
             include: {
                 category: true
-            }
-        })
-
-        // Log activity
-        await prisma.analytics.create({
-            data: {
-                resource: 'article',
-                resourceId: article.id,
-                action: 'update',
-                metadata: { title: article.title }
             }
         })
 
@@ -139,6 +143,12 @@ export async function DELETE(
     request: NextRequest,
     { params }: { params: { id: string } }
 ) {
+    // Check authorization
+    const userOrError = await requireRole([UserRole.WRITER, UserRole.SUPERADMIN])
+    if (userOrError instanceof NextResponse) {
+        return userOrError
+    }
+
     try {
         const article = await prisma.article.findUnique({
             where: { id: params.id }
@@ -164,16 +174,6 @@ export async function DELETE(
         // Delete article
         await prisma.article.delete({
             where: { id: params.id }
-        })
-
-        // Log activity
-        await prisma.analytics.create({
-            data: {
-                resource: 'article',
-                resourceId: params.id,
-                action: 'delete',
-                metadata: { title: article.title }
-            }
         })
 
         return NextResponse.json(

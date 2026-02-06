@@ -1,8 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { UserRole } from '@prisma/client'
+import { requireRole } from '@/lib/auth'
 import prisma from '@/lib/prisma'
 
 // GET - List alumni with search and filtering
 export async function GET(request: NextRequest) {
+    // Check authorization - SUPERADMIN only
+    const userOrError = await requireRole([UserRole.SUPERADMIN])
+    if (userOrError instanceof NextResponse) {
+        return userOrError
+    }
+
     try {
         const { searchParams } = new URL(request.url)
         const page = parseInt(searchParams.get('page') || '1')
@@ -57,6 +65,12 @@ export async function GET(request: NextRequest) {
 
 // POST - Add alumni record
 export async function POST(request: NextRequest) {
+    // Check authorization - SUPERADMIN only
+    const userOrError = await requireRole([UserRole.SUPERADMIN])
+    if (userOrError instanceof NextResponse) {
+        return userOrError
+    }
+
     try {
         const body = await request.json()
         const {
@@ -104,16 +118,6 @@ export async function POST(request: NextRequest) {
                 phone: phone || null,
                 linkedIn: linkedIn || null,
                 bio: bio || null
-            }
-        })
-
-        // Log activity
-        await prisma.analytics.create({
-            data: {
-                resource: 'alumni',
-                resourceId: alumniRecord.id,
-                action: 'create',
-                metadata: { name: alumniRecord.name }
             }
         })
 

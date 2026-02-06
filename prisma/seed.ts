@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, UserRole } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
@@ -10,9 +10,9 @@ async function main() {
         where: { email: 'admin@spe.com' },
         update: {},
         create: {
-            email: 'admin@spe.com', 
+            email: 'admin@spe.com',
             name: 'Super Admin',
-            role: 'superadmin',
+            role: UserRole.SUPERADMIN,
         },
     })
 
@@ -27,4 +27,3 @@ main()
     .finally(async () => {
         await prisma.$disconnect()
     })
-    

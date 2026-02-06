@@ -1,5 +1,4 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 
 generator client {
   provider = "prisma-client-js"
@@ -10,12 +9,24 @@ datasource db {
   provider = "postgresql"
 }
 
-// Admin Users
+// Enums
+enum UserRole {
+  SUPERADMIN
+  WRITER
+  EXTERNAL
+}
+
+enum ArticleStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
   name      String?
-  role      String   @default("admin")
+  role      UserRole @default(SUPERADMIN)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -25,7 +36,6 @@ model User {
   @@map("users")
 }
 
-// Article Categories
 model Category {
   id        String   @id @default(uuid())
   name      String   @unique
@@ -41,19 +51,19 @@ model Category {
 
 // Articles
 model Article {
-  id          String   @id @default(uuid())
+  id          String        @id @default(uuid())
   title       String
-  slug        String   @unique
+  slug        String        @unique
   excerpt     String?
-  content     String // Rich text HTML from Quill
+  content     String        @db.Text // Rich text HTML from Quill
   coverImage  String?
   author      String
-  status      String   @default("draft") // draft, published, archived
-  views       Int      @default(0)
-  tags        String[] // Array of tag strings
+  status      ArticleStatus @default(DRAFT)
+  views       Int           @default(0)
+  tags        String[]      // Array of tag strings
   publishedAt DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 
   // Foreign Keys
   categoryId String?
@@ -79,16 +89,14 @@ model Partnership {
   contactPerson    String
   contactEmail     String
   contactPhone     String?
-  partnershipType  String // collaboration, sponsorship, research, etc.
+  partnershipType  String   // collaboration, sponsorship, research, etc.
   description      String?
-  status           String   @default("pending") // pending, approved, rejected
-  notes            String? // Admin notes
+  notes            String?  // Admin notes
   submittedAt      DateTime @default(now())
   reviewedAt       DateTime?
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
-  @@index([status])
   @@index([partnershipType])
   @@map("partnerships")
 }
@@ -114,16 +122,4 @@ model Alumni {
   @@map("alumni")
 }
 
-// Analytics for tracking views and activities
-model Analytics {
-  id        String   @id @default(uuid())
-  resource  String // article, partnership, etc.
-  resourceId String
-  action    String // view, create, update, delete
-  metadata  Json? // Additional data
-  createdAt DateTime @default(now())
 
-  @@index([resource, resourceId])
-  @@index([createdAt])
-  @@map("analytics")
-}

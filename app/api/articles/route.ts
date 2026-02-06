@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { ArticleStatus, UserRole } from '@prisma/client'
+import { requireRole } from '@/lib/auth'
 import prisma from '@/lib/prisma'
 
 // Helper function to generate slug from title
@@ -9,8 +11,14 @@ function generateSlug(title: string): string {
         .replace(/(^-|-$)/g, '')
 }
 
-// GET - List articles with filtering and pagination
+// GET - List articles with filtering
 export async function GET(request: NextRequest) {
+    // Check authorization - WRITER or SUPERADMIN can access
+    const userOrError = await requireRole([UserRole.WRITER, UserRole.SUPERADMIN])
+    if (userOrError instanceof NextResponse) {
+        return userOrError
+    }
+
     try {
         const { searchParams } = new URL(request.url)
         const page = parseInt(searchParams.get('page') || '1')
@@ -79,8 +87,14 @@ export async function GET(request: NextRequest) {
     }
 }
 
-// POST - Create new article
+// POST - Create article
 export async function POST(request: NextRequest) {
+    // Check authorization - WRITER or SUPERADMIN can create
+    const userOrError = await requireRole([UserRole.WRITER, UserRole.SUPERADMIN])
+    if (userOrError instanceof NextResponse) {
+        return userOrError
+    }
+
     try {
         const body = await request.json()
         const {
@@ -95,9 +109,9 @@ export async function POST(request: NextRequest) {
         } = body
 
         // Validation
-        if (!title || !content || !author) {
+        if (!title || !content) {
             return NextResponse.json(
-                { error: 'Missing required fields: title, content, author' },
+                { error: 'Missing required fields: title, content' },
                 { status: 400 }
             )
         }
@@ -111,7 +125,6 @@ export async function POST(request: NextRequest) {
             slug = `${slug}-${Date.now()}`
         }
 
-        // Create article
         const article = await prisma.article.create({
             data: {
                 title,
@@ -120,23 +133,13 @@ export async function POST(request: NextRequest) {
                 content,
                 coverImage: coverImage || null,
                 author,
-                status: status || 'draft',
+                status: (status as ArticleStatus) || ArticleStatus.DRAFT,
                 categoryId: categoryId || null,
                 tags: tags || [],
-                publishedAt: status === 'published' ? new Date() : null
+                publishedAt: status === ArticleStatus.PUBLISHED ? new Date() : null
             },
             include: {
                 category: true
-            }
-        })
-
-        // Log activity
-        await prisma.analytics.create({
-            data: {
-                resource: 'article',
-                resourceId: article.id,
-                action: 'create',
-                metadata: { title: article.title }
             }
         })
 
