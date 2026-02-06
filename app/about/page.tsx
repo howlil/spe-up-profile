@@ -3,14 +3,14 @@
 'use client';
 
 import Image from 'next/image';
-import {useEffect} from 'react';
-import {usePathname, useSearchParams} from 'next/navigation';
+import { Suspense, useEffect } from 'react';
+import { usePathname, useSearchParams } from 'next/navigation';
 import FaceCard from '../../components/FaceCard';
 import FormInput from '../../components/FormInput';
 import FormTextarea from '../../components/FormTextarea';
 import SectionTitle from '../../components/SectionTitle';
 
-export default function AboutPage() {
+function AboutPageContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -21,7 +21,7 @@ export default function AboutPage() {
       const element = document.querySelector(hash);
       if (element) {
         setTimeout(() => {
-          element.scrollIntoView({behavior: 'smooth', block: 'start'});
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 100);
       }
     }
@@ -314,11 +314,10 @@ export default function AboutPage() {
             ].map((value, index) => (
               <div
                 key={index}
-                className={`rounded-full py-3 px-4 text-center text-sm font-normal transition-all ${
-                  index === 1 || index === 2 || index === 4
-                    ? 'bg-[#3C8C98] text-white'
-                    : 'border-2 border-[#3C8C98] bg-white text-[#3C8C98]'
-                }`}
+                className={`rounded-full py-3 px-4 text-center text-sm font-normal transition-all ${index === 1 || index === 2 || index === 4
+                  ? 'bg-[#3C8C98] text-white'
+                  : 'border-2 border-[#3C8C98] bg-white text-[#3C8C98]'
+                  }`}
               >
                 {value}
               </div>
@@ -343,11 +342,10 @@ export default function AboutPage() {
                 ].map((value, index) => (
                   <div
                     key={index}
-                    className={`rounded-full py-2 px-12 text-center text-md font-normal transition-all sm:text-lg ${
-                      index === 1 || index === 2 || index === 4
-                        ? 'bg-[#3C8C98] text-white'
-                        : 'border-2 border-[#3C8C98] bg-white text-[#3C8C98]'
-                    }`}
+                    className={`rounded-full py-2 px-12 text-center text-md font-normal transition-all sm:text-lg ${index === 1 || index === 2 || index === 4
+                      ? 'bg-[#3C8C98] text-white'
+                      : 'border-2 border-[#3C8C98] bg-white text-[#3C8C98]'
+                      }`}
                     style={{
                       width: 'fit-content',
                       whiteSpace: 'nowrap',
@@ -630,7 +628,7 @@ export default function AboutPage() {
                   src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.521260322283!2d106.789164!3d-6.2285678!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f13094c83677%3A0x1f4300031365732b!2sUniversitas%20Pertamina!5e0!3m2!1sen!2sid!4v1736789012345!5m2!1sen!2sid'
                   width='100%'
                   height='100%'
-                  style={{border: 0}}
+                  style={{ border: 0 }}
                   allowFullScreen
                   loading='lazy'
                   referrerPolicy='no-referrer-when-downgrade'
@@ -657,5 +655,13 @@ export default function AboutPage() {
         </div>
       </section>
     </div>
+  );
+}
+
+export default function AboutPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-white" />}>
+      <AboutPageContent />
+    </Suspense>
   );
 }

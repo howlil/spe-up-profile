@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server'
+import { ArticleStatus } from '@prisma/client'
 import prisma from '@/lib/prisma'
 
 export async function GET() {
     try {
         // Get counts
         const [articlesCount, partnershipsCount, alumniCount, totalViews] = await Promise.all([
-            prisma.article.count({ where: { status: 'published' } }),
+            prisma.article.count({ where: { status: ArticleStatus.PUBLISHED } }),
             prisma.partnership.count(),
             prisma.alumni.count(),
             prisma.article.aggregate({
@@ -23,7 +24,7 @@ export async function GET() {
         const [prevArticles, prevPartnerships, prevAlumni, prevViews] = await Promise.all([
             prisma.article.count({
                 where: {
-                    status: 'published',
+                    status: ArticleStatus.PUBLISHED,
                     publishedAt: { lt: thisMonth }
                 }
             }),
