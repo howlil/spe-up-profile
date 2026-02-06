@@ -6,7 +6,7 @@ import prisma from '@/lib/prisma'
 // GET - Get single partnership
 export async function GET(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     const userOrError = await requireRole([UserRole.EXTERNAL, UserRole.SUPERADMIN])
     if (userOrError instanceof NextResponse) {
@@ -14,8 +14,9 @@ export async function GET(
     }
 
     try {
+        const { id } = await params
         const partnership = await prisma.partnership.findUnique({
-            where: { id: params.id }
+            where: { id }
         })
 
         if (!partnership) {
@@ -38,7 +39,7 @@ export async function GET(
 // DELETE - Delete partnership
 export async function DELETE(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     const userOrError = await requireRole([UserRole.EXTERNAL, UserRole.SUPERADMIN])
     if (userOrError instanceof NextResponse) {
@@ -46,8 +47,9 @@ export async function DELETE(
     }
 
     try {
+        const { id } = await params
         const partnership = await prisma.partnership.findUnique({
-            where: { id: params.id }
+            where: { id }
         })
 
         if (!partnership) {
@@ -58,7 +60,7 @@ export async function DELETE(
         }
 
         await prisma.partnership.delete({
-            where: { id: params.id }
+            where: { id }
         })
 
         return NextResponse.json(

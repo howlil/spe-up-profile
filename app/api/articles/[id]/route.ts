@@ -15,7 +15,7 @@ function generateSlug(title: string): string {
 // GET - Get single article
 export async function GET(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     // Check authorization
     const userOrError = await requireRole([UserRole.WRITER, UserRole.SUPERADMIN])
@@ -24,8 +24,9 @@ export async function GET(
     }
 
     try {
+        const { id } = await params
         const article = await prisma.article.findUnique({
-            where: { id: params.id },
+            where: { id },
             include: {
                 category: true
             }
@@ -40,7 +41,7 @@ export async function GET(
 
         // Increment view count
         await prisma.article.update({
-            where: { id: params.id },
+            where: { id },
             data: { views: { increment: 1 } }
         })
 
@@ -57,7 +58,7 @@ export async function GET(
 // PUT - Update article
 export async function PUT(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     // Check authorization
     const userOrError = await requireRole([UserRole.WRITER, UserRole.SUPERADMIN])
@@ -66,6 +67,7 @@ export async function PUT(
     }
 
     try {
+        const { id } = await params
         const body = await request.json()
         const {
             title,
@@ -80,7 +82,7 @@ export async function PUT(
 
         // Check if article exists
         const existing = await prisma.article.findUnique({
-            where: { id: params.id }
+            where: { id }
         })
 
         if (!existing) {
@@ -99,7 +101,7 @@ export async function PUT(
             const existingSlug = await prisma.article.findFirst({
                 where: {
                     slug,
-                    id: { not: params.id }
+                    id: { not: id }
                 }
             })
 
@@ -110,7 +112,7 @@ export async function PUT(
 
         // Update article
         const article = await prisma.article.update({
-            where: { id: params.id },
+            where: { id },
             data: {
                 title: title || existing.title,
                 slug,
@@ -141,7 +143,7 @@ export async function PUT(
 // DELETE - Delete article
 export async function DELETE(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     // Check authorization
     const userOrError = await requireRole([UserRole.WRITER, UserRole.SUPERADMIN])
@@ -150,8 +152,9 @@ export async function DELETE(
     }
 
     try {
+        const { id } = await params
         const article = await prisma.article.findUnique({
-            where: { id: params.id }
+            where: { id }
         })
 
         if (!article) {
@@ -173,7 +176,7 @@ export async function DELETE(
 
         // Delete article
         await prisma.article.delete({
-            where: { id: params.id }
+            where: { id }
         })
 
         return NextResponse.json(
