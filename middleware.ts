@@ -1,42 +1,27 @@
-import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { jwtVerify } from 'jose'
+
+const JWT_SECRET = new TextEncoder().encode(
+    process.env.JWT_SECRET || 'your-super-secret-key-change-in-production'
+)
+
+async function verifyToken(token: string) {
+    try {
+        const { payload } = await jwtVerify(token, JWT_SECRET)
+        return payload
+    } catch {
+        return null
+    }
+}
 
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl
 
-    // Create response object
-    let response = NextResponse.next({
-        request: {
-            headers: request.headers,
-        },
-    })
+    // Get auth token from cookies
+    const token = request.cookies.get('auth-token')?.value
 
-    // Create Supabase client
-    const supabase = createServerClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-        {
-            cookies: {
-                getAll() {
-                    return request.cookies.getAll()
-                },
-                setAll(cookiesToSet) {
-                    cookiesToSet.forEach(({ name, value }) =>
-                        request.cookies.set(name, value)
-                    )
-                    response = NextResponse.next({
-                        request,
-                    })
-                    cookiesToSet.forEach(({ name, value, options }) =>
-                        response.cookies.set(name, value, options)
-                    )
-                },
-            },
-        }
-    )
-
-    // Get session
-    const { data: { session } } = await supabase.auth.getSession()
+    // Verify token if exists
+    const session = token ? await verifyToken(token) : null
 
     // Protect /admin/* pages - redirect to /login if not authenticated
     if (pathname.startsWith('/admin')) {
@@ -48,12 +33,15 @@ export async function middleware(request: NextRequest) {
         }
     }
 
-    // Protect all API routes except /api/auth/* and /api/upload
+    // Protect API routes except public ones
     if (pathname.startsWith('/api')) {
         const isAuthRoute = pathname.startsWith('/api/auth')
-        const isUploadRoute = pathname.startsWith('/api/upload')
+        const isPublicRoute = pathname.includes('/public') || 
+                             pathname.startsWith('/api/articles/categories') ||
+                             pathname.startsWith('/api/alumni/register') ||
+                             pathname.startsWith('/api/partnerships/apply')
 
-        if (!isAuthRoute && !isUploadRoute && !session) {
+        if (!isAuthRoute && !isPublicRoute && !session) {
             return NextResponse.json(
                 { error: 'Unauthorized - Please login' },
                 { status: 401 }
@@ -61,18 +49,12 @@ export async function middleware(request: NextRequest) {
         }
     }
 
-    return response
+    return NextResponse.next()
 }
 
 export const config = {
     matcher: [
-        /*
-         * Match all request paths except:
-         * - _next/static (static files)
-         * - _next/image (image optimization files)
-         * - favicon.ico (favicon file)
-         * - public folder
-         */
+
         '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
     ],
 }

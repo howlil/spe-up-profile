@@ -1,48 +1,33 @@
-import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
+import { verify, JwtPayload } from 'jsonwebtoken'
 import { UserRole } from '@prisma/client'
 import prisma from './prisma'
 
-/**
- * Get Supabase server client with cookies
- */
-export async function getSupabaseServer() {
-    const cookieStore = await cookies()
+const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-key-change-in-production'
 
-    return createServerClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-        {
-            cookies: {
-                getAll() {
-                    return cookieStore.getAll()
-                },
-                setAll(cookiesToSet) {
-                    cookiesToSet.forEach(({ name, value, options }) => {
-                        cookieStore.set(name, value, options)
-                    })
-                },
-            },
-        }
-    )
+interface TokenPayload extends JwtPayload {
+    userId: string
+    email: string
+    role: UserRole
 }
 
 /**
- * Get current user session from Supabase
+ * Get current session from JWT token
  */
-export async function getServerSession() {
+export async function getServerSession(): Promise<TokenPayload | null> {
     try {
-        const supabase = await getSupabaseServer()
-        const { data: { session }, error } = await supabase.auth.getSession()
+        const cookieStore = await cookies()
+        const token = cookieStore.get('auth-token')?.value
 
-        if (error || !session) {
+        if (!token) {
             return null
         }
 
-        return session
+        const decoded = verify(token, JWT_SECRET) as TokenPayload
+        return decoded
     } catch (error) {
-        console.error('Error getting session:', error)
+        console.error('Error verifying token:', error)
         return null
     }
 }
@@ -54,13 +39,13 @@ export async function getCurrentUser() {
     try {
         const session = await getServerSession()
 
-        if (!session?.user?.email) {
+        if (!session?.userId) {
             return null
         }
 
         // Get user from Prisma database
         const user = await prisma.user.findUnique({
-            where: { email: session.user.email },
+            where: { id: session.userId },
             select: {
                 id: true,
                 email: true,

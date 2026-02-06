@@ -27,18 +27,14 @@ export async function GET(request: NextRequest) {
             where.OR = [
                 { name: { contains: search, mode: 'insensitive' } },
                 { email: { contains: search, mode: 'insensitive' } },
-                { currentCompany: { contains: search, mode: 'insensitive' } }
+                { institution: { contains: search, mode: 'insensitive' } }
             ]
-        }
-
-        if (year) {
-            where.graduationYear = parseInt(year)
         }
 
         const [alumni, total] = await Promise.all([
             prisma.alumni.findMany({
                 where,
-                orderBy: { graduationYear: 'desc' },
+                orderBy: { createdAt: 'desc' },
                 skip,
                 take: limit
             }),
@@ -76,20 +72,18 @@ export async function POST(request: NextRequest) {
         const {
             name,
             email,
-            graduationYear,
-            major,
-            currentCompany,
-            currentPosition,
-            location,
+            institution,
             phone,
-            linkedIn,
-            bio
+            position,
+            message,
+            photoPath,
+            isNewData
         } = body
 
         // Validation
-        if (!name || !email || !graduationYear) {
+        if (!name || !email || !institution || !phone || !position || !message) {
             return NextResponse.json(
-                { error: 'Missing required fields: name, email, graduationYear' },
+                { error: 'Missing required fields: name, email, institution, phone, position, message' },
                 { status: 400 }
             )
         }
@@ -110,14 +104,12 @@ export async function POST(request: NextRequest) {
             data: {
                 name,
                 email,
-                graduationYear: parseInt(graduationYear),
-                major: major || null,
-                currentCompany: currentCompany || null,
-                currentPosition: currentPosition || null,
-                location: location || null,
-                phone: phone || null,
-                linkedIn: linkedIn || null,
-                bio: bio || null
+                institution,
+                phone,
+                position,
+                message,
+                photoPath: photoPath || null,
+                isNewData: isNewData !== undefined ? isNewData : true
             }
         })
 

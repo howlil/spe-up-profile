@@ -3,8 +3,9 @@
 'use client';
 
 import Image from 'next/image';
-import { Suspense, useEffect } from 'react';
+import { Suspense, useEffect, useState, useRef } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { CheckCircle, Loader2, AlertCircle, Upload, X, FileText } from 'lucide-react';
 import FaceCard from '../../components/FaceCard';
 import FormInput from '../../components/FormInput';
 import FormTextarea from '../../components/FormTextarea';
@@ -13,6 +14,116 @@ import SectionTitle from '../../components/SectionTitle';
 function AboutPageContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Partnership form state
+  const [formData, setFormData] = useState({
+    name: '',
+    institution: '',
+    email: '',
+    subject: '',
+    message: '',
+    nda: false,
+  });
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [formState, setFormState] = useState({
+    loading: false,
+    success: false,
+    error: '',
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
+    if (type === 'checkbox') {
+      setFormData(prev => ({ ...prev, [name]: (e.target as HTMLInputElement).checked }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Validate file type
+      const allowedTypes = [
+        'application/pdf',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'image/jpeg',
+        'image/jpg',
+        'image/png',
+      ];
+      if (!allowedTypes.includes(file.type)) {
+        setFormState(prev => ({ ...prev, error: 'Invalid file type. Only PDF, DOC, DOCX, and images are allowed.' }));
+        return;
+      }
+      // Validate file size (max 10MB)
+      if (file.size > 10 * 1024 * 1024) {
+        setFormState(prev => ({ ...prev, error: 'File too large. Maximum size is 10MB.' }));
+        return;
+      }
+      setSelectedFile(file);
+      setFormState(prev => ({ ...prev, error: '' }));
+    }
+  };
+
+  const removeFile = () => {
+    setSelectedFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const handlePartnershipSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormState({ loading: true, success: false, error: '' });
+
+    try {
+      let filePath = null;
+
+      // Upload file first if selected
+      if (selectedFile) {
+        const uploadFormData = new FormData();
+        uploadFormData.append('file', selectedFile);
+
+        const uploadRes = await fetch('/api/partnerships/upload', {
+          method: 'POST',
+          body: uploadFormData,
+        });
+
+        if (!uploadRes.ok) {
+          const uploadData = await uploadRes.json();
+          throw new Error(uploadData.error || 'File upload failed');
+        }
+
+        const uploadData = await uploadRes.json();
+        filePath = uploadData.url;
+      }
+
+      // Submit partnership form
+      const res = await fetch('/api/partnerships/apply', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, filePath }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to submit');
+      }
+
+      setFormState({ loading: false, success: true, error: '' });
+      setFormData({ name: '', institution: '', email: '', subject: '', message: '', nda: false });
+      setSelectedFile(null);
+    } catch (error) {
+      setFormState({
+        loading: false,
+        success: false,
+        error: error instanceof Error ? error.message : 'Something went wrong',
+      });
+    }
+  };
 
   useEffect(() => {
     // Handle anchor links from navigation
@@ -477,144 +588,195 @@ function AboutPageContent() {
               <div className='absolute -inset-4 bg-gradient-to-r from-[#3C8C98]/10 to-[#45E384]/10 rounded-3xl blur-xl opacity-30'></div>
 
               <div className='relative bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-6 sm:p-8'>
-                <div className='mb-6'>
-                  <h3 className='text-2xl font-semibold text-gray-900 mb-2'>
-                    Let&apos;s Connect
-                  </h3>
-                  <p className='text-gray-600'>
-                    Ready to collaborate? Send us a message and let&apos;s
-                    create something amazing together.
-                  </p>
-                </div>
-
-                <form className='space-y-6'>
-                  {/* Name & Institution Row */}
-                  <div className='grid gap-4 sm:grid-cols-2'>
-                    <FormInput
-                      id='name'
-                      name='name'
-                      type='text'
-                      label='Full Name'
-                      placeholder='John Doe'
-                      required
-                    />
-                    <FormInput
-                      id='institution'
-                      name='institution'
-                      type='text'
-                      label='Institution'
-                      placeholder='Your University'
-                      required
-                    />
-                  </div>
-
-                  {/* Email & Subject Row */}
-                  <div className='grid gap-4 sm:grid-cols-2'>
-                    <FormInput
-                      id='email'
-                      name='email'
-                      type='email'
-                      label='Email Address'
-                      placeholder='john@example.com'
-                      required
-                    />
-                    <FormInput
-                      id='subject'
-                      name='subject'
-                      type='text'
-                      label='Subject'
-                      placeholder='Partnership Inquiry'
-                      required
-                    />
-                  </div>
-
-                  {/* Message */}
-                  <FormTextarea
-                    id='message'
-                    name='message'
-                    label='Message'
-                    placeholder='Tell us about your partnership ideas and how we can collaborate...'
-                    rows={4}
-                    required
-                  />
-
-                  {/* File Upload */}
-                  <div className='group'>
-                    <label className='block text-sm font-medium text-gray-700 mb-2'>
-                      Attachment{' '}
-                      <span className='text-gray-400'>(Optional)</span>
-                    </label>
-                    <div className='relative'>
-                      <input
-                        type='file'
-                        id='file'
-                        name='file'
-                        className='hidden'
-                      />
-                      <label
-                        htmlFor='file'
-                        className='flex items-center justify-center w-full px-4 py-6 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-[#3C8C98] hover:bg-[#3C8C98]/5 transition-all duration-300 group'
-                      >
-                        <div className='text-center'>
-                          <svg
-                            className='mx-auto h-8 w-8 text-gray-400 group-hover:text-[#3C8C98] transition-colors'
-                            fill='none'
-                            viewBox='0 0 24 24'
-                            stroke='currentColor'
-                          >
-                            <path
-                              strokeLinecap='round'
-                              strokeLinejoin='round'
-                              strokeWidth={1.5}
-                              d='M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12'
-                            />
-                          </svg>
-                          <p className='mt-2 text-sm text-gray-600 group-hover:text-[#3C8C98] transition-colors'>
-                            <span className='font-medium'>Click to upload</span>{' '}
-                            or drag and drop
-                          </p>
-                          <p className='text-xs text-gray-400'>
-                            PDF, DOC, DOCX up to 10MB
-                          </p>
-                        </div>
-                      </label>
-                    </div>
-                  </div>
-
-                  {/* NDA Checkbox */}
-                  <div className='flex items-start gap-3'>
-                    <div className='relative flex items-center'>
-                      <input
-                        type='checkbox'
-                        id='nda'
-                        name='nda'
-                        className='h-5 w-5 rounded border-2 border-gray-300 text-[#3C8C98] focus:ring-[#3C8C98] focus:ring-offset-0'
-                      />
-                    </div>
-                    <label
-                      htmlFor='nda'
-                      className='text-sm text-gray-600 leading-relaxed'
-                    >
-                      I want to protect my data with{' '}
-                      <span className='font-medium text-[#3C8C98]'>
-                        Non-Disclosure Agreement (NDA)
-                      </span>
-                    </label>
-                  </div>
-
-                  {/* Submit Button */}
-                  <div className='pt-4'>
+                {formState.success ? (
+                  <div className='text-center py-8'>
+                    <CheckCircle className='mx-auto h-16 w-16 text-emerald-500' />
+                    <h3 className='mt-4 text-xl font-semibold text-gray-900'>Request Submitted!</h3>
+                    <p className='mt-2 text-gray-600'>
+                      Thank you for your interest. Our team will contact you soon.
+                    </p>
                     <button
-                      type='submit'
-                      className='group relative w-full overflow-hidden rounded-full bg-[#3C8C98] px-8 py-4 text-white font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300'
+                      onClick={() => setFormState({ loading: false, success: false, error: '' })}
+                      className='mt-6 rounded-full bg-[#3C8C98] px-8 py-3 font-semibold text-white transition-all hover:bg-[#2d6b75]'
                     >
-                      <span className='relative z-10'>
-                        Send Partnership Request
-                      </span>
-                      <div className='absolute inset-0 bg-gradient-to-r from-[#2d6b75] to-[#3cb385] opacity-0 group-hover:opacity-100 transition-opacity duration-300'></div>
+                      Submit Another
                     </button>
                   </div>
-                </form>
+                ) : (
+                  <>
+                    <div className='mb-6'>
+                      <h3 className='text-2xl font-semibold text-gray-900 mb-2'>
+                        Let&apos;s Connect
+                      </h3>
+                      <p className='text-gray-600'>
+                        Ready to collaborate? Send us a message and let&apos;s
+                        create something amazing together.
+                      </p>
+                    </div>
+
+                    {formState.error && (
+                      <div className='mb-4 flex items-center gap-2 rounded-lg bg-red-50 p-4 text-red-700'>
+                        <AlertCircle className='h-5 w-5' />
+                        <span className='text-sm'>{formState.error}</span>
+                      </div>
+                    )}
+
+                    <form onSubmit={handlePartnershipSubmit} className='space-y-6'>
+                      {/* Name & Institution Row */}
+                      <div className='grid gap-4 sm:grid-cols-2'>
+                        <FormInput
+                          id='name'
+                          name='name'
+                          type='text'
+                          label='Full Name'
+                          placeholder='John Doe'
+                          required
+                          value={formData.name}
+                          onChange={handleInputChange}
+                        />
+                        <FormInput
+                          id='institution'
+                          name='institution'
+                          type='text'
+                          label='Institution'
+                          placeholder='Your University'
+                          required
+                          value={formData.institution}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+
+                      {/* Email & Subject Row */}
+                      <div className='grid gap-4 sm:grid-cols-2'>
+                        <FormInput
+                          id='email'
+                          name='email'
+                          type='email'
+                          label='Email Address'
+                          placeholder='john@example.com'
+                          required
+                          value={formData.email}
+                          onChange={handleInputChange}
+                        />
+                        <FormInput
+                          id='subject'
+                          name='subject'
+                          type='text'
+                          label='Subject'
+                          placeholder='Partnership Inquiry'
+                          required
+                          value={formData.subject}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+
+                      {/* Message */}
+                      <FormTextarea
+                        id='message'
+                        name='message'
+                        label='Message'
+                        placeholder='Tell us about your partnership ideas and how we can collaborate...'
+                        rows={4}
+                        required
+                        value={formData.message}
+                        onChange={handleInputChange}
+                      />
+
+                      {/* File Upload */}
+                      <div>
+                        <label className='block text-sm font-semibold text-gray-800 mb-2'>
+                          Upload File{' '}
+                          <span className='text-gray-500 font-normal'>(Optional)</span>
+                        </label>
+                        {selectedFile ? (
+                          <div className='flex items-center gap-3 p-4 bg-gray-50 border border-gray-200 rounded-xl'>
+                            <FileText className='w-8 h-8 text-[#3C8C98]' />
+                            <div className='flex-1 min-w-0'>
+                              <p className='text-sm font-medium text-gray-900 truncate'>{selectedFile.name}</p>
+                              <p className='text-xs text-gray-500'>
+                                {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
+                              </p>
+                            </div>
+                            <button
+                              type='button'
+                              onClick={removeFile}
+                              className='p-1 hover:bg-gray-200 rounded-full transition-colors'
+                            >
+                              <X className='w-5 h-5 text-gray-500' />
+                            </button>
+                          </div>
+                        ) : (
+                          <label
+                            htmlFor='file'
+                            className='flex flex-col items-center justify-center w-full px-4 py-6 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-[#3C8C98] hover:bg-[#3C8C98]/5 transition-all duration-300'
+                          >
+                            <Upload className='w-8 h-8 text-gray-400 mb-2' />
+                            <p className='text-sm text-gray-600'>
+                              <span className='font-medium text-[#3C8C98]'>Click to upload</span>{' '}
+                              or drag and drop
+                            </p>
+                            <p className='text-xs text-gray-400 mt-1'>
+                              PDF, DOC, DOCX, or Images up to 10MB
+                            </p>
+                          </label>
+                        )}
+                        <input
+                          ref={fileInputRef}
+                          type='file'
+                          id='file'
+                          name='file'
+                          onChange={handleFileChange}
+                          accept='.pdf,.doc,.docx,.jpg,.jpeg,.png'
+                          className='hidden'
+                        />
+                      </div>
+
+                      {/* NDA Checkbox */}
+                      <div className='flex items-start gap-3'>
+                        <div className='relative flex items-center'>
+                          <input
+                            type='checkbox'
+                            id='nda'
+                            name='nda'
+                            checked={formData.nda}
+                            onChange={handleInputChange}
+                            className='h-5 w-5 rounded border-2 border-gray-300 text-[#3C8C98] focus:ring-[#3C8C98] focus:ring-offset-0'
+                          />
+                        </div>
+                        <label
+                          htmlFor='nda'
+                          className='text-sm text-gray-600 leading-relaxed'
+                        >
+                          I want to protect my data with{' '}
+                          <span className='font-medium text-[#3C8C98]'>
+                            Non-Disclosure Agreement (NDA)
+                          </span>
+                        </label>
+                      </div>
+
+                      {/* Submit Button */}
+                      <div className='pt-4'>
+                        <button
+                          type='submit'
+                          disabled={formState.loading}
+                          className='group relative w-full overflow-hidden rounded-full bg-[#3C8C98] px-8 py-4 text-white font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed'
+                        >
+                          <span className='relative z-10 flex items-center justify-center gap-2'>
+                            {formState.loading ? (
+                              <>
+                                <Loader2 className='h-5 w-5 animate-spin' />
+                                Sending...
+                              </>
+                            ) : (
+                              'Send Partnership Request'
+                            )}
+                          </span>
+                          <div className='absolute inset-0 bg-gradient-to-r from-[#2d6b75] to-[#3cb385] opacity-0 group-hover:opacity-100 transition-opacity duration-300'></div>
+                        </button>
+                      </div>
+                    </form>
+                  </>
+                )}
               </div>
             </div>
 

@@ -16,8 +16,10 @@ export async function GET() {
             {
                 authenticated: true,
                 session: {
-                    user: session.user,
-                    expiresAt: session.expires_at,
+                    userId: session.userId,
+                    email: session.email,
+                    role: session.role,
+                    exp: session.exp,
                 }
             },
             { status: 200 }

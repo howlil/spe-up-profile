@@ -3,9 +3,8 @@
 import Image from 'next/image';
 import AlumniCard from '../../components/AlumniCard';
 import SectionTitle from '../../components/SectionTitle';
-import FormInput from '../../components/FormInput';
-import FormTextarea from '../../components/FormTextarea';
 import PrimaryButton from '../../components/PrimaryButton';
+import AlumniForm from '../../components/AlumniForm';
 
 // Alumni Data - logoSize: 'sm' | 'md' | 'lg' | 'xl' (optional, default: 'md')
 const alumniData: {
@@ -193,118 +192,7 @@ export default function AlumnaePage() {
 
         {/* Main Content - Full Width */}
         <div className='relative z-10'>
-          <form className='mx-auto max-w-6xl'>
-            {/* Form Grid - 2 Columns on larger screens */}
-            <div className='grid gap-x-8 gap-y-6 lg:grid-cols-2'>
-              {/* Left Column */}
-              <div className='space-y-6'>
-                <FormInput
-                  id='name'
-                  name='name'
-                  label='Name'
-                  placeholder='Input your Full Name'
-                  required
-                />
-                <FormInput
-                  id='institution'
-                  name='institution'
-                  label='Institution'
-                  placeholder='Input your Institution'
-                  required
-                />
-                <FormInput
-                  id='position'
-                  name='position'
-                  label='Position'
-                  placeholder='Input your Current Position'
-                  required
-                />
-
-                {/* File Upload - Styled */}
-                <div>
-                  <label className='mb-2 block text-sm font-medium text-gray-700'>
-                    Upload Photo File (Mandatory){' '}
-                    <span className='italic text-red-500'>*max 5 mb</span>
-                  </label>
-                  <div className='flex items-center gap-4 rounded-xl border-2 border-dashed border-gray-300 bg-white/50 p-4 transition-colors hover:border-[#3C8C98]'>
-                    <label className='cursor-pointer rounded-lg border border-gray-300 bg-gray-100 px-6 py-2.5 text-sm font-medium text-gray-700 transition-all hover:bg-[#3C8C98] hover:text-white'>
-                      Choose Files
-                      <input
-                        type='file'
-                        name='photo'
-                        accept='image/*'
-                        className='hidden'
-                      />
-                    </label>
-                    <span className='text-sm text-gray-400'>No file chosen</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Column */}
-              <div className='space-y-6'>
-                <FormInput
-                  id='email'
-                  name='email'
-                  type='email'
-                  label='Email'
-                  placeholder='Input your University Email (Ex : 1917@student.univ)'
-                  required
-                />
-                <FormInput
-                  id='phone'
-                  name='phone'
-                  label='Personal Phone Number'
-                  placeholder='Input your Personal Phone Number'
-                  required
-                />
-                <FormTextarea
-                  id='message'
-                  name='message'
-                  label='Message'
-                  placeholder='Input the message you want to convey'
-                  rows={5}
-                  required
-                />
-              </div>
-            </div>
-
-            {/* Bottom Section - Full Width */}
-            <div className='mt-8 flex flex-col items-start gap-6 pt-8'>
-              {/* NDA Checkbox */}
-              <label className='group flex cursor-pointer items-center gap-3'>
-                <div className='relative'>
-                  <input
-                    type='checkbox'
-                    id='nda'
-                    name='nda'
-                    className='peer h-6 w-6 cursor-pointer appearance-none rounded-md border-2 border-gray-300 transition-all checked:border-[#3C8C98] checked:bg-[#3C8C98]'
-                  />
-                  <svg
-                    className='pointer-events-none absolute left-1/2 top-1/2 hidden h-4 w-4 -translate-x-1/2 -translate-y-1/2 text-white peer-checked:block'
-                    fill='none'
-                    viewBox='0 0 24 24'
-                    stroke='currentColor'
-                    strokeWidth={3}
-                  >
-                    <path strokeLinecap='round' strokeLinejoin='round' d='M5 13l4 4L19 7' />
-                  </svg>
-                </div>
-                <span className='text-sm text-gray-700 transition-colors group-hover:text-[#3C8C98]'>
-                  I want to protect my data with NDA
-                </span>
-              </label>
-
-              {/* Submit Button - Left aligned */}
-              <button
-                type='submit'
-                className='group relative w-full overflow-hidden rounded-full bg-gradient-to-r from-[#3C8C98] to-[#2d6b75] px-12 py-4 text-center font-semibold text-white shadow-lg transition-all hover:shadow-xl sm:w-auto'
-              >
-                <span className='relative z-10'>Submit Application</span>
-                <div className='absolute inset-0 -translate-x-full bg-gradient-to-r from-[#52e8ff] to-[#3C8C98] transition-transform group-hover:translate-x-0' />
-              </button>
-            </div>
-          </form>
+          <AlumniForm />
         </div>
 
         {/* Retro Computer Mockup - Decorative */}

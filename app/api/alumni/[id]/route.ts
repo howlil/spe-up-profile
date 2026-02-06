@@ -75,3 +75,52 @@ export async function DELETE(
         )
     }
 }
+
+// PUT - Update alumni
+export async function PUT(
+    request: NextRequest,
+    { params }: { params: Promise<{ id: string }> }
+) {
+    const userOrError = await requireRole([UserRole.SUPERADMIN])
+    if (userOrError instanceof NextResponse) {
+        return userOrError
+    }
+
+    try {
+        const { id } = await params
+        const body = await request.json()
+
+        const alumni = await prisma.alumni.findUnique({
+            where: { id }
+        })
+
+        if (!alumni) {
+            return NextResponse.json(
+                { error: 'Alumni not found' },
+                { status: 404 }
+            )
+        }
+
+        const updated = await prisma.alumni.update({
+            where: { id },
+            data: {
+                name: body.name,
+                email: body.email,
+                institution: body.institution,
+                phone: body.phone,
+                position: body.position,
+                message: body.message,
+                photoPath: body.photoPath || null,
+                isNewData: body.isNewData !== undefined ? body.isNewData : true,
+            }
+        })
+
+        return NextResponse.json({ alumni: updated }, { status: 200 })
+    } catch (error) {
+        console.error('PUT alumni error:', error)
+        return NextResponse.json(
+            { error: 'Failed to update alumni' },
+            { status: 500 }
+        )
+    }
+}

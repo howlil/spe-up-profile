@@ -1,5 +1,3 @@
-
-
 generator client {
   provider = "prisma-client-js"
   output   = "../node_modules/.prisma/client"
@@ -25,13 +23,14 @@ enum ArticleStatus {
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
+  password  String // Hashed password
   name      String?
   role      UserRole @default(SUPERADMIN)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // Relations
-  articles     Article[]
+  articles Article[]
 
   @@map("users")
 }
@@ -60,7 +59,7 @@ model Article {
   author      String
   status      ArticleStatus @default(DRAFT)
   views       Int           @default(0)
-  tags        String[]      // Array of tag strings
+  tags        String[] // Array of tag strings
   publishedAt DateTime?
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
@@ -82,44 +81,33 @@ model Article {
 
 // Partnership Applications
 model Partnership {
-  id               String   @id @default(uuid())
-  companyName      String
-  companyEmail     String
-  companyPhone     String?
-  contactPerson    String
-  contactEmail     String
-  contactPhone     String?
-  partnershipType  String   // collaboration, sponsorship, research, etc.
-  description      String?
-  notes            String?  // Admin notes
-  submittedAt      DateTime @default(now())
-  reviewedAt       DateTime?
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  id          String   @id @default(uuid())
+  name        String // Full name
+  institution String // Institution/Company
+  email       String // Email address
+  subject     String // Subject line
+  message     String   @db.Text // Message content
+  filePath    String? // Optional uploaded file path
+  nda         Boolean  @default(false) // Non-Disclosure Agreement
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  @@index([partnershipType])
   @@map("partnerships")
 }
 
 // Alumni Records
 model Alumni {
-  id              String   @id @default(uuid())
-  name            String
-  email           String   @unique
-  graduationYear  Int
-  major           String?
-  currentCompany  String?
-  currentPosition String?
-  location        String?
-  phone           String?
-  linkedIn        String?
-  bio             String?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id        String   @id @default(uuid())
+  name      String // Full name
+  email     String   @unique // University email
+  institution String // Institution
+  phone     String // Personal phone number
+  position  String // Current position
+  message   String   @db.Text // Message
+  photoPath String? // Uploaded photo file path
+  isNewData Boolean  @default(true) // true = New Data, false = Update Data
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  @@index([graduationYear])
-  @@index([currentCompany])
   @@map("alumni")
 }
-
-

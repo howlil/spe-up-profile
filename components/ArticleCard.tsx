@@ -1,6 +1,7 @@
 /** @format */
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface ArticleCardProps {
   cover: string;
@@ -9,6 +10,7 @@ interface ArticleCardProps {
   datePost: string;
   createdBy: string;
   topic: string;
+  slug?: string;
 }
 
 export default function ArticleCard({
@@ -18,8 +20,9 @@ export default function ArticleCard({
   datePost,
   createdBy,
   topic,
+  slug,
 }: ArticleCardProps) {
-  return (
+  const CardContent = (
     <article className='group cursor-pointer overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1'>
       {/* Cover Image */}
       <div className='relative aspect-[16/9] overflow-hidden'>
@@ -110,4 +113,10 @@ export default function ArticleCard({
       </div>
     </article>
   );
+
+  if (slug) {
+    return <Link href={`/article/${slug}`}>{CardContent}</Link>;
+  }
+
+  return CardContent;
 }

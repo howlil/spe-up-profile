@@ -1,18 +1,19 @@
-/** @format */
-
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function LoginPage() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -20,19 +21,32 @@ export default function LoginPage() {
       ...prev,
       [name]: value,
     }));
+    setError('');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // Simulate login API call
+    setError('');
+
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      console.log('Login attempt:', formData);
-      // Handle successful login here
-    } catch (error) {
-      console.error('Login error:', error);
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || 'Login failed');
+        return;
+      }
+
+      // Redirect to admin dashboard
+      router.push('/admin');
+    } catch (err) {
+      setError('An error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -78,7 +92,12 @@ export default function LoginPage() {
 
           {/* Login Form */}
           <form onSubmit={handleSubmit} className='space-y-6'>
-            {/* Email Field */}
+            {/* Error Message */}
+            {error && (
+              <div className='p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm'>
+                {error}
+              </div>
+            )}
             <div>
               <label
                 htmlFor='email'
@@ -204,7 +223,7 @@ export default function LoginPage() {
             <p className='text-lg text-white/90 leading-relaxed'>
               Access your SPE Universitas Pertamina Student Chapter dashboard and continue your journey in petroleum engineering excellence.
             </p>
-            
+
             {/* Key Features */}
             <div className='space-y-3 mt-8'>
               <div className='flex items-center gap-3 text-left'>

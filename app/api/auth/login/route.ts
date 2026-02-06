@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient } from '@supabase/ssr'
+import { compare } from 'bcryptjs'
+import { sign } from 'jsonwebtoken'
 import { cookies } from 'next/headers'
+import prisma from '@/lib/prisma'
+
+const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-key-change-in-production'
 
 export async function POST(request: NextRequest) {
     try {
@@ -13,39 +17,64 @@ export async function POST(request: NextRequest) {
             )
         }
 
-        const cookieStore = await cookies()
-        const supabase = createServerClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-            {
-                cookies: {
-                    getAll() {
-                        return cookieStore.getAll()
-                    },
-                    setAll(cookiesToSet) {
-                        cookiesToSet.forEach(({ name, value, options }) => {
-                            cookieStore.set(name, value, options)
-                        })
-                    },
-                },
+        // Find user by email
+        const user = await prisma.user.findUnique({
+            where: { email },
+            select: {
+                id: true,
+                email: true,
+                password: true,
+                name: true,
+                role: true,
             }
-        )
-
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email,
-            password,
         })
 
-        if (error) {
+        if (!user) {
             return NextResponse.json(
-                { error: error.message },
+                { error: 'Invalid email or password' },
                 { status: 401 }
             )
         }
 
+        // Verify password
+        const isPasswordValid = await compare(password, user.password)
+
+        if (!isPasswordValid) {
+            return NextResponse.json(
+                { error: 'Invalid email or password' },
+                { status: 401 }
+            )
+        }
+
+        // Create JWT token
+        const token = sign(
+            {
+                userId: user.id,
+                email: user.email,
+                role: user.role,
+            },
+            JWT_SECRET,
+            { expiresIn: '7d' }
+        )
+
+        // Set cookie
+        const cookieStore = await cookies()
+        cookieStore.set('auth-token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            maxAge: 60 * 60 * 24 * 7, // 7 days
+            path: '/',
+        })
+
+        // Return user data (without password)
         return NextResponse.json({
-            user: data.user,
-            session: data.session,
+            user: {
+                id: user.id,
+                email: user.email,
+                name: user.name,
+                role: user.role,
+            },
         }, { status: 200 })
 
     } catch (error) {
