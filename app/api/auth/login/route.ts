@@ -6,6 +6,9 @@ import prisma from '@/lib/prisma'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-key-change-in-production'
 
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
+
 export async function POST(request: NextRequest) {
     try {
         const { email, password } = await request.json()
