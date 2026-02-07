@@ -136,34 +136,34 @@ export default function AdminsManagement() {
 
   return (
     <>
-      <header className="h-14 px-6 bg-white border-b border-gray-200 flex items-center justify-between">
+      <header className="h-auto min-h-14 px-4 py-3 sm:px-6 bg-white border-b border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-sm font-semibold text-gray-900">Admin Management</h1>
           <p className="text-xs text-gray-500">{filteredAdmins.length} admin users</p>
         </div>
-        <button onClick={handleCreate} className="h-9 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium flex items-center gap-1.5 transition-colors">
-          <Plus className="w-4 h-4" />New Admin
+        <button onClick={handleCreate} className="h-9 px-3 sm:px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-xs sm:text-sm font-medium flex items-center gap-1.5 transition-colors self-start sm:self-auto">
+          <Plus className="w-4 h-4 flex-shrink-0" />New Admin
         </button>
       </header>
 
-      <div className="p-6 bg-white border-b border-gray-200">
-        <div className="flex gap-4">
-          <div className="flex-1 relative">
+      <div className="p-4 sm:p-6 bg-white border-b border-gray-200">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+          <div className="flex-1 min-w-0 relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
             <input type="text" placeholder="Search..." value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full h-10 pl-10 pr-3 text-sm text-gray-900 border border-gray-300 rounded-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder:text-gray-400" />
           </div>
           <select value={selectedRole} onChange={(e) => setSelectedRole(e.target.value)}
-            className="h-10 px-3 text-sm text-gray-900 border border-gray-300 rounded-md bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+            className="h-10 px-3 text-sm text-gray-900 border border-gray-300 rounded-md bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 sm:w-auto w-full">
             {roles.map(r => <option key={r} value={r} className="text-gray-900">{r}</option>)}
           </select>
         </div>
       </div>
 
-      <main className="flex-1 overflow-auto p-6 bg-gray-50">
-        <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-          <table className="w-full text-xs">
+      <main className="flex-1 overflow-auto p-4 sm:p-6 bg-gray-50 min-h-0">
+        <div className="bg-white rounded-lg border border-gray-200 overflow-x-auto">
+          <table className="w-full text-xs min-w-[520px]">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
                 <th className="text-left p-3 font-medium text-gray-700">Admin</th>

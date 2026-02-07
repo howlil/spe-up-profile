@@ -153,18 +153,18 @@ export default function PartnershipsAdmin() {
 
   return (
     <>
-      <header className="h-14 px-6 bg-white border-b border-gray-200 flex items-center justify-between">
+      <header className="h-auto min-h-14 px-4 py-3 sm:px-6 bg-white border-b border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-sm font-semibold text-gray-900">Partnership Management</h1>
           <p className="text-xs text-gray-500">{filteredPartnerships.length} applications</p>
         </div>
-        <button onClick={() => window.open('/api/partnerships/export', '_blank')} className="h-9 px-4 border border-emerald-300 bg-emerald-50 text-emerald-700 rounded-md text-sm font-medium flex items-center gap-1.5 hover:bg-emerald-100 transition-colors">
-          <Download className="w-4 h-4" />Export
+        <button onClick={() => window.open('/api/partnerships/export', '_blank')} className="h-9 px-3 sm:px-4 border border-emerald-300 bg-emerald-50 text-emerald-700 rounded-md text-xs sm:text-sm font-medium flex items-center gap-1.5 hover:bg-emerald-100 transition-colors self-start sm:self-auto">
+          <Download className="w-4 h-4 flex-shrink-0" />Export
         </button>
       </header>
 
-      <div className="p-6 bg-white border-b border-gray-200">
-        <div className="flex-1 relative">
+      <div className="p-4 sm:p-6 bg-white border-b border-gray-200">
+        <div className="flex-1 min-w-0 relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
           <input type="text" placeholder="Search by name, institution, subject..." value={searchQuery}
             onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
@@ -172,9 +172,9 @@ export default function PartnershipsAdmin() {
         </div>
       </div>
 
-      <main className="flex-1 overflow-auto p-6 bg-gray-50">
-        <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-          <table className="w-full text-xs">
+      <main className="flex-1 overflow-auto p-4 sm:p-6 bg-gray-50 min-h-0">
+        <div className="bg-white rounded-lg border border-gray-200 overflow-x-auto">
+          <table className="w-full text-xs min-w-[600px]">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
                 <th className="text-left p-3 font-medium text-gray-700">Name</th>

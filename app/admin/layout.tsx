@@ -108,37 +108,29 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   }
 
   return (
-    <div className="h-screen flex bg-gray-50">
-      {/* Sidebar - Ultra-thin */}
-      <aside className="w-14 bg-white border-r border-gray-200 flex flex-col">
-        {/* Logo */}
+    <div className="h-screen flex flex-col md:flex-row bg-gray-50">
+      {/* Sidebar - Desktop only */}
+      <aside className="hidden md:flex w-14 bg-white border-r border-gray-200 flex-col flex-shrink-0">
         <div className="h-14 flex items-center justify-center border-b border-gray-200">
           <div className="w-9 h-9 bg-gradient-to-br from-[#3C8C98] to-[#2cb385] rounded-lg flex items-center justify-center">
             <span className="text-white text-xs font-semibold">SPE</span>
           </div>
         </div>
-
-        {/* Navigation */}
         <nav className="flex-1 p-2">
           <div className="space-y-1">
             {filteredNavigation.map((item) => {
               const Icon = item.icon;
               const isActive = pathname.startsWith(item.href);
-              
               return (
                 <Link
                   key={item.href}
                   href={item.href}
                   className={`w-10 h-10 flex items-center justify-center rounded-md transition-all group relative ${
-                    isActive 
-                      ? 'bg-blue-50 text-blue-600' 
-                      : 'text-gray-600 hover:bg-gray-100'
+                    isActive ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-100'
                   }`}
                   title={item.label}
                 >
                   <Icon className="w-5 h-5" />
-                  
-                  {/* Tooltip */}
                   <div className="absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">
                     {item.label}
                   </div>
@@ -147,13 +139,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             })}
           </div>
         </nav>
-
-        {/* User Info & Logout */}
         <div className="p-2 border-t border-gray-200 space-y-1">
-          {/* User badge */}
           <div className="w-10 h-10 flex items-center justify-center group relative">
             <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white ${
-              user.role === 'SUPERADMIN' ? 'bg-purple-500' : 
+              user.role === 'SUPERADMIN' ? 'bg-purple-500' :
               user.role === 'WRITER' ? 'bg-blue-500' : 'bg-gray-500'
             }`}>
               {user.name?.charAt(0).toUpperCase() || user.email.charAt(0).toUpperCase()}
@@ -163,7 +152,6 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
               <span className="text-gray-400">{user.role}</span>
             </div>
           </div>
-          
           <button
             onClick={handleLogout}
             className="w-10 h-10 flex items-center justify-center rounded-md text-gray-600 hover:bg-red-50 hover:text-red-600 transition-all group relative"
@@ -177,10 +165,40 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         </div>
       </aside>
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      {/* Main Content - padding bottom on mobile for bottom nav */}
+      <div className="flex-1 flex flex-col overflow-hidden min-w-0 pb-16 md:pb-0">
         {children}
       </div>
+
+      {/* Mobile Bottom Navigation */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200 safe-area-pb">
+        <div className="flex items-center justify-around h-14 px-2">
+          {filteredNavigation.map((item) => {
+            const Icon = item.icon;
+            const isActive = pathname.startsWith(item.href);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`flex flex-col items-center justify-center flex-1 min-w-0 py-1.5 gap-0.5 rounded-lg transition-colors ${
+                  isActive ? 'text-[#3C8C98] bg-[#3C8C98]/10' : 'text-gray-500'
+                }`}
+              >
+                <Icon className="w-5 h-5 flex-shrink-0" />
+                <span className="text-[10px] font-medium truncate max-w-full px-0.5">{item.label}</span>
+              </Link>
+            );
+          })}
+          <button
+            onClick={handleLogout}
+            className="flex flex-col items-center justify-center flex-1 min-w-0 py-1.5 gap-0.5 rounded-lg text-gray-500 hover:text-red-600 hover:bg-red-50 transition-colors"
+            title="Logout"
+          >
+            <LogOut className="w-5 h-5 flex-shrink-0" />
+            <span className="text-[10px] font-medium">Logout</span>
+          </button>
+        </div>
+      </nav>
     </div>
   );
 }

@@ -101,7 +101,7 @@ export default function LoginPage() {
             <div>
               <label
                 htmlFor='email'
-                className='block text-sm font-medium text-gray-700 mb-2'
+                className='block text-base font-semibold text-[#3C8C98] mb-2'
               >
                 Email Address <span className='text-red-500'>*</span>
               </label>
@@ -113,7 +113,7 @@ export default function LoginPage() {
                 value={formData.email}
                 onChange={handleInputChange}
                 placeholder='Enter your email'
-                className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3C8C98] focus:border-transparent transition-colors'
+                className='w-full px-4 py-3 text-gray-900 placeholder:text-gray-500 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3C8C98] focus:border-transparent transition-colors'
               />
             </div>
 
@@ -121,7 +121,7 @@ export default function LoginPage() {
             <div>
               <label
                 htmlFor='password'
-                className='block text-sm font-medium text-gray-700 mb-2'
+                className='block text-base font-semibold text-[#3C8C98] mb-2'
               >
                 Password <span className='text-red-500'>*</span>
               </label>
@@ -134,7 +134,7 @@ export default function LoginPage() {
                   value={formData.password}
                   onChange={handleInputChange}
                   placeholder='Enter your password'
-                  className='w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3C8C98] focus:border-transparent transition-colors'
+                  className='w-full px-4 py-3 pr-12 text-gray-900 placeholder:text-gray-500 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3C8C98] focus:border-transparent transition-colors'
                 />
                 <button
                   type='button'

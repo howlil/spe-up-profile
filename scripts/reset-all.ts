@@ -5,7 +5,7 @@
  * Butuh .env: DATABASE_URL, NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY
  */
 import 'dotenv/config'
-import { createClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import { execSync } from 'child_process'
 import path from 'path'
 
@@ -13,7 +13,7 @@ const BUCKETS = ['article-images', 'alumni-photos', 'partnership-files']
 const REMOVE_BATCH_SIZE = 1000
 
 async function listAllPaths(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient,
   bucket: string,
   prefix = ''
 ): Promise<string[]> {
@@ -37,7 +37,7 @@ async function listAllPaths(
 }
 
 async function emptyBucket(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient,
   bucket: string
 ): Promise<number> {
   const paths = await listAllPaths(supabase, bucket)
