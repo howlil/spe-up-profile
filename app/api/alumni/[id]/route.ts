@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { UserRole } from '@prisma/client'
 import { requireRole } from '@/lib/auth'
+import { deleteFileByPublicUrl } from '@/lib/storage'
 import prisma from '@/lib/prisma'
+
+const ALUMNI_PHOTOS_BUCKET = 'alumni-photos'
 
 // GET - Get single alumni
 export async function GET(
@@ -59,6 +62,10 @@ export async function DELETE(
             )
         }
 
+        if (alumni.photoPath) {
+            await deleteFileByPublicUrl(alumni.photoPath, ALUMNI_PHOTOS_BUCKET)
+        }
+
         await prisma.alumni.delete({
             where: { id }
         })
@@ -101,6 +108,11 @@ export async function PUT(
             )
         }
 
+        const newPhotoPath = body.photoPath || null
+        if (alumni.photoPath && newPhotoPath !== alumni.photoPath) {
+            await deleteFileByPublicUrl(alumni.photoPath, ALUMNI_PHOTOS_BUCKET)
+        }
+
         const updated = await prisma.alumni.update({
             where: { id },
             data: {
@@ -110,7 +122,7 @@ export async function PUT(
                 phone: body.phone,
                 position: body.position,
                 message: body.message,
-                photoPath: body.photoPath || null,
+                photoPath: newPhotoPath,
                 isNewData: body.isNewData !== undefined ? body.isNewData : true,
             }
         })

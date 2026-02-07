@@ -32,7 +32,7 @@ export default function AdminsManagement() {
 
   // Form states
   const [createForm, setCreateForm] = useState({ name: '', email: '', password: '', role: 'WRITER' });
-  const [editForm, setEditForm] = useState({ name: '', email: '', role: 'WRITER' });
+  const [editForm, setEditForm] = useState({ name: '', email: '', password: '', role: 'WRITER' });
 
   const roles = ['All Roles', 'SUPERADMIN', 'WRITER', 'EXTERNAL'];
 
@@ -67,8 +67,9 @@ export default function AdminsManagement() {
   const handleDelete = (admin: Admin) => { setSelectedAdmin(admin); setShowDeleteModal(true); };
   const handleViewDetail = (admin: Admin) => { setSelectedAdmin(admin); setShowDetailModal(true); };
   const handleEdit = (admin: Admin) => {
+    if (admin.role === 'SUPERADMIN') return;
     setSelectedAdmin(admin);
-    setEditForm({ name: admin.name || '', email: admin.email, role: admin.role });
+    setEditForm({ name: admin.name || '', email: admin.email, password: '', role: admin.role });
     setShowEditModal(true);
   };
   const handleCreate = () => {
@@ -91,10 +92,12 @@ export default function AdminsManagement() {
     if (!selectedAdmin) return;
     setSaving(true);
     try {
+      const payload: { name: string; email: string; role: string; password?: string } = { name: editForm.name, email: editForm.email, role: editForm.role };
+      if (editForm.password && editForm.password.length >= 6) payload.password = editForm.password;
       const res = await fetch(`/api/users/${selectedAdmin.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(editForm)
+        body: JSON.stringify(payload)
       });
       if (res.ok) {
         await fetchAdmins();
@@ -195,7 +198,9 @@ export default function AdminsManagement() {
                   <td className="p-3">
                     <div className="flex items-center justify-center gap-1">
                       <button onClick={() => handleViewDetail(admin)} className="w-7 h-7 flex items-center justify-center hover:bg-blue-50 rounded-md"><Eye className="w-3.5 h-3.5 text-blue-600" /></button>
-                      <button onClick={() => handleEdit(admin)} className="w-7 h-7 flex items-center justify-center hover:bg-amber-50 rounded-md"><Edit className="w-3.5 h-3.5 text-amber-600" /></button>
+                      {admin.role !== 'SUPERADMIN' && (
+                        <button onClick={() => handleEdit(admin)} className="w-7 h-7 flex items-center justify-center hover:bg-amber-50 rounded-md" title="Edit"><Edit className="w-3.5 h-3.5 text-amber-600" /></button>
+                      )}
                       {admin.role !== 'SUPERADMIN' && (
                         <button onClick={() => handleDelete(admin)} className="w-7 h-7 flex items-center justify-center hover:bg-red-50 rounded-md"><Trash2 className="w-3.5 h-3.5 text-red-600" /></button>
                       )}
@@ -292,11 +297,15 @@ export default function AdminsManagement() {
                   className="w-full h-9 px-3 text-sm text-gray-900 border border-gray-300 rounded-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
               </div>
               <div>
+                <label className="block text-sm font-semibold text-gray-800 mb-1">New password (kosongkan jika tidak diubah)</label>
+                <input type="password" value={editForm.password} onChange={(e) => setEditForm({ ...editForm, password: e.target.value })}
+                  placeholder="Min. 6 karakter"
+                  className="w-full h-9 px-3 text-sm text-gray-900 border border-gray-300 rounded-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder:text-gray-400" />
+              </div>
+              <div>
                 <label className="block text-sm font-semibold text-gray-800 mb-1">Role</label>
                 <select value={editForm.role} onChange={(e) => setEditForm({ ...editForm, role: e.target.value })}
-                  disabled={selectedAdmin?.role === 'SUPERADMIN'}
-                  className="w-full h-9 px-3 text-sm text-gray-900 border border-gray-300 rounded-md bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed">
-                  {selectedAdmin?.role === 'SUPERADMIN' && <option value="SUPERADMIN" className="text-gray-900">Super Admin</option>}
+                  className="w-full h-9 px-3 text-sm text-gray-900 border border-gray-300 rounded-md bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
                   <option value="WRITER" className="text-gray-900">Writer</option>
                   <option value="EXTERNAL" className="text-gray-900">External</option>
                 </select>

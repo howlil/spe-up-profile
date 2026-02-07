@@ -174,11 +174,15 @@ export default function ArticlesAdmin() {
       {showDeleteModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-lg shadow-xl w-full max-w-lg">
-            <div className="p-4 border-b"><h2 className="text-sm font-semibold">Delete Article</h2></div>
-            <div className="p-4"><p className="text-xs">Delete <strong>{selectedArticle?.title}</strong>?</p></div>
-            <div className="p-4 border-t flex justify-end gap-2">
-              <button onClick={() => setShowDeleteModal(false)} className="h-8 px-4 border rounded-md text-xs">Cancel</button>
-              <button onClick={confirmDelete} className="h-8 px-4 bg-red-500 text-white rounded-md text-xs">Delete</button>
+            <div className="p-4 border-b border-gray-200">
+              <h2 className="text-base font-semibold text-gray-900">Delete Article</h2>
+            </div>
+            <div className="p-4">
+              <p className="text-sm text-gray-800">Delete <strong className="text-gray-900">{selectedArticle?.title}</strong>?</p>
+            </div>
+            <div className="p-4 border-t border-gray-200 flex justify-end gap-2">
+              <button onClick={() => setShowDeleteModal(false)} className="h-8 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Cancel</button>
+              <button onClick={confirmDelete} className="h-8 px-4 bg-red-500 hover:bg-red-600 text-white font-medium rounded-md text-sm">Delete</button>
             </div>
           </div>
         </div>

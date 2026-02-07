@@ -35,7 +35,6 @@ export async function GET(request: NextRequest) {
             { header: 'Subject', key: 'subject', width: 25 },
             { header: 'Message', key: 'message', width: 50 },
             { header: 'File', key: 'filePath', width: 40 },
-            { header: 'NDA', key: 'nda', width: 10 },
             { header: 'Created At', key: 'createdAt', width: 18 }
         ]
 
@@ -60,7 +59,6 @@ export async function GET(request: NextRequest) {
                 subject: partnership.subject,
                 message: partnership.message,
                 filePath: partnership.filePath || '-',
-                nda: partnership.nda ? 'Yes' : 'No',
                 createdAt: partnership.createdAt.toLocaleDateString('id-ID')
             })
         })

@@ -6,7 +6,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { 
-  LayoutDashboard, 
   FileText, 
   Handshake, 
   Users, 
@@ -27,12 +26,6 @@ interface User {
 }
 
 const navigationItems = [
-  {
-    icon: LayoutDashboard,
-    href: '/admin',
-    label: 'Dashboard',
-    roles: ['SUPERADMIN', 'WRITER'], // Who can see this
-  },
   {
     icon: FileText,
     href: '/admin/articles',
@@ -130,7 +123,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           <div className="space-y-1">
             {filteredNavigation.map((item) => {
               const Icon = item.icon;
-              const isActive = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href));
+              const isActive = pathname.startsWith(item.href);
               
               return (
                 <Link

@@ -9,9 +9,11 @@
     "lint": "eslint",
     "postinstall": "prisma generate",
     "db:seed": "tsx prisma/seed.ts",
+    "db:seed:admin": "tsx scripts/seed-admin.ts",
     "db:reset": "prisma migrate reset --force",
     "db:push": "prisma db push",
-    "db:migrate": "prisma migrate dev"
+"db:migrate": "prisma migrate dev",
+    "reset:all": "tsx scripts/reset-all.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

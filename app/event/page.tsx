@@ -4,17 +4,31 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import EventCard from '../../components/EventCard';
+import EventCard, { type PopupImageSize } from '../../components/EventCard';
 import MoreText from '../../components/MoreText';
 import CompanyLogosGrid from '../../components/CompanyLogosGrid';
 
-// Events Data
-const eventsData = [
+type EventItem = {
+  id: number;
+  title: string;
+  popupImageSrc?: string;
+  imageSrc?: string;
+  imageScaleClass?: string;
+  popupImageSize?: PopupImageSize;
+  popupImageClassName?: string;
+  popupClassName?: string;
+  description: React.ReactNode;
+};
+
+// Events Data – ukuran gambar per id: pakai popupImageSize (preset) atau popupImageClassName (class bebas)
+const eventsData: EventItem[] = [
   {
     id: 1,
     title: 'PETROBOWL',
-    popupImageSrc: '/events/slide/slide1-popup.png',
-    popupCenterImageSrc: '/events/slide/slide2-popup-center.png',
+    popupImageSrc: '/events/slide/slide1.png',
+    popupImageClassName:
+      'h-[75%] bottom-10 sm:h-[82%] sm:px-3 md:h-[85%] md:px-4 lg:h-[88%] lg:px-6',
+    imageScaleClass: 'scale-[1.8] md:scale-[2]',    
     description: (
       <p>
         PetroBowl is a prestigious{' '}
@@ -27,7 +41,9 @@ const eventsData = [
         <span className='font-bold text-[#2cb385]'>impressive results</span> in
         PetroBowl, having secured{' '}
         <span className='font-bold text-[#2cb385]'>1st place</span> in SPE Asia
-        Pacific Regional Qualifier 2022.
+        Pacific Regional Qualifier 2022. This achievement showcases the dedication
+        and technical acumen of our members, as well as our ability to
+        collaborate under pressure.
       </p>
     ),
   },
@@ -36,6 +52,7 @@ const eventsData = [
     title: 'IPTC',
     popupImageSrc: '/events/slide/slide2-muncul.png',
     imageSrc: '/events/slide/bg slide 2.png',
+    imageScaleClass: 'scale-[1.8] md:scale-[2]',    
     description: (
       <p>
         The International Petroleum Technology Conference (IPTC) offers a{' '}
@@ -57,6 +74,7 @@ const eventsData = [
     title: 'SPE SPC',
     popupImageSrc: '/events/slide/slide3-popup.png',
     imageSrc: '/events/slide/bgslide3.png',
+    imageScaleClass: 'scale-[2.5] md:scale-[2]',    
     description: (
       <p>
         The SPE Student Paper Contest (SPC) provides a platform for students to
@@ -79,7 +97,10 @@ const eventsData = [
     id: 4,
     title: 'SPE Gathering',
     popupImageSrc: '/events/slide/slide4-popup.png',
-    imageSrc: '/events/slide/slide4-bg.png',
+    imageSrc: '/events/slide/slide4-bgs.png',
+    imageScaleClass: 'scale-150 md:scale-150',
+    popupImageClassName:
+      'left-1/2 right-0 bottom-0 h-[65%] overflow-hidden sm:h-[72%] md:h-[75%] lg:h-[78%]',
     description: (
       <p>
         Student chapters in the Java section frequently organize SPE gatherings,
@@ -102,7 +123,11 @@ const eventsData = [
   {
     id: 5,
     title: 'AES',
-    popupImageSrc: '/events/slide/slide5-popup.png',
+    popupImageSrc: '/events/slide/slideaes.png',
+    imageScaleClass: 'scale-[2] md:scale-[2.5]',    
+    imageSrc: '/events/slide/bg-aes.png',
+    popupImageClassName:
+      'left-1/2 right-0 bottom-0 md:bottom-10 h-[65%] overflow-hidden sm:h-[72%] md:h-[75%] lg:h-[78%]',
     description: (
       <p>
         The Annual Energy Symposium (AES) is a significant event that brings
@@ -116,15 +141,22 @@ const eventsData = [
           technical presentations
         </span>
         , and <span className='font-bold text-[#2cb385]'>competitions</span>.
-        SPE UP SC actively participates in AES - SPE Java Indonesia by joining
-        as <span className='font-bold text-[#2cb385]'>committee members</span>.
+        SPE UP SC{' '}
+        <span className='font-bold text-[#2cb385]'>actively</span> participates
+        in AES - SPE Java Indonesia by joining as{' '}
+        <span className='font-bold text-[#2cb385]'>committee members</span>,
+        which involves organizing and managing different aspects of the
+        symposium.
       </p>
     ),
   },
   {
     id: 6,
     title: 'FUTURISTIC',
-    popupImageSrc: '/events/slide/slide6-popup.png',
+    popupImageSrc: '/events/slide/slide5-popup.png',
+    imageScaleClass: 'scale-150 md:scale-200',
+    popupImageClassName:
+      '  bottom-4 md:bottom-10 h-[65%] overflow-hidden sm:h-[72%] md:h-[75%] lg:h-[78%]',
     description: (
       <p>
         FUTURISTIC is a work program that provides{' '}
@@ -136,17 +168,21 @@ const eventsData = [
         through a talk show program. This event, held offline and online,
         attracts over 500+ attendees from various{' '}
         <span className='font-bold text-[#2cb385]'>academic backgrounds</span>{' '}
-        and <span className='font-bold text-[#2cb385]'>colleges</span>. We also
+        and <span className='font-bold text-[#2cb385]'>colleges</span>. we also
         offer exclusive event merchandise, which has proven to be very popular
         and sells out quickly, reflecting the enthusiasm and support of our
-        attendees.
+        attendees. This unique combination of thought-provoking content and
+        memorable experiences makes FUTURISTIC a standout event each year.
       </p>
     ),
   },
   {
     id: 7,
     title: 'COMPANY VISIT',
-    popupImageSrc: '/events/slide/slide7-popup.png',
+    popupImageSrc: '/events/slide/company-visit.png',
+    imageScaleClass: 'scale-[1.5] md:scale-[2]',    
+    popupImageClassName:
+      'left-10 right-0 bottom-0 md:bottom-10 h-50 md:h-80',  
     description: (
       <p>
         Company Visit is a pivotal work program that provides participants with
@@ -168,7 +204,10 @@ const eventsData = [
   {
     id: 8,
     title: 'SPE CARE',
-    popupImageSrc: '/events/slide/slide8-popup.png',
+    popupImageSrc: '/events/slide/spe-care.png',
+    imageScaleClass: 'scale-[1.2] md:scale-[1.6]',
+    popupImageClassName:
+      '-left-10 md:left-0 right-0 top-0 md:top-20 md:bottom-10 h-60 md:h-80',
     description: (
       <p>
         SPE Care is an initiative to{' '}
@@ -184,15 +223,19 @@ const eventsData = [
         commitment of SPE UP SC to not only advance the field of petroleum
         engineering but also{' '}
         <span className='font-bold text-[#2cb385]'>contribute</span> to the
-        greater good of society and the{' '}
-        <span className='font-bold text-[#2cb385]'>environment</span>.
+        greater{' '}
+        <span className='font-bold text-[#2cb385]'>good of society</span> and
+        the <span className='font-bold text-[#2cb385]'>environment</span>.
       </p>
     ),
   },
   {
     id: 9,
     title: 'SPE VLOC',
-    popupImageSrc: '/events/slide/slide9-popup.png',
+    popupImageSrc: '/events/slide/slide8-popup.png',
+    imageScaleClass: 'scale-[1.4] md:scale-[1.5]',
+    popupImageClassName:
+      'left-1/6    h-60 md:h-80',
     description: (
       <p>
         SPE Vloc is a series of informative content that provides an overview of{' '}
@@ -212,7 +255,10 @@ const eventsData = [
   {
     id: 10,
     title: 'SCOPO',
-    popupImageSrc: '/events/slide/slide10-popup.png',
+    popupImageSrc: '/events/slide/slide9-popup.png',
+    imageScaleClass: 'scale-[1.2] md:scale-[1.6]',
+    popupImageClassName:
+      ' bottom-5 md:bottom-25  h-60 md:h-80',
     description: (
       <p>
         SCOPO Series is a series of{' '}
@@ -233,7 +279,10 @@ const eventsData = [
   {
     id: 11,
     title: 'SPE Internal Mentoring',
-    popupImageSrc: '/events/slide/slid11-popup.png',
+    popupImageSrc: '/events/slide/slide10-popup.png',
+    imageScaleClass: 'scale-[1.5] md:scale-[2.2]',
+    popupImageClassName:
+      ' top-0  h-60 md:h-80',
     description: (
       <p>
         SIM is a work program aimed at{' '}
@@ -254,7 +303,10 @@ const eventsData = [
   {
     id: 12,
     title: 'SOFTWARE TRAINING',
-    popupImageSrc: '/events/slide/slide12-popup.png',
+    popupImageSrc: '/events/slide/slid11-popup.png',
+    imageScaleClass: 'scale-[1.2] md:scale-[1.6]',
+    popupImageClassName:
+      '   h-60 md:h-80',
     description: (
       <p>
         Software Training is an essential work program aimed at{' '}
@@ -269,6 +321,34 @@ const eventsData = [
           knowledge of software tools critical
         </span>{' '}
         for various aspects of the oil and gas industry.
+      </p>
+    ),
+  },
+  {
+    id: 13,
+    title: 'PERSPECTIVE',
+    popupImageSrc: '/events/slide/perspective.png',
+    imageScaleClass: 'scale-[1.8] md:scale-[2.3]',
+    popupImageClassName:
+      ' left-1/4 bottom-0 md:bottom-10 h-60 md:h-80',
+    description: (
+      <p>
+        PERSPECTIVE is{' '}
+        <span className='font-bold text-[#2cb385]'>informative content</span> in
+        the form of{' '}
+        <span className='font-bold text-[#2cb385]'>discussion with students</span>
+        ,{' '}
+        <span className='font-bold text-[#2cb385]'>lecturers</span>, and{' '}
+        <span className='font-bold text-[#2cb385]'>professionals</span> about
+        certain topics in the oil and gas industry. The program successfully
+        engages audiences from diverse study programs and academic years,{' '}
+        <span className='font-bold text-[#2cb385]'>
+          fostering a broad dialogue
+        </span>
+        . Presented as IG Reels, PERSPECTIVE typically attracts around{' '}
+        <span className='font-bold text-[#2cb385]'>2,000 views</span> per
+        episode, highlighting its appeal across different segments of the
+        academic community.
       </p>
     ),
   },
@@ -324,8 +404,10 @@ export default function EventsPage() {
           key={currentEvent.id}
           popupImageSrc={currentEvent.popupImageSrc}
           popupImageAlt={currentEvent.title}
-          popupCenterImageSrc={currentEvent.popupCenterImageSrc}
-          popupCenterImageAlt={currentEvent.title}
+          popupImageSize={currentEvent.popupImageSize}
+          popupImageClassName={currentEvent.popupImageClassName}
+          popupClassName={currentEvent.popupClassName}
+          imageScaleClass={currentEvent.imageScaleClass}
           imageSrc={currentEvent.imageSrc}
           title={currentEvent.title}
           description={currentEvent.description}

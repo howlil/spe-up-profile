@@ -495,14 +495,14 @@ function AboutPageContent() {
               <FaceCard
                 name='Alfahmi Zikri'
                 position='President of SPE UP SC 2025/2026'
-                imageSrc='/about-us/face/fahmi.webp'
+                imageSrc='/about-us/face/alfahmi.webp'
                 imageAlt='Alfahmi Zikri - President of SPE UP SC 2025/2026'
               />
               <div className='mt-0 md:mt-16'>
                 <FaceCard
                   name='Raditya Demas'
                   position='Vice President of SPE UP SC 2025/2026'
-                  imageSrc='/about-us/face/radit.webp'
+                  imageSrc='/about-us/face/raditya.webp'
                   imageAlt='Raditya Demas - Vice President of SPE UP SC 2025/2026'
                 />
               </div>
@@ -513,49 +513,49 @@ function AboutPageContent() {
               <FaceCard
                 name='Fadhillah Fatin'
                 position='Head of Finance and Business'
-                imageSrc='/about-us/face/fahmi.webp'
+                imageSrc='/about-us/face/fadila.webp'
                 imageAlt='Fadhillah Fatin - Head of Finance and Business'
               />
               <FaceCard
                 name='Reihan Alfaridh'
                 position='Head of Secretary'
-                imageSrc='/about-us/face/fahmi.webp'
+                imageSrc='/about-us/face/reihan.webp'
                 imageAlt='Reihan Alfaridh - Head of Secretary'
               />
               <FaceCard
                 name='Vidya Leonita'
                 position='Head of Quality Inspector Department'
-                imageSrc='/about-us/face/fahmi.webp'
+                imageSrc='/about-us/face/vidya.webp'
                 imageAlt='Vidya Leonita - Head of Quality Inspector Department'
               />
               <FaceCard
                 name='Diva Barbara'
                 position='Director of External Affairs Department'
-                imageSrc='/about-us/face/fahmi.webp'
+                imageSrc='/about-us/face/diva.webp'
                 imageAlt='Diva Barbara - Director of External Affairs Department'
               />
               <FaceCard
                 name='Aldi Septialdi'
                 position='Director of Media Creative & Information Department'
-                imageSrc='/about-us/face/fahmi.webp'
+                imageSrc='/about-us/face/aldi.webp'
                 imageAlt='Aldi Septialdi - Director of Media Creative & Information Department'
               />
               <FaceCard
                 name='Aisyah Iffatusilmi'
                 position='Director of Competition Department'
-                imageSrc='/about-us/face/fahmi.webp'
+                imageSrc='/about-us/face/aisyah.webp'
                 imageAlt='Aisyah Iffatusilmi - Director of Competition Department'
               />
               <FaceCard
                 name='Puja Dian'
                 position='Director of Education & Training Department'
-                imageSrc='/about-us/face/fahmi.webp'
+                imageSrc='/about-us/face/puja.webp'
                 imageAlt='Puja Dian - Director of Education & Training Department'
               />
               <FaceCard
                 name='Tianno Revanoya'
                 position='Director of Human Resource Development Department'
-                imageSrc='/about-us/face/fahmi.webp'
+                imageSrc='/about-us/face/tiano.webp'
                 imageAlt='Tianno Revanoya - Director of Human Resource Development Department'
               />
             </div>

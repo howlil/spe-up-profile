@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { UserRole } from '@prisma/client'
+import { hash } from 'bcryptjs'
 import { requireRole } from '@/lib/auth'
 import prisma from '@/lib/prisma'
 
@@ -61,29 +62,34 @@ export async function PUT(
             )
         }
 
-        // Prevent changing SUPERADMIN's role
-        if (user.role === UserRole.SUPERADMIN && body.role !== UserRole.SUPERADMIN) {
+        // Admin cannot edit SUPERADMIN user at all
+        if (user.role === UserRole.SUPERADMIN) {
             return NextResponse.json(
-                { error: 'Cannot change Super Admin role' },
-                { status: 400 }
+                { error: 'Cannot edit Super Admin account' },
+                { status: 403 }
             )
         }
 
         // Prevent promoting any user to SUPERADMIN
-        if (body.role === UserRole.SUPERADMIN && user.role !== UserRole.SUPERADMIN) {
+        if (body.role === UserRole.SUPERADMIN) {
             return NextResponse.json(
                 { error: 'Cannot promote user to Super Admin' },
                 { status: 400 }
             )
         }
 
+        const updateData: { name?: string; email?: string; role?: UserRole; password?: string } = {
+            name: body.name,
+            email: body.email,
+            role: body.role
+        }
+        if (body.password && body.password.length >= 6) {
+            updateData.password = await hash(body.password, 12)
+        }
+
         const updated = await prisma.user.update({
             where: { id },
-            data: {
-                name: body.name,
-                email: body.email,
-                role: body.role
-            }
+            data: updateData
         })
 
         return NextResponse.json({ user: updated }, { status: 200 })

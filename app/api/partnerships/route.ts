@@ -35,7 +35,17 @@ export async function GET(request: NextRequest) {
                 where,
                 orderBy: { createdAt: 'desc' },
                 skip,
-                take: limit
+                take: limit,
+                select: {
+                    id: true,
+                    name: true,
+                    institution: true,
+                    email: true,
+                    subject: true,
+                    message: true,
+                    filePath: true,
+                    createdAt: true
+                }
             }),
             prisma.partnership.count({ where })
         ])

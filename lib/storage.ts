@@ -55,3 +55,22 @@ export async function deleteImage(url: string): Promise<void> {
         throw new Error(`Delete failed: ${error.message}`)
     }
 }
+
+export async function deleteFileByPublicUrl(
+    publicUrl: string | null,
+    bucketName: string
+): Promise<void> {
+    if (!publicUrl || !bucketName) return
+    const prefix = `${bucketName}/`
+    const idx = publicUrl.indexOf(prefix)
+    if (idx === -1) return
+    let path = publicUrl.slice(idx + prefix.length).split('?')[0]
+    if (!path) return
+    try {
+        const supabase = createServerClient()
+        const { error } = await supabase.storage.from(bucketName).remove([path])
+        if (error) console.error(`[storage] deleteFileByPublicUrl ${bucketName}/${path}:`, error.message)
+    } catch (e) {
+        console.error('[storage] deleteFileByPublicUrl failed:', e)
+    }
+}

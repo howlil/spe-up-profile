@@ -22,7 +22,7 @@ export default function FaceCard({
           src={imageSrc}
           alt={imageAlt}
           fill
-          className='object-cover object-top scale-150'
+          className='object-contain'
           sizes='(max-width: 640px) 192px, (max-width: 768px) 208px, (max-width: 1024px) 224px, (max-width: 1280px) 240px, 256px'
         />
       </div>

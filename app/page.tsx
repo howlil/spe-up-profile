@@ -52,6 +52,19 @@ export default function Home() {
             </div>
           </div>
         </div>
+
+        {/* Sponsor logo - bottom right, responsive */}
+        <div className='absolute bottom-2 right-2 z-10 sm:bottom-4 sm:right-4'>
+          <div className='rounded bg-white px-3 py-2  '>
+            <Image
+              src='/home/sponsor.png'
+              alt='Sponsor tNavigator'
+              width={160}
+              height={48}
+              className='h-7 w-auto object-contain sm:h-8 md:h-10 lg:h-11 xl:h-12'
+            />
+          </div>
+        </div>
       </section>
 
       {/* About Us Section */}
