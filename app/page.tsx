@@ -21,7 +21,8 @@ export default function Home() {
             fill
             className='object-cover'
             priority
-            quality={90}
+            quality={85}
+            sizes='100vw'
           />
           {/* Overlay untuk readability */}
           <div
@@ -57,11 +58,13 @@ export default function Home() {
         <div className='absolute bottom-2 right-2 z-10 sm:bottom-4 sm:right-4'>
           <div className='rounded bg-white px-3 py-2  '>
             <Image
-              src='/home/sponsor.png'
+              src='/home/sponsor.webp'
               alt='Sponsor tNavigator'
               width={160}
               height={48}
               className='h-7 w-auto object-contain sm:h-8 md:h-10 lg:h-11 xl:h-12'
+              sizes='(max-width: 640px) 80px, (max-width: 768px) 96px, 128px'
+              quality={90}
             />
           </div>
         </div>
@@ -95,6 +98,7 @@ export default function Home() {
                 fill
                 className='object-cover'
                 sizes='(max-width: 1024px) 100vw, 50vw'
+                quality={82}
               />
             </div>
           </div>
@@ -167,22 +171,24 @@ export default function Home() {
                 {/* Certificate 1 */}
                 <div className='relative aspect-[16/11] overflow-hidden rounded-lg shadow-lg'>
                   <Image
-                    src='/home/cert1.webp'
+                    src='/home/achievement-cert-1.webp'
                     alt='SPE Presidential Award Outstanding Student Chapter - Universitas Pertamina'
                     fill
                     className='object-cover'
                     sizes='(max-width: 1024px) 50vw, 30vw'
+                    quality={82}
                   />
                 </div>
 
                 {/* Certificate 2 */}
                 <div className='relative aspect-[16/11] overflow-hidden rounded-lg shadow-lg'>
                   <Image
-                    src='/home/cert2.webp'
+                    src='/home/achievement-cert-2.webp'
                     alt='SPE Regional Outstanding Student Chapter - Universitas Pertamina Chapter'
                     fill
                     className='object-cover'
                     sizes='(max-width: 1024px) 50vw, 30vw'
+                    quality={82}
                   />
                 </div>
 
@@ -190,11 +196,12 @@ export default function Home() {
                 <div className='absolute bottom-0 left-0 -ml-32 -mb-32 z-10  lg:block'>
                   <div className='relative h-48 w-48 xl:h-56 xl:w-56'>
                     <Image
-                      src='/home/badgeStudentChapter.webp'
+                      src='/home/achievement-badge-student-chapter.webp'
                       alt='SPE 2025 Outstanding Student Chapter Award Badge'
                       fill
                       className='object-contain drop-shadow-2xl'
                       sizes='(min-width: 1280px) 144px, 128px'
+                      quality={88}
                     />
                   </div>
                 </div>
@@ -276,7 +283,7 @@ export default function Home() {
             <div className='absolute right-24 top-[3px] hidden w-1/2 lg:block'>
               <div className='relative h-[320px] w-full'>
                 <Image
-                  src='/home/wwd/hiasan.webp'
+                  src='/home/wwd/decoration.webp'
                   alt='Hanging photo decorations'
                   fill
                   className='object-contain object-top'
@@ -293,7 +300,7 @@ export default function Home() {
               {/* Card 1 - IPTC 2025 */}
               <div className='group relative aspect-[3/5] overflow-hidden rounded-bl-[20px] rounded-tr-[20px] shadow-lg transition-transform hover:scale-[1.02] hover:shadow-xl'>
                 <Image
-                  src='/home/wwd/wwd1.webp'
+                  src='/home/wwd/event-iptc.webp'
                   alt='The International Petroleum Technology Conference (IPTC) 2025'
                   fill
                   className='object-cover'
@@ -319,7 +326,7 @@ export default function Home() {
               {/* Card 2 - AES 2023 */}
               <div className='group relative aspect-[3/5] overflow-hidden rounded-bl-[20px] rounded-tr-[20px] shadow-lg transition-transform hover:scale-[1.02] hover:shadow-xl'>
                 <Image
-                  src='/home/wwd/wwd2.webp'
+                  src='/home/wwd/event-aes.webp'
                   alt='Annual Energy Symposium (AES) 2023'
                   fill
                   className='object-cover'
@@ -352,7 +359,7 @@ export default function Home() {
                   {/* kakandi - person with SPE banner (LARGER) */}
                   <div className='relative aspect-[16/9] overflow-hidden rounded-2xl shadow-lg'>
                     <Image
-                      src='/home/wwd/kakandi.webp'
+                      src='/home/wwd/member-banner.webp'
                       alt='SPE Member with Banner'
                       fill
                       className='object-cover'
@@ -368,7 +375,7 @@ export default function Home() {
                   {/* care - activity photo (SMALLER, pink border) */}
                   <div className='relative aspect-[16/18] overflow-hidden rounded-2xl shadow-lg'>
                     <Image
-                      src='/home/wwd/care.webp'
+                      src='/home/wwd/spe-care-activity.webp'
                       alt='SPE Care Activity'
                       fill
                       className='object-cover'
@@ -399,7 +406,7 @@ export default function Home() {
                 <div className='mt-4 pl-[32%] lg:pl-[28%] lg:ml-12'>
                   <div className='relative aspect-[16/9] overflow-hidden rounded-2xl shadow-lg'>
                     <Image
-                      src='/home/wwd/foto-rame.webp'
+                      src='/home/wwd/group-photo.webp'
                       alt='SPE Group Photo'
                       fill
                       className='object-cover'

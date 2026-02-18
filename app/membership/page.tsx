@@ -88,7 +88,7 @@ export default function MembershipPage() {
         <div className='absolute right-0 top-1/3 z-20 hidden w-[320px] translate-x-1/4 md:block lg:w-[450px] xl:w-[580px] 2xl:w-[680px]'>
           <div className='relative aspect-[560/448]'>
             <Image
-              src='/membership/card-lanyard.webp'
+              src='/membership/card-mockup.webp'
               alt='SPE Membership Card Mockup'
               fill
               className='object-contain object-right'
@@ -118,7 +118,7 @@ export default function MembershipPage() {
           <div className='grid gap-6 sm:grid-cols-2 lg:grid-cols-4'>
             {/* Benefit Card 1 - Participate */}
             <BenefitCard
-              iconSrc='/membership/account-hard-hat.svg'
+              iconSrc='/membership/icon-benefit-participate.webp'
               iconAlt='Participate in Work Programs'
               description={
                 <>
@@ -134,7 +134,7 @@ export default function MembershipPage() {
 
             {/* Benefit Card 2 - Free Access */}
             <BenefitCard
-              iconSrc='/membership/cloud.svg'
+              iconSrc='/membership/icon-benefit-webinar.webp'
               iconAlt='Free Access to Webinars'
               description={
                 <>
@@ -148,7 +148,7 @@ export default function MembershipPage() {
 
             {/* Benefit Card 3 - Updates */}
             <BenefitCard
-              iconSrc='/membership/email.svg'
+              iconSrc='/membership/icon-benefit-updates.webp'
               iconAlt='Receive Updates'
               description={
                 <>
@@ -164,7 +164,7 @@ export default function MembershipPage() {
 
             {/* Benefit Card 4 - Communicate */}
             <BenefitCard
-              iconSrc='/membership/Vector.svg'
+              iconSrc='/membership/icon-benefit-communicate.webp'
               iconAlt='Communicate with Members'
               description={
                 <>
@@ -328,7 +328,7 @@ export default function MembershipPage() {
           <div className='flex flex-col items-center justify-center gap-8 sm:flex-row sm:items-start sm:gap-12 lg:gap-20'>
             {/* Director */}
             <ContactCard
-              imageSrc='/membership/direktor.webp'
+              imageSrc='/membership/board-director.webp'
               name='Tianno Revanoya'
               role='Director'
               department='Human Resource & Development'
@@ -338,7 +338,7 @@ export default function MembershipPage() {
 
             {/* Co-Director */}
             <ContactCard
-              imageSrc='/membership/codirektor.webp'
+              imageSrc='/membership/board-co-director.webp'
               name='Caroline Lydia'
               role='Co-Director'
               department='Human Resource & Development'
@@ -414,8 +414,8 @@ function ContactCard({
               className='absolute -right-3 -top-2 h-36 w-14 rotate-[46deg] rounded-full bg-gradient-to-b from-[#68cfe0] to-[#39717a] sm:h-40 sm:w-16 lg:h-44 lg:w-16'
               aria-hidden='true'
             />
-            {/* Photo - on top of oval */}
-            <div className='absolute inset-0 overflow-hidden rounded-br-xl'>
+            {/* Photo - on top of oval (grayscale) */}
+            <div className='absolute inset-0 overflow-hidden rounded-br-xl grayscale'>
               <Image
                 src={imageSrc}
                 alt={name}

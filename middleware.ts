@@ -39,7 +39,8 @@ export async function middleware(request: NextRequest) {
         const isPublicRoute = pathname.includes('/public') || 
                              pathname.startsWith('/api/articles/categories') ||
                              pathname.startsWith('/api/alumni/register') ||
-                             pathname.startsWith('/api/partnerships/apply')
+                             pathname.startsWith('/api/partnerships/apply') ||
+                             pathname.startsWith('/api/partnerships/upload')
 
         if (!isAuthRoute && !isPublicRoute && !session) {
             return NextResponse.json(

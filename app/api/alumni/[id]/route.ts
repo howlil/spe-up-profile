@@ -11,7 +11,7 @@ export async function GET(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
 ) {
-    const userOrError = await requireRole([UserRole.SUPERADMIN])
+    const userOrError = await requireRole([UserRole.SUPERADMIN, UserRole.EXTERNAL])
     if (userOrError instanceof NextResponse) {
         return userOrError
     }

@@ -5,7 +5,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import ArticleCard from '../../components/ArticleCard';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Layers, Tag, ChevronRight } from 'lucide-react';
 
 interface Article {
   id: string;
@@ -249,41 +249,72 @@ export default function ArticlePage() {
 
             {/* Sidebar - Categories - 1/4 width on large screens */}
             <div className='lg:col-span-1'>
-              <div className='bg-gray-50 rounded-xl p-6 sticky top-6'>
-                <h3 className='text-xl font-bold text-gray-900 mb-6'>Categories</h3>
-                
+              <div className='sticky top-6 overflow-hidden rounded-2xl border border-gray-200/80 bg-gradient-to-b from-white to-gray-50/80 p-6 shadow-lg shadow-gray-200/50 ring-1 ring-black/5'>
+                {/* Header with accent */}
+                <div className='mb-6 flex items-center gap-3'>
+                  <div className='flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#3C8C98] to-[#2cb385] shadow-md shadow-[#3C8C98]/20'>
+                    <Tag className='h-4 w-4 text-white' strokeWidth={2.5} />
+                  </div>
+                  <div>
+                    <h3 className='text-lg font-bold tracking-tight text-gray-900'>Categories</h3>
+                    <p className='text-xs text-gray-500'>Filter by topic</p>
+                  </div>
+                </div>
+
                 {/* All Articles Option */}
                 <button
                   onClick={() => handleCategoryChange(null)}
-                  className={`w-full text-left p-3 rounded-lg mb-2 transition-colors ${
+                  className={`group relative mb-3 w-full overflow-hidden rounded-xl text-left transition-all duration-200 ${
                     selectedCategory === null
-                      ? 'bg-[#3C8C98] text-white'
-                      : 'hover:bg-gray-200 text-gray-700'
+                      ? 'bg-gradient-to-r from-[#3C8C98] to-[#2cb385] text-white shadow-md shadow-[#3C8C98]/25'
+                      : 'border border-gray-200/80 bg-white text-gray-700 hover:border-[#3C8C98]/30 hover:bg-gray-50 hover:shadow-sm'
                   }`}
                 >
-                  <div className='flex justify-between items-center'>
-                    <span>All Articles</span>
+                  <div className='relative flex items-center justify-between px-4 py-3'>
+                    <div className='flex items-center gap-3'>
+                      <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${selectedCategory === null ? 'bg-white/20' : 'bg-gray-100 group-hover:bg-[#3C8C98]/10'}`}>
+                        <Layers className={`h-4 w-4 ${selectedCategory === null ? 'text-white' : 'text-gray-600'}`} />
+                      </div>
+                      <span className='font-medium'>All Articles</span>
+                    </div>
+                    {selectedCategory === null && <ChevronRight className='h-4 w-4 shrink-0 opacity-80' />}
                   </div>
+                  {selectedCategory === null && (
+                    <div className='absolute inset-0 bg-gradient-to-t from-black/5 to-transparent pointer-events-none' />
+                  )}
                 </button>
 
                 {/* Category List */}
                 <div className='space-y-2'>
-                  {categories.map((category) => (
-                    <button
-                      key={category.id}
-                      onClick={() => handleCategoryChange(category.id)}
-                      className={`w-full text-left p-3 rounded-lg transition-colors ${
-                        selectedCategory === category.id
-                          ? 'bg-[#3C8C98] text-white'
-                          : 'hover:bg-gray-200 text-gray-700'
-                      }`}
-                    >
-                      <div className='flex justify-between items-center'>
-                        <span>{category.name}</span>
-                        <span className='text-sm opacity-75'>{category._count.articles}</span>
-                      </div>
-                    </button>
-                  ))}
+                  {categories.map((category) => {
+                    const isActive = selectedCategory === category.id;
+                    return (
+                      <button
+                        key={category.id}
+                        onClick={() => handleCategoryChange(category.id)}
+                        className={`group relative w-full overflow-hidden rounded-xl text-left transition-all duration-200 ${
+                          isActive
+                            ? 'bg-gradient-to-r from-[#3C8C98] to-[#2cb385] text-white shadow-md shadow-[#3C8C98]/25'
+                            : 'border border-gray-200/80 bg-white text-gray-700 hover:border-[#3C8C98]/30 hover:bg-gray-50 hover:shadow-sm'
+                        }`}
+                      >
+                        <div className='relative flex items-center justify-between px-4 py-3'>
+                          <div className='flex min-w-0 items-center gap-3'>
+                            <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${isActive ? 'bg-white/20' : 'bg-gray-100 group-hover:bg-[#3C8C98]/10'}`}>
+                              <Tag className={`h-3.5 w-3.5 ${isActive ? 'text-white' : 'text-gray-500'}`} />
+                            </div>
+                            <span className='font-medium capitalize'>{category.name}</span>
+                          </div>
+                          <span className={`min-w-[1.75rem] rounded-full px-2 py-0.5 text-center text-xs font-semibold ${isActive ? 'bg-white/25 text-white' : 'bg-gray-100 text-gray-600 group-hover:bg-[#3C8C98]/10 group-hover:text-[#3C8C98]'}`}>
+                            {category._count.articles}
+                          </span>
+                        </div>
+                        {isActive && (
+                          <div className='absolute inset-0 bg-gradient-to-t from-black/5 to-transparent pointer-events-none' />
+                        )}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             </div>

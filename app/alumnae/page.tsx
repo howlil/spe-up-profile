@@ -177,33 +177,31 @@ export default function AlumnaePage() {
       </section>
 
       {/* Alumnae Data Form Section */}
-      <section className='relative overflow-hidden  px-6 py-16 sm:px-12 sm:py-20 lg:px-24 lg:py-24'>
-        {/* Decorative Background Elements */}
+      <section className='relative overflow-hidden bg-gray-50/60 px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24'>
+        <div className='relative z-10 mx-auto max-w-5xl'>
+          {/* Section Title */}
+          <div className='mb-10 lg:mb-12'>
+            <SectionTitle variant='left' lineThickness='thick'>
+              Alumnae Data
+            </SectionTitle>
+            <p className='mt-3 max-w-2xl text-sm text-gray-600 sm:text-base'>
+              Join our alumni network! Fill in your information below to stay connected with the SPE community.
+            </p>
+          </div>
 
-        {/* Section Title */}
-        <div className='relative z-10 mb-12 lg:mb-16'>
-          <SectionTitle variant='left' lineThickness='thick'>
-            Alumnae Data
-          </SectionTitle>
-          <p className='mt-4 max-w-2xl text-gray-600'>
-            Join our alumni network! Fill in your information below to stay connected with the SPE community.
-          </p>
-        </div>
-
-        {/* Main Content - Full Width */}
-        <div className='relative z-10'>
+          {/* Form - card is inside AlumniForm */}
           <AlumniForm />
         </div>
 
-        {/* Retro Computer Mockup - Decorative */}
-        <div className='pointer-events-none absolute -bottom-20 -right-10 hidden  lg:block xl:-right-0 '>
-          <div className='relative h-[500px] w-[650px]'>
+        {/* Retro Computer Mockup - Decorative, reduced prominence */}
+        <div className='pointer-events-none absolute bottom-0 right-0 hidden opacity-60 lg:block xl:opacity-50'>
+          <div className='relative h-[380px] w-[480px] xl:h-[420px] xl:w-[520px]'>
             <Image
-              src='/alumnae/comp.webp'
+              src='/alumnae/companies-section.webp'
               alt=''
               fill
-              className='object-contain'
-              sizes='650px'
+              className='object-contain object-bottom-right'
+              sizes='520px'
               aria-hidden='true'
             />
           </div>

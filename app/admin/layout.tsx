@@ -36,13 +36,13 @@ const navigationItems = [
     icon: Handshake,
     href: '/admin/partnerships',
     label: 'Partnerships',
-    roles: ['SUPERADMIN'],
+    roles: ['SUPERADMIN', 'EXTERNAL'],
   },
   {
     icon: Users,
     href: '/admin/alumni',
     label: 'Alumni',
-    roles: ['SUPERADMIN'],
+    roles: ['SUPERADMIN', 'EXTERNAL'],
   },
   {
     icon: Settings,
@@ -143,7 +143,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           <div className="w-10 h-10 flex items-center justify-center group relative">
             <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white ${
               user.role === 'SUPERADMIN' ? 'bg-purple-500' :
-              user.role === 'WRITER' ? 'bg-blue-500' : 'bg-gray-500'
+              user.role === 'WRITER' ? 'bg-blue-500' :
+              user.role === 'EXTERNAL' ? 'bg-orange-500' : 'bg-gray-500'
             }`}>
               {user.name?.charAt(0).toUpperCase() || user.email.charAt(0).toUpperCase()}
             </div>

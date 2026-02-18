@@ -14,35 +14,35 @@ interface CompanyLogosGridProps {
 
 const defaultCompanies: CompanyData[] = [
   {
-    src: '/home/pwc.webp',
+    src: '/home/company-pwc.webp',
     alt: 'PwC - PricewaterhouseCoopers',
   },
   {
-    src: '/home/pertaminia.webp',
+    src: '/home/company-pertamina.webp',
     alt: 'Pertamina',
   },
   {
-    src: '/home/slb.webp',
+    src: '/home/company-slb.webp',
     alt: 'SLB - Schlumberger',
   },
   {
-    src: '/home/rfd.webp',
+    src: '/home/company-rfd.webp',
     alt: 'RFD',
   },
   {
-    src: '/home/hcml.webp',
+    src: '/home/company-hcml.webp',
     alt: 'HCML',
   },
   {
-    src: '/home/bp.webp',
+    src: '/home/company-bp.webp',
     alt: 'BP - British Petroleum',
   },
   {
-    src: '/home/petrocina.webp',
+    src: '/home/company-petrochina.webp',
     alt: 'PetroChina',
   },
   {
-    src: '/home/aiv.webp',
+    src: '/home/company-aiv.webp',
     alt: 'AIV',
   },
 ];

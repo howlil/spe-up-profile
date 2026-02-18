@@ -12,8 +12,10 @@
     "db:seed:admin": "tsx scripts/seed-admin.ts",
     "db:reset": "prisma migrate reset --force",
     "db:push": "prisma db push",
-"db:migrate": "prisma migrate dev",
-    "reset:all": "tsx scripts/reset-all.ts"
+    "db:migrate": "prisma migrate dev",
+    "reset:all": "tsx scripts/reset-all.ts",
+    "optimize:images": "tsx scripts/optimize-images.ts",
+    "delete:png": "tsx scripts/delete-png.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -21,6 +23,7 @@
   "dependencies": {
     "@prisma/adapter-pg": "^7.3.0",
     "@prisma/client": "^7.3.0",
+    "@prisma/client-runtime-utils": "^7.3.0",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.94.1",
     "@types/pg": "^8.16.0",
@@ -46,6 +49,8 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
+    "potrace": "^2.1.8",
+    "sharp": "^0.33.5",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
     "typescript": "^5"

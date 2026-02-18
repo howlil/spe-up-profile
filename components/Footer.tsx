@@ -20,7 +20,8 @@ export default function Footer() {
               width={280}
               height={100}
               className='h-auto w-[150px] object-contain sm:w-[240px] lg:w-[280px]'
-              priority={false}
+              sizes='(max-width: 640px) 150px, (max-width: 1024px) 240px, 280px'
+              fetchPriority='low'
             />
           </div>
         </div>
@@ -36,11 +37,12 @@ export default function Footer() {
             <div className='absolute -bottom-0 -left-0 z-10'>
               <div className='relative h-[350px] w-[450px] xl:h-[400px] xl:w-[500px]'>
                 <Image
-                  src='/home/footter.webp'
+                  src='/home/footer.webp'
                   alt='Vintage Rotary Phone'
                   fill
                   className='object-contain object-left-bottom'
-                  priority={false}
+                  sizes='(max-width: 1280px) 450px, 500px'
+                  fetchPriority='low'
                 />
               </div>
             </div>
@@ -131,7 +133,7 @@ export default function Footer() {
         <div className='relative flex justify-center lg:hidden'>
           <div className='relative h-[250px] w-[320px] sm:h-[300px] sm:w-[380px]'>
             <Image
-              src='/home/footter.webp'
+              src='/home/footer.webp'
               alt='Vintage Rotary Phone'
               fill
               className='object-contain'

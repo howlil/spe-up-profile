@@ -188,7 +188,7 @@ function AboutPageContent() {
               <div className='relative grid w-full grid-cols-1 gap-4 sm:hidden'>
                 <div className='relative aspect-[16/11] overflow-hidden rounded-lg bg-white shadow-lg'>
                   <Image
-                    src='/about-us/achiev/cert1.webp'
+                    src='/about-us/achiev/cert-1.webp'
                     alt='SPE Presidential Award Outstanding Student Chapter - Universitas Pertamina'
                     fill
                     className='object-cover'
@@ -197,7 +197,7 @@ function AboutPageContent() {
                 </div>
                 <div className='relative aspect-[16/11] overflow-hidden rounded-lg bg-white shadow-lg'>
                   <Image
-                    src='/about-us/achiev/cert2.webp'
+                    src='/about-us/achiev/cert-2.webp'
                     alt='SPE Regional Outstanding Student Chapter - Universitas Pertamina Chapter'
                     fill
                     className='object-cover'
@@ -208,7 +208,7 @@ function AboutPageContent() {
                 <div className='flex justify-center mt-4'>
                   <div className='relative h-32 w-32'>
                     <Image
-                      src='/about-us/achiev/badgeStudentChapter.webp'
+                      src='/about-us/achiev/badge-student-chapter.webp'
                       alt='SPE 2025 Outstanding Student Chapter Award Badge'
                       fill
                       className='object-contain'
@@ -226,7 +226,7 @@ function AboutPageContent() {
                     <div className='relative h-[280px] w-[380px] bg-white shadow-[4.98px_11.621px_9.629px_0px_rgba(0,0,0,0.25)] sm:h-[320px] sm:w-[430px]'>
                       <div className='relative h-full w-full overflow-hidden'>
                         <Image
-                          src='/about-us/achiev/cert1.webp'
+                          src='/about-us/achiev/cert-1.webp'
                           alt='SPE Presidential Award Outstanding Student Chapter - Universitas Pertamina'
                           fill
                           className='object-cover'
@@ -243,7 +243,7 @@ function AboutPageContent() {
                     <div className='relative h-[280px] w-[380px] bg-white shadow-[4.98px_11.621px_9.629px_0px_rgba(0,0,0,0.25)] sm:h-[320px] sm:w-[430px]'>
                       <div className='relative h-full w-full overflow-hidden'>
                         <Image
-                          src='/about-us/achiev/cert2.webp'
+                          src='/about-us/achiev/cert-2.webp'
                           alt='SPE Regional Outstanding Student Chapter - Universitas Pertamina Chapter'
                           fill
                           className='object-cover'
@@ -259,7 +259,7 @@ function AboutPageContent() {
                   <div className='flex-none rotate-[6deg]'>
                     <div className='relative h-40 w-40 sm:h-48 sm:w-48 xl:h-56 xl:w-56'>
                       <Image
-                        src='/about-us/achiev/badgeStudentChapter.webp'
+                        src='/about-us/achiev/badge-student-chapter.webp'
                         alt='SPE 2025 Outstanding Student Chapter Award Badge'
                         fill
                         className='object-contain'
@@ -293,26 +293,26 @@ function AboutPageContent() {
 
           {/* Content Layout - Image left, Text right with proper spacing */}
           <div className='relative grid gap-8 lg:grid-cols-[2fr_3fr] lg:gap-12'>
-            {/* Image Placeholder (Left) - Maintains grid structure */}
-            <div className='relative aspect-[3/4] w-full lg:h-full'>
-              {/* Mobile Image - Normal positioning */}
+            {/* Image (Left) - full figure visible, head not cropped */}
+            <div className='relative aspect-[3/4] w-full min-h-[280px] sm:min-h-[320px] lg:min-h-0 lg:aspect-auto lg:h-full'>
+              {/* Mobile Image - contain agar kepala tidak terpotong */}
               <div className='absolute inset-0 overflow-hidden rounded-lg lg:hidden'>
                 <Image
-                  src='/about-us/visi.webp'
+                  src='/about-us/vision.webp'
                   alt='Vision and Mission illustration'
                   fill
-                  className='object-cover'
+                  className='object-contain object-top'
                   sizes='100vw'
                 />
               </div>
 
-              {/* Desktop Image - Extended positioning */}
-              <div className='absolute top-40 -left-20 inset-0 lg:h-full w-[calc(30vw+10%+5rem)] hidden lg:block'>
+              {/* Desktop Image - posisi dari atas, contain supaya kepala utuh */}
+              <div className='absolute top-0 -left-20 h-full w-[calc(30vw+10%+5rem)] hidden overflow-hidden rounded-lg lg:block'>
                 <Image
-                  src='/about-us/visi.webp'
+                  src='/about-us/vision.webp'
                   alt='Vision and Mission illustration'
                   fill
-                  className='object-cover'
+                  className='object-contain object-top'
                   sizes='60vw'
                 />
               </div>
@@ -474,7 +474,7 @@ function AboutPageContent() {
       {/* Face of SPE Section */}
       <section
         id='face-of-spe'
-        className='bg-gray-50 py-12 sm:py-16 lg:py-20 '
+        className='py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-[#f8fcfd] via-[#f0fafb] to-[#e8f6f7]'
         aria-labelledby='face-of-spe-heading'
       >
         <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
@@ -488,10 +488,10 @@ function AboutPageContent() {
             </SectionTitle>
           </div>
 
-          {/* Face Cards Layout */}
+          {/* Face Cards Layout - grid 2 kolom di mobile, layout khusus di md+ */}
           <div className='flex flex-col items-center gap-8'>
-            {/* Row 1: President and Vice President - Centered with gap */}
-            <div className='flex items-center justify-center gap-8 '>
+            {/* Row 1: President and Vice President - Grid 2 di mobile, centered di md+ */}
+            <div className='grid w-full max-w-2xl grid-cols-2 gap-4 md:max-w-none md:flex md:items-center md:justify-center md:gap-8'>
               <FaceCard
                 name='Alfahmi Zikri'
                 position='President of SPE UP SC 2025/2026'
@@ -508,8 +508,8 @@ function AboutPageContent() {
               </div>
             </div>
 
-            {/* Row 2: Department Members - Flex wrap with 4 per row */}
-            <div className='flex flex-wrap items-start justify-center gap-8  w-full '>
+            {/* Row 2: Department Members - Grid 2 di mobile, flex wrap di md+ */}
+            <div className='grid w-full grid-cols-2 gap-4 sm:gap-6 md:flex md:flex-wrap md:items-start md:justify-center md:gap-8'>
               <FaceCard
                 name='Fadhillah Fatin'
                 position='Head of Finance and Business'
@@ -807,7 +807,7 @@ function AboutPageContent() {
       <section className='relative w-full  '>
         <div className='relative  aspect-[9/16]] w-full  '>
           <Image
-            src='/about-us/spet.webp'
+            src='/about-us/intro.webp'
             alt='SPE Team'
             fill
             className='object-cover'

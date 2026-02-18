@@ -5,7 +5,7 @@ import prisma from '@/lib/prisma'
 import ExcelJS from 'exceljs'
 
 export async function GET(request: NextRequest) {
-    const userOrError = await requireRole([UserRole.SUPERADMIN, UserRole.WRITER])
+    const userOrError = await requireRole([UserRole.SUPERADMIN, UserRole.EXTERNAL])
     if (userOrError instanceof NextResponse) {
         return userOrError
     }

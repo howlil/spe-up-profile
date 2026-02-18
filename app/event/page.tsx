@@ -25,10 +25,11 @@ const eventsData: EventItem[] = [
   {
     id: 1,
     title: 'PETROBOWL',
-    popupImageSrc: '/events/slide/slide1.png',
+    popupImageSrc: '/events/slide/petrobowl.webp',
+    imageSrc: '/events/slide/background-petro.webp',
     popupImageClassName:
       'h-[75%] bottom-10 sm:h-[82%] sm:px-3 md:h-[85%] md:px-4 lg:h-[88%] lg:px-6',
-    imageScaleClass: 'scale-[1.8] md:scale-[2]',    
+    imageScaleClass: 'scale-[1.4] md:scale-[1.5]',    
     description: (
       <p>
         PetroBowl is a prestigious{' '}
@@ -50,9 +51,9 @@ const eventsData: EventItem[] = [
   {
     id: 2,
     title: 'IPTC',
-    popupImageSrc: '/events/slide/slide2-muncul.png',
-    imageSrc: '/events/slide/bg slide 2.png',
-    imageScaleClass: 'scale-[1.8] md:scale-[2]',    
+    popupImageSrc: '/events/slide/iptc.webp',
+    imageSrc: '/events/slide/background-iptc.webp',
+    imageScaleClass: 'scale-[1.6] md:scale-[2]',    
     description: (
       <p>
         The International Petroleum Technology Conference (IPTC) offers a{' '}
@@ -72,8 +73,8 @@ const eventsData: EventItem[] = [
   {
     id: 3,
     title: 'SPE SPC',
-    popupImageSrc: '/events/slide/slide3-popup.png',
-    imageSrc: '/events/slide/bgslide3.png',
+    popupImageSrc: '/events/slide/spe-spc.webp',
+    imageSrc: '/events/slide/background-spe-spc.webp',
     imageScaleClass: 'scale-[2.5] md:scale-[2]',    
     description: (
       <p>
@@ -96,11 +97,11 @@ const eventsData: EventItem[] = [
   {
     id: 4,
     title: 'SPE Gathering',
-    popupImageSrc: '/events/slide/slide4-popup.png',
-    imageSrc: '/events/slide/slide4-bgs.png',
-    imageScaleClass: 'scale-150 md:scale-150',
+    popupImageSrc: '/events/slide/spe-gathering.webp',
+    imageSrc: '/events/slide/background-spe-gathering.webp',
+    imageScaleClass: 'scale-[1.3] md:scale-[1.2]',
     popupImageClassName:
-      'left-1/2 right-0 bottom-0 h-[65%] overflow-hidden sm:h-[72%] md:h-[75%] lg:h-[78%]',
+      'left-1/2 right-0 bottom-10 h-[65%] overflow-hidden sm:h-[72%] md:h-[75%] lg:h-[80%]',
     description: (
       <p>
         Student chapters in the Java section frequently organize SPE gatherings,
@@ -123,11 +124,11 @@ const eventsData: EventItem[] = [
   {
     id: 5,
     title: 'AES',
-    popupImageSrc: '/events/slide/slideaes.png',
-    imageScaleClass: 'scale-[2] md:scale-[2.5]',    
-    imageSrc: '/events/slide/bg-aes.png',
+    popupImageSrc: '/events/slide/aes.webp',
+    imageScaleClass: 'scale-[2.5] md:scale-[2.2]',
+    imageSrc: '/events/slide/background-aes.webp',
     popupImageClassName:
-      'left-1/2 right-0 bottom-0 md:bottom-10 h-[65%] overflow-hidden sm:h-[72%] md:h-[75%] lg:h-[78%]',
+      'left-1/2 right-10 bottom-0 md:bottom-10 h-[90%]  overflow-hidden sm:h-[72%] md:h-[75%] lg:h-[78%]',
     description: (
       <p>
         The Annual Energy Symposium (AES) is a significant event that brings
@@ -153,10 +154,11 @@ const eventsData: EventItem[] = [
   {
     id: 6,
     title: 'FUTURISTIC',
-    popupImageSrc: '/events/slide/slide5-popup.png',
-    imageScaleClass: 'scale-150 md:scale-200',
+    popupImageSrc: '/events/slide/futuristic.webp',
+    imageSrc: '/events/slide/background-futuristic.webp',
+    imageScaleClass: 'scale-120 md:scale-150',
     popupImageClassName:
-      '  bottom-4 md:bottom-10 h-[65%] overflow-hidden sm:h-[72%] md:h-[75%] lg:h-[78%]',
+      '  bottom-4 md:bottom-10 h-[65%] left-5 right-overflow-hidden sm:h-[72%] md:h-[75%] lg:h-[78%]',
     description: (
       <p>
         FUTURISTIC is a work program that provides{' '}
@@ -179,10 +181,11 @@ const eventsData: EventItem[] = [
   {
     id: 7,
     title: 'COMPANY VISIT',
-    popupImageSrc: '/events/slide/company-visit.png',
+    popupImageSrc: '/events/slide/company-visit.webp',
+    imageSrc: '/events/slide/background-company-visit.webp',
     imageScaleClass: 'scale-[1.5] md:scale-[2]',    
     popupImageClassName:
-      'left-10 right-0 bottom-0 md:bottom-10 h-50 md:h-80',  
+      'left-10 right-0 bottom-0 md:bottom-20 h-50 md:h-80',  
     description: (
       <p>
         Company Visit is a pivotal work program that provides participants with
@@ -204,10 +207,11 @@ const eventsData: EventItem[] = [
   {
     id: 8,
     title: 'SPE CARE',
-    popupImageSrc: '/events/slide/spe-care.png',
-    imageScaleClass: 'scale-[1.2] md:scale-[1.6]',
+    popupImageSrc: '/events/slide/spe-care.webp',
+    imageSrc: '/events/slide/background-spe-care.webp',
+    imageScaleClass: 'scale-[1.7] md:scale-[1.6]',
     popupImageClassName:
-      '-left-10 md:left-0 right-0 top-0 md:top-20 md:bottom-10 h-60 md:h-80',
+      'left-10 md:left-10 right-10 -top-5 md:top-20 md:bottom-10 h-60 md:h-80',
     description: (
       <p>
         SPE Care is an initiative to{' '}
@@ -232,10 +236,11 @@ const eventsData: EventItem[] = [
   {
     id: 9,
     title: 'SPE VLOC',
-    popupImageSrc: '/events/slide/slide8-popup.png',
-    imageScaleClass: 'scale-[1.4] md:scale-[1.5]',
+    popupImageSrc: '/events/slide/spe-vloc.webp',
+    imageSrc: '/events/slide/background-spe-vloc.webp',
+    imageScaleClass: 'scale-[2] md:scale-[1.3]',
     popupImageClassName:
-      'left-1/6    h-60 md:h-80',
+      'left-1/6 right-10 -bottom-10 md:right-0 md:-top-5 md:top-20 md:bottom-10 h-60 md:h-80',
     description: (
       <p>
         SPE Vloc is a series of informative content that provides an overview of{' '}
@@ -255,8 +260,9 @@ const eventsData: EventItem[] = [
   {
     id: 10,
     title: 'SCOPO',
-    popupImageSrc: '/events/slide/slide9-popup.png',
+    popupImageSrc: '/events/slide/scopo.webp',
     imageScaleClass: 'scale-[1.2] md:scale-[1.6]',
+    imageSrc: '/events/slide/background-spe-scop.webp',
     popupImageClassName:
       ' bottom-5 md:bottom-25  h-60 md:h-80',
     description: (
@@ -279,7 +285,8 @@ const eventsData: EventItem[] = [
   {
     id: 11,
     title: 'SPE Internal Mentoring',
-    popupImageSrc: '/events/slide/slide10-popup.png',
+    popupImageSrc: '/events/slide/spe-internal-mentoring.webp',
+    imageSrc: '/events/slide/background-internal-mentoring.webp',
     imageScaleClass: 'scale-[1.5] md:scale-[2.2]',
     popupImageClassName:
       ' top-0  h-60 md:h-80',
@@ -303,10 +310,11 @@ const eventsData: EventItem[] = [
   {
     id: 12,
     title: 'SOFTWARE TRAINING',
-    popupImageSrc: '/events/slide/slid11-popup.png',
+    popupImageSrc: '/events/slide/software-training.webp',
+    imageSrc: '/events/slide/background-software-training.webp',
     imageScaleClass: 'scale-[1.2] md:scale-[1.6]',
     popupImageClassName:
-      '   h-60 md:h-80',
+      '   h-60 md:h-80 top-15 md:-bottom-10',
     description: (
       <p>
         Software Training is an essential work program aimed at{' '}
@@ -327,7 +335,8 @@ const eventsData: EventItem[] = [
   {
     id: 13,
     title: 'PERSPECTIVE',
-    popupImageSrc: '/events/slide/perspective.png',
+    popupImageSrc: '/events/slide/perspective.webp',
+    imageSrc: '/events/slide/background-perspective.webp',
     imageScaleClass: 'scale-[1.8] md:scale-[2.3]',
     popupImageClassName:
       ' left-1/4 bottom-0 md:bottom-10 h-60 md:h-80',

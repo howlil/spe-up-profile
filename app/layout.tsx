@@ -8,23 +8,31 @@ import LayoutWrapper from '../components/LayoutWrapper';
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
+  display: 'swap',
 });
 
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
+  display: 'swap',
 });
 
 const playfairDisplay = Playfair_Display({
   variable: '--font-playfair',
   subsets: ['latin'],
   style: ['italic', 'normal'],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
   title: 'SPE Java - Students, Young, Energy',
   description:
     'Society of Petroleum Engineers Java Section - Students, Young, Energy',
+  icons: {
+    icon: '/logo.svg',
+    shortcut: '/logo.svg',
+    apple: '/logo.webp',
+  },
 };
 
 export default function RootLayout({

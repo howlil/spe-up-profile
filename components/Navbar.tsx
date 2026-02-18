@@ -51,12 +51,17 @@ export default function Navbar() {
     setIsMobileMenuOpen(false);
   };
 
-  // Close dropdown when clicking outside
+  // Close dropdown when clicking outside (desktop only; on mobile ignore clicks inside mobile menu so submenu links work)
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
+      const mobileMenu = document.getElementById('mobile-menu');
+      if (mobileMenu?.contains(target)) {
+        return; // click inside mobile menu — jangan tutup dropdown supaya link submenu bisa diklik
+      }
       if (
         dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
+        !dropdownRef.current.contains(target)
       ) {
         setOpenDropdown(null);
       }

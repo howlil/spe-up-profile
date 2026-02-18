@@ -58,6 +58,8 @@ export default function EventCard({
                 alt={imageAlt}
                 fill
                 className='object-cover object-center'
+                sizes='(max-width: 1024px) 100vw, 1024px'
+                quality={80}
               />
             )}
 
@@ -70,6 +72,8 @@ export default function EventCard({
                     alt={popupImageAlt}
                     fill
                     className={`object-contain drop-shadow-2xl ${imageScaleClass}`}
+                    sizes='(max-width: 1024px) 80vw, 600px'
+                    quality={85}
                   />
                 </div>
               </div>

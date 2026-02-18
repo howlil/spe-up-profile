@@ -5,8 +5,8 @@ import prisma from '@/lib/prisma'
 
 // GET - List alumni with search and filtering
 export async function GET(request: NextRequest) {
-    // Check authorization - SUPERADMIN only
-    const userOrError = await requireRole([UserRole.SUPERADMIN])
+    // Check authorization - SUPERADMIN or EXTERNAL can access
+    const userOrError = await requireRole([UserRole.SUPERADMIN, UserRole.EXTERNAL])
     if (userOrError instanceof NextResponse) {
         return userOrError
     }
