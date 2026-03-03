@@ -5,6 +5,7 @@ import AlumniCard from '../../components/AlumniCard';
 import SectionTitle from '../../components/SectionTitle';
 import PrimaryButton from '../../components/PrimaryButton';
 import AlumniForm from '../../components/AlumniForm';
+import MotionFadeIn from '../../components/MotionFadeIn';
 
 // Alumni Data - logoSize: 'sm' | 'md' | 'lg' | 'xl' (optional, default: 'md')
 const alumniData: {
@@ -111,6 +112,7 @@ const alumniData: {
 export default function AlumnaePage() {
   return (
     <main className='min-h-screen bg-white'>
+      <MotionFadeIn>
       {/* Hero Section */}
       <section className='relative h-[60vh] min-h-[400px] w-full sm:h-[70vh] lg:h-[80vh]'>
         {/* Background Image */}
@@ -207,6 +209,7 @@ export default function AlumnaePage() {
           </div>
         </div>
       </section>
+      </MotionFadeIn>
     </main>
   );
 }

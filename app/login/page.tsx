@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import {useState} from 'react';
+import {useRouter} from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import MotionFadeIn from '../../components/MotionFadeIn';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -59,7 +60,7 @@ export default function LoginPage() {
   return (
     <div className='min-h-screen flex'>
       {/* Left Side - Login Form */}
-      <div className='flex-1 flex flex-col justify-center px-8 sm:px-16 lg:px-24 xl:px-32 bg-white'>
+      <MotionFadeIn className='flex-1 flex flex-col justify-center px-8 sm:px-16 lg:px-24 xl:px-32 bg-white'>
         <div className='w-full max-w-md mx-auto'>
           {/* Back to Home Link */}
           <Link
@@ -192,10 +193,10 @@ export default function LoginPage() {
             </p>
           </div>
         </div>
-      </div>
+      </MotionFadeIn>
 
       {/* Right Side - SPE Branding */}
-      <div className='hidden lg:flex flex-1 relative bg-gradient-to-br from-[#3C8C98] to-[#1a4c52] overflow-hidden'>
+      <MotionFadeIn className='hidden lg:flex flex-1 relative bg-gradient-to-br from-[#3C8C98] to-[#1a4c52] overflow-hidden'>
         {/* Background Pattern */}
         <div className='absolute inset-0 opacity-10'>
           <div className='absolute top-20 left-20 w-32 h-32 rounded-full border-2 border-white'></div>
@@ -252,7 +253,7 @@ export default function LoginPage() {
         {/* Decorative Elements */}
         <div className='absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-32 translate-x-32'></div>
         <div className='absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-24 -translate-x-24'></div>
-      </div>
+      </MotionFadeIn>
     </div>
   );
 }

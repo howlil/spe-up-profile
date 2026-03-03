@@ -3,9 +3,11 @@
 import Image from 'next/image';
 import FolderCard from '../../components/FolderCard';
 import SectionTitle from '../../components/SectionTitle';
+import MotionFadeIn from '../../components/MotionFadeIn';
 
 export default function MembershipPage() {
   return (
+    <MotionFadeIn>
     <div className='bg-white'>
       {/* Hero Section */}
       <section
@@ -349,6 +351,7 @@ export default function MembershipPage() {
         </div>
       </section>
     </div>
+    </MotionFadeIn>
   );
 }
 

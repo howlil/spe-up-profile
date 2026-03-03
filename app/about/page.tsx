@@ -3,13 +3,14 @@
 'use client';
 
 import Image from 'next/image';
-import { Suspense, useEffect, useState, useRef } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
-import { CheckCircle, Loader2, AlertCircle, Upload, X, FileText } from 'lucide-react';
+import {Suspense, useEffect, useState, useRef} from 'react';
+import {usePathname, useSearchParams} from 'next/navigation';
+import {CheckCircle, Loader2, AlertCircle, Upload, X, FileText} from 'lucide-react';
 import FaceCard from '../../components/FaceCard';
 import FormInput from '../../components/FormInput';
 import FormTextarea from '../../components/FormTextarea';
 import SectionTitle from '../../components/SectionTitle';
+import MotionFadeIn from '../../components/MotionFadeIn';
 
 function AboutPageContent() {
   const pathname = usePathname();
@@ -139,7 +140,8 @@ function AboutPageContent() {
   }, [pathname, searchParams]);
 
   return (
-    <div className='min-h-screen bg-white'>
+    <MotionFadeIn>
+      <div className='min-h-screen bg-white'>
       {/* Achievement Section */}
       <section
         id='achievement'
@@ -816,7 +818,8 @@ function AboutPageContent() {
           />
         </div>
       </section>
-    </div>
+      </div>
+    </MotionFadeIn>
   );
 }
 

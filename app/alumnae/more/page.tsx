@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import SectionTitle from '../../../components/SectionTitle';
 import LeaderCard from '../../../components/LeaderCard';
+import MotionFadeIn from '../../../components/MotionFadeIn';
 
 // Cabinet Data
 const cabinets = [
@@ -107,6 +108,7 @@ const cabinets = [
 export default function AlumnaeMorePage() {
   return (
     <main className='min-h-screen bg-white'>
+      <MotionFadeIn>
       {/* Hero Section */}
       <section className='relative h-[60vh] min-h-[400px] w-full sm:h-[70vh] lg:h-[80vh]'>
         {/* Background Image */}
@@ -179,6 +181,7 @@ export default function AlumnaeMorePage() {
           ))}
         </div>
       </section>
+      </MotionFadeIn>
     </main>
   );
 }

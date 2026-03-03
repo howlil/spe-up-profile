@@ -2,10 +2,11 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import Image from 'next/image';
 import ArticleCard from '../../components/ArticleCard';
-import { Loader2, Layers, Tag, ChevronRight } from 'lucide-react';
+import {Loader2, Layers, Tag, ChevronRight} from 'lucide-react';
+import MotionFadeIn from '../../components/MotionFadeIn';
 
 interface Article {
   id: string;
@@ -127,6 +128,7 @@ export default function ArticlePage() {
 
   return (
     <main className='min-h-screen bg-white'>
+      <MotionFadeIn>
       {/* Hero Section */}
       <section className='relative h-[60vh] min-h-[400px] w-full overflow-hidden rounded-br-[60px] sm:h-[70vh] lg:h-[80vh]'>
         {/* Background Image */}
@@ -321,6 +323,7 @@ export default function ArticlePage() {
           </div>
         </div>
       </section>
+      </MotionFadeIn>
     </main>
   );
 }

@@ -2,11 +2,12 @@
 
 'use client';
 
-import { useState } from 'react';
+import {useState} from 'react';
 import Image from 'next/image';
-import EventCard, { type PopupImageSize } from '../../components/EventCard';
+import EventCard, {type PopupImageSize} from '../../components/EventCard';
 import MoreText from '../../components/MoreText';
 import CompanyLogosGrid from '../../components/CompanyLogosGrid';
+import MotionFadeIn from '../../components/MotionFadeIn';
 
 type EventItem = {
   id: number;
@@ -380,6 +381,7 @@ export default function EventsPage() {
 
   return (
     <main className='min-h-screen bg-white'>
+      <MotionFadeIn>
       {/* Hero Section */}
       <section className='relative h-[60vh] min-h-[400px] w-full overflow-hidden rounded-br-[60px] sm:h-[70vh] lg:h-[80vh]'>
         {/* Background Image */}
@@ -486,19 +488,22 @@ export default function EventsPage() {
 
       {/* Company Collaboration Section */}
       <section className='px-6 py-8 sm:px-12 sm:py-12 lg:px-24 lg:py-16'>
-        {/* Intro Text */}
-        <MoreText
-          content='And already held event collaboration with several companies'
-          position='left'
-          className='mb-8 sm:mb-12'
-        />
+        <MotionFadeIn>
+          {/* Intro Text */}
+          <MoreText
+            content='And already held event collaboration with several companies'
+            position='left'
+            className='mb-8 sm:mb-12'
+          />
 
-        {/* Company Logos */}
-        <CompanyLogosGrid />
+          {/* Company Logos */}
+          <CompanyLogosGrid />
 
-        {/* Also Many More */}
-        <MoreText content='also many more...' position='right' />
+          {/* Also Many More */}
+          <MoreText content='also many more...' position='right' />
+        </MotionFadeIn>
       </section>
+      </MotionFadeIn>
     </main>
   );
 }
