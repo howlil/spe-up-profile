@@ -52,7 +52,7 @@ const quillFormats = [
 
 export default function EditArticlePage() {
   const router = useRouter();
-  const params = useParams();
+  const {id} = useParams<{id: string}>();
   const coverInputRef = useRef<HTMLInputElement>(null);
 
   const [article, setArticle] = useState<Article | null>(null);
@@ -67,18 +67,18 @@ export default function EditArticlePage() {
 
   useEffect(() => {
     fetchData();
-  }, [params.id]);
+  }, [id]);
 
   const fetchData = async () => {
     setLoading(true);
     try {
       const [articleRes, categoriesRes] = await Promise.all([
-        fetch(`/api/articles/${params.id}`),
+        fetch(`/api/articles/${id}`),
         fetch('/api/articles/categories')
       ]);
 
       if (articleRes.status === 401 || categoriesRes.status === 401) {
-        router.push(`/login?redirect=/admin/articles/edit/${params.id}`);
+        router.push(`/login?redirect=/admin/articles/edit/${id}`);
         return;
       }
 
@@ -150,7 +150,7 @@ export default function EditArticlePage() {
     if (!article) return;
     setIsSaving(true);
     try {
-      const res = await fetch(`/api/articles/${params.id}`, {
+      const res = await fetch(`/api/articles/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(article)
@@ -167,7 +167,7 @@ export default function EditArticlePage() {
 
   const handleDelete = async () => {
     try {
-      const res = await fetch(`/api/articles/${params.id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/articles/${id}`, { method: 'DELETE' });
       if (res.ok) {
         router.push('/admin/articles');
       }

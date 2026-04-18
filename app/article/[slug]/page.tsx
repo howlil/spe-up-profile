@@ -29,9 +29,8 @@ interface Article {
 }
 
 export default function ArticleDetailPage() {
-  const params = useParams();
+  const {slug} = useParams<{slug: string}>();
   const router = useRouter();
-  const slug = params.slug as string;
 
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);

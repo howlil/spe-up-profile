@@ -14,6 +14,11 @@ type EventItem = {
   title: string;
   popupImageSrc?: string;
   imageSrc?: string;
+  overlayImageSrc?: string;
+  overlayImageAlt?: string;
+  overlayImageClassName?: string;
+  contentImageSrc?: string;
+  contentImageAlt?: string;
   imageScaleClass?: string;
   popupImageSize?: PopupImageSize;
   popupImageClassName?: string;
@@ -362,6 +367,46 @@ const eventsData: EventItem[] = [
       </p>
     ),
   },
+  {
+    id: 101,
+    title: 'SPEcial Class 1.0',
+    imageSrc: '/events/slide/background-speciak-class.webp',
+    contentImageSrc: '/events/slide/logo-pertamina-in-content-special.webp',
+    contentImageAlt: 'Pertamina Hulu Rokan',
+    description: (
+      <p>
+        SPEcial Class 1.0 with Pertamina Hulu Rokan focuses on the theme
+        &ldquo;Digital Transformation in Petroleum Engineering: Bridging
+        Technology and Operations.&rdquo; This session highlights how{' '}
+        <span className='bg-gradient-to-r from-[#02D9F5] to-[#017F8F] bg-clip-text font-semibold text-transparent'>
+          digital innovation enhances efficiency and integration
+        </span>{' '}
+        within modern petroleum engineering practices.
+      </p>
+    ),
+  },
+  {
+    id: 102,
+    title: 'Company Goes to Campus',
+    imageSrc: '/events/slide/background-gtc.webp',
+    overlayImageSrc: '/events/slide/ppl-board-gtc.webp',
+    overlayImageAlt: 'Company Goes to Campus speakers',
+    overlayImageClassName:
+      'left-0 bottom-0 h-[75%] w-[58%] origin-bottom-left scale-[1.7] sm:w-[52%] lg:w-[45%]',
+    contentImageSrc: '/events/slide/logo-pertamina-in-content-gtc.webp',
+    contentImageAlt: 'Pertamina Drilling Services Indonesia',
+    description: (
+      <p>
+        &ldquo;Career Opportunity in Drilling Industry with Pertamina Drilling
+        Services Indonesia&rdquo; is a session that introduces students to{' '}
+        <span className='bg-gradient-to-r from-[#02D9F5] to-[#017F8F] bg-clip-text font-semibold text-transparent'>
+          career prospects, industry insights, and essential skills
+        </span>{' '}
+        in the drilling sector. This event connects academia with industry
+        professionals from PDSI to inspire future energy talents.
+      </p>
+    ),
+  },
 ];
 
 export default function EventsPage() {
@@ -415,6 +460,11 @@ export default function EventsPage() {
           key={currentEvent.id}
           popupImageSrc={currentEvent.popupImageSrc}
           popupImageAlt={currentEvent.title}
+          overlayImageSrc={currentEvent.overlayImageSrc}
+          overlayImageAlt={currentEvent.overlayImageAlt}
+          overlayImageClassName={currentEvent.overlayImageClassName}
+          contentImageSrc={currentEvent.contentImageSrc}
+          contentImageAlt={currentEvent.contentImageAlt}
           popupImageSize={currentEvent.popupImageSize}
           popupImageClassName={currentEvent.popupImageClassName}
           popupClassName={currentEvent.popupClassName}

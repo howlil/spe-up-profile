@@ -16,8 +16,13 @@ const POPUP_BASE_CLASS = 'absolute inset-x-0 bottom-0 z-10';
 interface EventCardProps {
   imageSrc?: string;
   imageAlt?: string;
+  overlayImageSrc?: string;
+  overlayImageAlt?: string;
+  overlayImageClassName?: string;
   title: string;
   description: React.ReactNode;
+  contentImageSrc?: string;
+  contentImageAlt?: string;
   popupImageSrc?: string;
   popupImageAlt?: string;
   popupImageSize?: PopupImageSize;
@@ -32,8 +37,13 @@ interface EventCardProps {
 export default function EventCard({
   imageSrc,
   imageAlt = 'Event background',
+  overlayImageSrc,
+  overlayImageAlt = 'Event overlay',
+  overlayImageClassName = 'right-4 bottom-0 h-[72%] w-[45%] sm:right-6 sm:w-[40%] lg:right-8 lg:w-[35%]',
   title,
   description,
+  contentImageSrc,
+  contentImageAlt = 'Event partner logo',
   popupImageSrc,
   popupImageAlt = 'Event highlight',
   popupImageSize = 'medium',
@@ -41,6 +51,7 @@ export default function EventCard({
   popupClassName,
   imageScaleClass = 'scale-100',
 }: EventCardProps) {
+  const hasContentImage = Boolean(contentImageSrc);
   const popupContainerClass =
     popupClassName ??
     (popupImageClassName
@@ -61,6 +72,21 @@ export default function EventCard({
                 sizes='(max-width: 1024px) 100vw, 1024px'
                 quality={80}
               />
+            )}
+
+            {overlayImageSrc && (
+              <div className={`pointer-events-none absolute z-10 ${overlayImageClassName}`}>
+                <div className='relative h-full w-full'>
+                  <Image
+                    src={overlayImageSrc}
+                    alt={overlayImageAlt}
+                    fill
+                    className='object-contain object-bottom'
+                    sizes='(max-width: 1024px) 45vw, 260px'
+                    quality={85}
+                  />
+                </div>
+              </div>
             )}
 
             {/* Popup Image - ukuran mengikuti popupImageSize per event */}
@@ -104,8 +130,32 @@ export default function EventCard({
           <h3 className='mb-2 break-words bg-gradient-to-r from-[#09aac2] to-[#088395] bg-clip-text text-2xl font-bold leading-tight text-transparent sm:mb-3 sm:text-3xl lg:mb-4 lg:text-5xl'>
             {title}
           </h3>
-          <div className='min-w-0 overflow-hidden text-justify text-sm leading-relaxed text-gray-800 break-words sm:text-base lg:text-lg lg:leading-relaxed'>
-            {description}
+          <div
+            className={`items-stretch gap-5 ${
+              hasContentImage ? 'grid grid-cols-1 lg:grid-cols-3' : 'block'
+            }`}
+          >
+            <div
+              className={`min-w-0 overflow-hidden break-words text-justify text-sm leading-relaxed text-gray-800 sm:text-base lg:text-lg lg:leading-relaxed ${
+                hasContentImage ? 'lg:col-span-2' : ''
+              }`}
+            >
+              {description}
+            </div>
+            {hasContentImage && (
+              <div className='relative min-h-[80px] rounded-xl bg-white/80 p-3 lg:col-span-1'>
+                <div className='relative h-full min-h-[80px] w-full'>
+                  <Image
+                    src={contentImageSrc!}
+                    alt={contentImageAlt}
+                    fill
+                    className='object-contain object-center'
+                    sizes='(max-width: 1024px) 180px, 200px'
+                    quality={90}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
