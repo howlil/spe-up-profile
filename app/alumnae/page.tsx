@@ -117,7 +117,7 @@ export default function AlumnaePage() {
       <section className='relative h-[60vh] min-h-[400px] w-full sm:h-[70vh] lg:h-[80vh]'>
         {/* Background Image */}
         <Image
-          src='/home/hero.webp'
+          src='/home/new-hero.webp'
           alt='SPE Alumnae'
           fill
           className='object-cover'

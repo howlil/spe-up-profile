@@ -9,8 +9,101 @@ import {CheckCircle, Loader2, AlertCircle, Upload, X, FileText} from 'lucide-rea
 import FaceCard from '../../components/FaceCard';
 import FormInput from '../../components/FormInput';
 import FormTextarea from '../../components/FormTextarea';
+import LeaderCard from '../../components/LeaderCard';
 import SectionTitle from '../../components/SectionTitle';
-import MotionFadeIn from '../../components/MotionFadeIn';
+
+const yearOverYearCabinets = [
+  {
+    name: 'The Founder Cabinet',
+    leaders: [
+      {
+        name: 'Izza Nafia Pinem',
+        position: 'President of SPE UP SC 2020/2021',
+        imageSrc: '/alumnae/alumnae-more/izza-nafia.webp',
+      },
+      {
+        name: 'Arsalan Umar',
+        position: 'Vice President of SPE UP SC 2020/2021',
+        imageSrc: '/alumnae/alumnae-more/arsalan-umar.webp',
+      },
+    ],
+  },
+  {
+    name: 'Maturation Cabinet',
+    leaders: [
+      {
+        name: 'Giovanni J. B. Mitakda',
+        position: 'President of SPE UP SC 2021/2022',
+        imageSrc: '/alumnae/alumnae-more/giovany-mitakda.webp',
+      },
+      {
+        name: 'Abednego Amurwa L.',
+        position: 'Vice President of SPE UP SC 2021/2022',
+        imageSrc: '/alumnae/alumnae-more/abednego-amurwa.webp',
+      },
+    ],
+  },
+  {
+    name: 'Extraction Cabinet',
+    leaders: [
+      {
+        name: 'M. Kenandipa Putrayandra',
+        position: 'President of SPE UP SC 2022/2023',
+        imageSrc: '/alumnae/alumnae-more/kenandipa-putrayandra.webp',
+      },
+      {
+        name: 'Asyifa Defirsta S.',
+        position: 'Vice President of SPE UP SC 2022/2023',
+        imageSrc: '/alumnae/alumnae-more/asyifa-defirsta.webp',
+      },
+    ],
+  },
+  {
+    name: 'Compaction Cabinet',
+    leaders: [
+      {
+        name: 'M. Chairafy Hamid',
+        position: 'President of SPE UP SC 2024/2025',
+        imageSrc: '/alumnae/alumnae-more/chairafy.webp',
+      },
+      {
+        name: 'Bima Putra Rayyan',
+        position: 'Vice President of SPE UP SC 2024/2025',
+        imageSrc: '/alumnae/alumnae-more/bima.webp',
+      },
+    ],
+  },
+  {
+    name: 'Expansion Cabinet',
+    leaders: [
+      {
+        name: 'Shahar Banun',
+        position: 'President of SPE UP SC 2024/2025',
+        imageSrc: '/alumnae/alumnae-more/shahar-banun.webp',
+      },
+      {
+        name: 'Sandy Sadrio',
+        position: 'Vice President of SPE UP SC 2024/2025',
+        imageSrc: '/alumnae/alumnae-more/sandy-sadrio.webp',
+      },
+    ],
+  },
+  {
+    name: 'Escalation Cabinet',
+    leaders: [
+      {
+        name: 'Alfahmi Zikri',
+        position: 'President of SPE UP SC 2025/2026',
+        imageSrc: '/about-us/face/alfahmi.webp',
+      },
+      {
+        name: 'Raditya Demas Pratama',
+        position: 'Vice President of SPE UP SC 2025/2026',
+        imageSrc: '/about-us/face/raditya.webp',
+      },
+    ],
+  },
+];
 
 function AboutPageContent() {
   const pathname = usePathname();
@@ -140,7 +233,6 @@ function AboutPageContent() {
   }, [pathname, searchParams]);
 
   return (
-    <MotionFadeIn>
       <div className='min-h-screen bg-white'>
       {/* Achievement Section */}
       <section
@@ -565,6 +657,72 @@ function AboutPageContent() {
         </div>
       </section>
 
+      {/* Year over Year Section */}
+      <section
+        className='bg-gradient-to-b from-[#f8fcfd] via-[#f0fafb] to-[#e8f6f7] py-12 sm:py-16 lg:py-20'
+        aria-labelledby='year-over-year-heading'
+      >
+        {/* Heading full lebar viewport (keluar dari max-w-7xl) */}
+        <div className='relative left-1/2 w-screen max-w-none -translate-x-1/2 px-4 sm:px-6 lg:px-8'>
+          <div className='mb-10 flex flex-col items-center sm:mb-14 lg:mb-16'>
+            {/* Garis kiri–kanan sejajar baseline teks (bukan vertikal tengah) */}
+            <div className='mx-auto flex w-full max-w-6xl flex-nowrap items-baseline gap-3 sm:gap-5 lg:gap-8'>
+              <div
+                className='h-[3px] min-w-8 flex-1 bg-[#3C8C98]'
+                aria-hidden='true'
+              />
+              <h2
+                id='year-over-year-heading'
+                className='shrink-0 text-4xl text-[#3C8C98] sm:text-5xl lg:text-6xl'
+                style={{fontFamily: 'Geller, serif', fontStyle: 'italic'}}
+              >
+                Year over Year
+              </h2>
+              <div
+                className='h-[3px] min-w-8 flex-1 bg-[#3C8C98]'
+                aria-hidden='true'
+              />
+            </div>
+            <p
+              className='mt-3 w-full max-w-none text-balance text-center text-2xl tracking-tight text-[#3C8C98] sm:mt-4 sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl'
+              style={{fontFamily: 'Geller, serif'}}
+            >
+              President &amp; Vice President of SPE UP SC
+            </p>
+          </div>
+        </div>
+
+        <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
+          <div className='grid gap-12 sm:gap-14 lg:grid-cols-2 lg:gap-x-14 lg:gap-y-16'>
+            {yearOverYearCabinets.map(cabinet => (
+              <div key={cabinet.name}>
+                <h3
+                  className='mb-6 text-center text-2xl text-[#3C8C98] sm:text-3xl'
+                  style={{fontFamily: 'Geller, serif', fontStyle: 'italic'}}
+                >
+                  {cabinet.name}
+                </h3>
+                <div className='flex flex-wrap justify-center gap-6 sm:gap-8 lg:gap-10'>
+                  {cabinet.leaders.map(leader => (
+                    <div
+                      key={leader.name}
+                      className='w-[150px] sm:w-[180px] lg:w-[205px]'
+                    >
+                      <LeaderCard
+                        name={leader.name}
+                        position={leader.position}
+                        imageSrc={leader.imageSrc}
+                        frameStyle='face'
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Partnership Section */}
       <section
         id='partnership'
@@ -819,7 +977,6 @@ function AboutPageContent() {
         </div>
       </section>
       </div>
-    </MotionFadeIn>
   );
 }
 

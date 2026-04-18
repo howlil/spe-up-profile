@@ -48,83 +48,107 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Right Side - Contact Information (3fr) */}
-          <div className='flex flex-col justify-center space-y-8 px-4 py-12 sm:px-8 lg:px-12 lg:py-16'>
-            <h2 className='text-4xl font-medium text-white lg:text-5xl'>
-              Contact Us
-            </h2>
+          {/* Right Side - Contact + sponsor (2 columns on large screens) */}
+          <div className='flex flex-col justify-center px-4 py-12 sm:px-8 lg:px-12 lg:py-16'>
+            <div className='grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-12 lg:items-start'>
+              <div className='space-y-8'>
+                <h2 className='text-4xl font-medium text-white lg:text-5xl'>
+                  Contact Us
+                </h2>
 
-            <div className='space-y-6'>
-              {/* Address */}
-              <div className='flex items-start gap-5'>
-                <div className='flex-shrink-0'>
-                  <MapPin
-                    className='h-10 w-10 text-white'
-                    strokeWidth={1.5}
-                  />
+                <div className='space-y-6'>
+                  {/* Address */}
+                  <div className='flex items-start gap-5'>
+                    <div className='flex-shrink-0'>
+                      <MapPin
+                        className='h-10 w-10 text-white'
+                        strokeWidth={1.5}
+                      />
+                    </div>
+                    <a
+                      href='https://www.google.com/maps/place/Universitas+Pertamina/@-6.2285678,106.789164,962m/data=!3m2!1e3!4b1!4m6!3m5!1s0x2e69f13094c83677:0x1f4300031365732b!8m2!3d-6.2285678!4d106.789164!16s%2Fg%2F11c3x30f9b?entry=ttu&g_ep=EgoyMDI2MDExMy4wIKXMDSoASAFQAw%3D%3D'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='pt-1 text-base leading-relaxed text-white transition-colors hover:text-[#3C8C98] sm:text-lg lg:text-xl'
+                    >
+                      Jl. Teuku Nyak Arief, RT.7/RW.8, Simprug, Kec. Kby. Lama,
+                      Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12220
+                    </a>
+                  </div>
+
+                  {/* Email */}
+                  <div className='flex items-center gap-5'>
+                    <div className='flex-shrink-0'>
+                      <Mail
+                        className='h-10 w-10 text-white'
+                        strokeWidth={1.5}
+                      />
+                    </div>
+                    <a
+                      href='mailto:speupsc@gmail.com'
+                      className='text-base text-white transition-colors hover:text-[#3C8C98] sm:text-lg lg:text-xl'
+                    >
+                      speupsc@gmail.com
+                    </a>
+                  </div>
+
+                  {/* Instagram */}
+                  <div className='flex items-center gap-5'>
+                    <div className='flex-shrink-0'>
+                      <Instagram
+                        className='h-10 w-10 text-white'
+                        strokeWidth={1.5}
+                      />
+                    </div>
+                    <a
+                      href='https://www.instagram.com/speupsc/'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='text-base text-white transition-colors hover:text-[#3C8C98] sm:text-lg lg:text-xl'
+                    >
+                      @speupsc
+                    </a>
+                  </div>
+
+                  {/* LinkedIn */}
+                  <div className='flex items-center gap-5'>
+                    <div className='flex-shrink-0'>
+                      <Linkedin
+                        className='h-10 w-10 text-white'
+                        strokeWidth={1.5}
+                      />
+                    </div>
+                    <a
+                      href='https://www.linkedin.com/company/spe-universitas-pertamina-sc/'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='text-base text-white transition-colors hover:text-[#3C8C98] sm:text-lg lg:text-xl'
+                    >
+                      SPE Universitas Pertamina SC
+                    </a>
+                  </div>
                 </div>
-                <a
-                  href='https://www.google.com/maps/place/Universitas+Pertamina/@-6.2285678,106.789164,962m/data=!3m2!1e3!4b1!4m6!3m5!1s0x2e69f13094c83677:0x1f4300031365732b!8m2!3d-6.2285678!4d106.789164!16s%2Fg%2F11c3x30f9b?entry=ttu&g_ep=EgoyMDI2MDExMy4wIKXMDSoASAFQAw%3D%3D'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='pt-1 text-base leading-relaxed text-white transition-colors hover:text-[#3C8C98] sm:text-lg lg:text-xl'
-                >
-                  Jl. Teuku Nyak Arief, RT.7/RW.8, Simprug, Kec. Kby. Lama, Kota
-                  Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12220
-                </a>
               </div>
 
-              {/* Email */}
-              <div className='flex items-center gap-5'>
-                <div className='flex-shrink-0'>
-                  <Mail
-                    className='h-10 w-10 text-white'
-                    strokeWidth={1.5}
+              <aside
+                aria-label='Sponsor'
+                className='flex flex-col gap-2 lg:pt-2'
+              >
+                <p className='text-xs font-medium uppercase tracking-[0.2em] text-white/60'>
+                  Sponsored by
+                </p>
+                <div className='w-fit rounded bg-white px-3 py-2 shadow-sm'>
+                  <Image
+                    src='/home/sponsor.webp'
+                    alt='Sponsor tNavigator'
+                    width={160}
+                    height={48}
+                    className='h-7 w-auto object-contain sm:h-8 md:h-10 lg:h-11'
+                    sizes='(max-width: 640px) 80px, (max-width: 768px) 96px, 128px'
+                    quality={90}
                   />
                 </div>
-                <a
-                  href='mailto:speupsc@gmail.com'
-                  className='text-base text-white transition-colors hover:text-[#3C8C98] sm:text-lg lg:text-xl'
-                >
-                  speupsc@gmail.com
-                </a>
-              </div>
-
-              {/* Instagram */}
-              <div className='flex items-center gap-5'>
-                <div className='flex-shrink-0'>
-                  <Instagram
-                    className='h-10 w-10 text-white'
-                    strokeWidth={1.5}
-                  />
-                </div>
-                <a
-                  href='https://www.instagram.com/speupsc/'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='text-base text-white transition-colors hover:text-[#3C8C98] sm:text-lg lg:text-xl'
-                >
-                  @speupsc
-                </a>
-              </div>
-
-              {/* LinkedIn */}
-              <div className='flex items-center gap-5'>
-                <div className='flex-shrink-0'>
-                  <Linkedin
-                    className='h-10 w-10 text-white'
-                    strokeWidth={1.5}
-                  />
-                </div>
-                <a
-                  href='https://www.linkedin.com/company/spe-universitas-pertamina-sc/'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='text-base text-white transition-colors hover:text-[#3C8C98] sm:text-lg lg:text-xl'
-                >
-                  SPE Universitas Pertamina SC
-                </a>
-              </div>
+              </aside>
             </div>
           </div>
         </div>

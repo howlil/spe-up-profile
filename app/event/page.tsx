@@ -386,7 +386,7 @@ export default function EventsPage() {
       <section className='relative h-[60vh] min-h-[400px] w-full overflow-hidden rounded-br-[60px] sm:h-[70vh] lg:h-[80vh]'>
         {/* Background Image */}
         <Image
-          src='/events/hero.webp'
+          src='/home/new-hero.webp'
           alt='SPE UP SC Events'
           fill
           className='object-cover'
@@ -396,7 +396,7 @@ export default function EventsPage() {
 
         {/* Gradient Overlay */}
         <div
-          className='absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-[rgba(155,255,231,0.3)]'
+          className='absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0)_35%,rgba(155,255,231,0.28)_62%,rgba(155,255,231,0.45)_100%)]'
           aria-hidden='true'
         />
       </section>

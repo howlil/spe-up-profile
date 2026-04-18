@@ -133,7 +133,7 @@ export default function ArticlePage() {
       <section className='relative h-[60vh] min-h-[400px] w-full overflow-hidden rounded-br-[60px] sm:h-[70vh] lg:h-[80vh]'>
         {/* Background Image */}
         <Image
-          src='/articles/hero.webp'
+          src='/home/new-hero.webp'
           alt='SPE UP SC Articles'
           fill
           className='object-cover'
@@ -143,7 +143,7 @@ export default function ArticlePage() {
 
         {/* Gradient Overlay */}
         <div
-          className='absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-[rgba(155,255,231,0.3)]'
+          className='absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.4)_0%,rgba(0,0,0,0)_30%,rgba(155,255,231,0.28)_58%,rgba(155,255,231,0.45)_100%)]'
           aria-hidden='true'
         />
 

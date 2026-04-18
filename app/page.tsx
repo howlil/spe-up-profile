@@ -17,7 +17,7 @@ export default function Home() {
       >
         <div className='absolute inset-0'>
           <Image
-            src='/home/hero.webp'
+            src='/home/new-hero.webp'
             alt='SPE Universitas Pertamina community gathering'
             fill
             className='object-cover'
@@ -51,23 +51,6 @@ export default function Home() {
                 </span>{' '}
                 with Us
               </p>
-            </div>
-          </MotionFadeIn>
-        </div>
-
-        {/* Sponsor logo - bottom right, responsive */}
-        <div className='absolute bottom-2 right-2 z-10 sm:bottom-4 sm:right-4'>
-          <MotionFadeIn delay={0.1}>
-            <div className='rounded bg-white px-3 py-2'>
-              <Image
-                src='/home/sponsor.webp'
-                alt='Sponsor tNavigator'
-                width={160}
-                height={48}
-                className='h-7 w-auto object-contain sm:h-8 md:h-10 lg:h-11 xl:h-12'
-                sizes='(max-width: 640px) 80px, (max-width: 768px) 96px, 128px'
-                quality={90}
-              />
             </div>
           </MotionFadeIn>
         </div>
@@ -309,55 +292,76 @@ export default function Home() {
             <div className='grid gap-8 lg:grid-cols-2 lg:gap-8'>
               {/* Left Grid - 2 Vertical Event Cards side by side */}
               <div className='grid grid-cols-2 gap-4'>
-                {/* Card 1 - IPTC 2025 */}
+                {/* Card 1 - Software Training (format sama kartu GTC) */}
                 <div className='group relative aspect-[3/5] overflow-hidden rounded-bl-[20px] rounded-tr-[20px] shadow-lg transition-transform hover:scale-[1.02] hover:shadow-xl'>
                   <Image
-                    src='/home/wwd/event-iptc.webp'
-                    alt='The International Petroleum Technology Conference (IPTC) 2025'
+                    src='/home/wwd/software-training.webp'
+                    alt='Software Training with tNavigator'
                     fill
                     className='object-cover'
                     sizes='(max-width: 1024px) 50vw, 25vw'
                   />
-                  {/* Dark overlay dengan opacity untuk background gelap */}
                   <div
                     className='absolute inset-0 bg-black/40'
                     aria-hidden='true'
                   />
-                  {/* Dark gradient overlay at bottom */}
-                  <div className='absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 to-transparent' />
-                  {/* Text content with blue line */}
-                  <div className='absolute bottom-0 left-0 right-0 z-10 p-4 sm:p-5 lg:p-6'>
+                  <div className='absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-black/70 to-transparent' />
+                  <div className='absolute left-0 right-0 top-0 z-10 p-4 sm:p-6 lg:p-8'>
                     <div className='mb-2 h-[4px] w-[50px] bg-[#35a9ff]' />
-                    <h3 className='text-sm font-normal leading-tight text-white sm:text-base lg:text-lg'>
-                      The International Petroleum Technology Conference (IPTC){' '}
-                      <span className='font-semibold'>2025</span>
+                    <h3 className='whitespace-nowrap text-base font-normal leading-tight tracking-tight text-white'>
+                      Software Training
                     </h3>
+                    <div className='mt-2 flex flex-wrap items-center gap-2 sm:gap-3'>
+                      <span className='text-xs font-light italic text-white/95 sm:text-sm lg:text-base'>
+                        with
+                      </span>
+                      <Image
+                        src='/home/wwd/t-nav-logo.webp'
+                        alt='tNavigator'
+                        width={140}
+                        height={42}
+                        className='h-6 w-auto object-contain object-left sm:h-7 lg:h-8'
+                        sizes='(max-width: 1024px) 96px, 140px'
+                      />
+                    </div>
                   </div>
                 </div>
 
-                {/* Card 2 - AES 2023 */}
+                {/* Card 2 - Company Goes To Campus (GTC) */}
                 <div className='group relative aspect-[3/5] overflow-hidden rounded-bl-[20px] rounded-tr-[20px] shadow-lg transition-transform hover:scale-[1.02] hover:shadow-xl'>
                   <Image
-                    src='/home/wwd/event-aes.webp'
-                    alt='Annual Energy Symposium (AES) 2023'
+                    src='/home/wwd/event-gtc.webp'
+                    alt='Company Goes To Campus with Pertamina'
                     fill
                     className='object-cover'
                     sizes='(max-width: 1024px) 50vw, 25vw'
                   />
-                  {/* Dark overlay dengan opacity untuk background gelap */}
+                  {/* Dark overlay untuk readability */}
                   <div
                     className='absolute inset-0 bg-black/40'
                     aria-hidden='true'
                   />
-                  {/* Dark gradient overlay at bottom */}
-                  <div className='absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 to-transparent' />
-                  {/* Text content with blue line */}
-                  <div className='absolute bottom-0 left-0 right-0 z-10 p-4 sm:p-5 lg:p-6'>
+                  {/* Gradient readability di atas (teks di top) */}
+                  <div className='absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-black/70 to-transparent' />
+                  {/* Text content with blue line — di atas */}
+                  <div className='absolute left-0 right-0 top-0 z-10 p-4 sm:p-6 lg:p-8'>
                     <div className='mb-2 h-[4px] w-[50px] bg-[#35a9ff]' />
-                    <h3 className='text-sm font-normal leading-tight text-white sm:text-base lg:text-lg'>
-                      Annual Energy Symposium (AES){' '}
-                      <span className='font-semibold'>2023</span>
+                    <h3 className='whitespace-nowrap text-base font-normal leading-tight tracking-tight text-white'>
+                      Company Goes To Campus
                     </h3>
+                    <div className='mt-2 flex flex-wrap items-center gap-2 sm:gap-3'>
+                      <span className='text-xs font-light italic text-white/95 sm:text-sm lg:text-base'>
+                        with
+                      </span>
+                      <Image
+                        src='/home/wwd/pertamina-logo-gtc.webp'
+                        alt='Pertamina'
+                        width={140}
+                        height={42}
+                        className='h-6 w-auto object-contain object-left sm:h-7 lg:h-8'
+                        sizes='(max-width: 1024px) 96px, 140px'
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

@@ -2,11 +2,9 @@
 
 'use client';
 
-import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
+import Footer from './Footer';
 import Navbar from './Navbar';
-
-const Footer = dynamic(() => import('./Footer'), { ssr: true });
 
 interface LayoutWrapperProps {
   children: React.ReactNode;
