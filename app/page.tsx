@@ -156,9 +156,9 @@ export default function Home() {
                 {/* Certificates Grid */}
                 <div className='relative grid grid-cols-1 gap-4 sm:grid-cols-2'>
                   {/* Certificate 1 */}
-                  <div className='relative aspect-[16/11] overflow-hidden rounded-lg shadow-lg'>
+                  <div className='relative aspect-[16/11] overflow-hidden rounded-lg'>
                     <Image
-                      src='/home/achievement-cert-1.webp'
+                      src='/home/n-achievement-cert-1.webp'
                       alt='SPE Presidential Award Outstanding Student Chapter - Universitas Pertamina'
                       fill
                       className='object-cover'
@@ -168,9 +168,9 @@ export default function Home() {
                   </div>
 
                   {/* Certificate 2 */}
-                  <div className='relative aspect-[16/11] overflow-hidden rounded-lg shadow-lg'>
+                  <div className='relative aspect-[16/11] overflow-hidden rounded-lg'>
                     <Image
-                      src='/home/achievement-cert-2.webp'
+                      src='/home/n-achievement-cert-2.webp'
                       alt='SPE Regional Outstanding Student Chapter - Universitas Pertamina Chapter'
                       fill
                       className='object-cover'
@@ -183,10 +183,10 @@ export default function Home() {
                   <div className='absolute bottom-0 left-0 -ml-32 -mb-32 z-10  lg:block'>
                     <div className='relative h-48 w-48 xl:h-56 xl:w-56'>
                       <Image
-                        src='/home/achievement-badge-student-chapter.webp'
+                        src='/home/n-achievement-badge-student-chapter.webp'
                         alt='SPE 2025 Outstanding Student Chapter Award Badge'
                         fill
-                        className='object-contain drop-shadow-2xl'
+                        className='object-contain'
                         sizes='(min-width: 1280px) 144px, 128px'
                         quality={88}
                       />

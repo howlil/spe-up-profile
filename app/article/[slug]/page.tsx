@@ -3,7 +3,7 @@
 'use client';
 
 import {useState, useEffect} from 'react';
-import {useParams, useRouter} from 'next/navigation';
+import {useParams} from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import {Loader2, ArrowLeft, Calendar, User, Eye, Tag} from 'lucide-react';
@@ -30,7 +30,6 @@ interface Article {
 
 export default function ArticleDetailPage() {
   const {slug} = useParams<{slug: string}>();
-  const router = useRouter();
 
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
@@ -188,12 +187,10 @@ export default function ArticleDetailPage() {
           )}
 
           {/* Content */}
-          <div className='w-full overflow-x-auto'>
-            <div
-              className='prose prose-lg max-w-none prose-headings:text-gray-900 prose-headings:font-bold prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-[#3C8C98] prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl prose-img:shadow-lg'
-              dangerouslySetInnerHTML={{__html: article.content}}
-            />
-          </div>
+          <div
+            className='prose prose-lg max-w-none break-words prose-headings:text-gray-900 prose-headings:font-bold prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-[#3C8C98] prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl prose-img:shadow-lg'
+            dangerouslySetInnerHTML={{__html: article.content}}
+          />
 
           {/* Tags */}
           {article.tags && article.tags.length > 0 && (

@@ -37,7 +37,7 @@ export default function FaceCard({
         >
           {name}
         </p>
-        <p className='text-xs sm:text-sm leading-tight font-normal mt-1 text-neutral-500 w-5/6 mx-auto'>
+        <p className='mt-1 w-5/6 mx-auto text-[11px] leading-tight font-normal text-neutral-500 sm:text-sm'>
           {position}
         </p>
         </div>

@@ -47,11 +47,17 @@ export default function SectionTitle({
     case 'center':
       return (
         <div className='flex items-center justify-center gap-4'>
-          <div className={`${lineClasses} w-full max-w-[200px] bg-[#3C8C98] sm:max-w-[300px] lg:max-w-xs`} aria-hidden='true' />
-          <h2 id={id} className={`${titleClasses} whitespace-nowrap`}>
+          <div
+            className={`${lineClasses} hidden w-full max-w-[200px] bg-[#3C8C98] sm:block sm:max-w-[300px] lg:max-w-xs`}
+            aria-hidden='true'
+          />
+          <h2 id={id} className={`${titleClasses} text-center whitespace-normal sm:whitespace-nowrap`}>
             {children}
           </h2>
-          <div className={`${lineClasses} w-full max-w-[200px] bg-[#3C8C98] sm:max-w-[300px] lg:max-w-xs`} aria-hidden='true' />
+          <div
+            className={`${lineClasses} hidden w-full max-w-[200px] bg-[#3C8C98] sm:block sm:max-w-[300px] lg:max-w-xs`}
+            aria-hidden='true'
+          />
         </div>
       );
 

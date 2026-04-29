@@ -115,14 +115,14 @@ export default function AlumnaeMorePage() {
         <div className='absolute bottom-8 left-0 right-0 flex flex-col items-center px-6 text-center sm:bottom-12 sm:px-12 lg:bottom-16 lg:px-24'>
           {/* Year over Year - italic serif, thin */}
           <p
-            className='mb-2 text-3xl font-thin text-white drop-shadow-lg sm:text-4xl lg:text-6xl'
+            className='mb-1 text-2xl font-thin leading-tight text-white drop-shadow-lg sm:mb-2 sm:text-4xl lg:text-6xl'
             style={{ fontFamily: 'Geller, serif', fontStyle: 'italic' }}
           >
             Year over Year
           </p>
           {/* Main Heading - max-w-7xl */}
-          <h1 className='mx-auto max-w-7xl text-5xl font-bold text-white drop-shadow-lg sm:text-6xl lg:text-8xl'>
-            President & Vice <br /> President of SPE UP SC
+          <h1 className='mx-auto max-w-7xl text-3xl font-bold leading-tight text-white drop-shadow-lg sm:text-5xl lg:text-8xl'>
+            President & Vice <br className='hidden sm:block' /> President of SPE UP SC
           </h1>
         </div>
       </section>

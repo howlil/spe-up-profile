@@ -47,7 +47,7 @@ const yearOverYearCabinets = [
     name: 'Extraction Cabinet',
     leaders: [
       {
-        name: 'M. Kenandipa Putrayandra',
+        name: 'M. Kenandipa P',
         position: 'President of SPE UP SC 2022/2023',
         imageSrc: '/alumnae/alumnae-more/kenandipa-putrayandra.webp',
       },
@@ -97,7 +97,7 @@ const yearOverYearCabinets = [
         imageSrc: '/about-us/face/alfahmi.webp',
       },
       {
-        name: 'Raditya Demas Pratama',
+        name: 'Raditya Demas P',
         position: 'Vice President of SPE UP SC 2025/2026',
         imageSrc: '/about-us/face/raditya.webp',
       },
@@ -280,18 +280,18 @@ function AboutPageContent() {
             <div className='relative flex items-center justify-center'>
               {/* Mobile: Stacked layout with badge */}
               <div className='relative grid w-full grid-cols-1 gap-4 sm:hidden'>
-                <div className='relative aspect-[16/11] overflow-hidden rounded-lg bg-white shadow-lg'>
+                <div className='relative aspect-[16/11] overflow-hidden rounded-lg bg-white'>
                   <Image
-                    src='/about-us/achiev/cert-1.webp'
+                    src='/home/n-achievement-cert-1.webp'
                     alt='SPE Presidential Award Outstanding Student Chapter - Universitas Pertamina'
                     fill
                     className='object-cover'
                     sizes='100vw'
                   />
                 </div>
-                <div className='relative aspect-[16/11] overflow-hidden rounded-lg bg-white shadow-lg'>
+                <div className='relative aspect-[16/11] overflow-hidden rounded-lg bg-white'>
                   <Image
-                    src='/about-us/achiev/cert-2.webp'
+                    src='/home/n-achievement-cert-2.webp'
                     alt='SPE Regional Outstanding Student Chapter - Universitas Pertamina Chapter'
                     fill
                     className='object-cover'
@@ -302,7 +302,7 @@ function AboutPageContent() {
                 <div className='flex justify-center mt-4'>
                   <div className='relative h-32 w-32'>
                     <Image
-                      src='/about-us/achiev/badge-student-chapter.webp'
+                      src='/home/n-achievement-badge-student-chapter.webp'
                       alt='SPE 2025 Outstanding Student Chapter Award Badge'
                       fill
                       className='object-contain'
@@ -317,10 +317,10 @@ function AboutPageContent() {
                 {/* Certificate 1 - Top Left, Rotated */}
                 <div className='absolute left-0 top-0 z-10 flex items-center justify-center'>
                   <div className='flex-none rotate-[-6deg]'>
-                    <div className='relative h-[280px] w-[380px] bg-white shadow-[4.98px_11.621px_9.629px_0px_rgba(0,0,0,0.25)] sm:h-[320px] sm:w-[430px]'>
+                    <div className='relative h-[280px] w-[380px] bg-white sm:h-[320px] sm:w-[430px]'>
                       <div className='relative h-full w-full overflow-hidden'>
                         <Image
-                          src='/about-us/achiev/cert-1.webp'
+                          src='/home/n-achievement-cert-1.webp'
                           alt='SPE Presidential Award Outstanding Student Chapter - Universitas Pertamina'
                           fill
                           className='object-cover'
@@ -334,10 +334,10 @@ function AboutPageContent() {
                 {/* Certificate 2 - Bottom Right, Rotated, Overlapping C1, Extending to edge */}
                 <div className='absolute bottom-8 right-0 z-0 flex items-center justify-center sm:bottom-12 lg:right-[-5%] xl:right-[-8%] 2xl:right-[-12%]'>
                   <div className='flex-none rotate-[-6deg]'>
-                    <div className='relative h-[280px] w-[380px] bg-white shadow-[4.98px_11.621px_9.629px_0px_rgba(0,0,0,0.25)] sm:h-[320px] sm:w-[430px]'>
+                    <div className='relative h-[280px] w-[380px] bg-white sm:h-[320px] sm:w-[430px]'>
                       <div className='relative h-full w-full overflow-hidden'>
                         <Image
-                          src='/about-us/achiev/cert-2.webp'
+                          src='/home/n-achievement-cert-2.webp'
                           alt='SPE Regional Outstanding Student Chapter - Universitas Pertamina Chapter'
                           fill
                           className='object-cover'
@@ -353,7 +353,7 @@ function AboutPageContent() {
                   <div className='flex-none rotate-[6deg]'>
                     <div className='relative h-40 w-40 sm:h-48 sm:w-48 xl:h-56 xl:w-56'>
                       <Image
-                        src='/about-us/achiev/badge-student-chapter.webp'
+                        src='/home/n-achievement-badge-student-chapter.webp'
                         alt='SPE 2025 Outstanding Student Chapter Award Badge'
                         fill
                         className='object-contain'
@@ -577,6 +577,7 @@ function AboutPageContent() {
             <SectionTitle
               id='face-of-spe-heading'
               variant='left'
+              className='text-3xl leading-tight sm:text-5xl lg:text-6xl'
             >
               Face of SPE UP SC
             </SectionTitle>
@@ -594,10 +595,10 @@ function AboutPageContent() {
               />
               <div className='mt-0 md:mt-16'>
                 <FaceCard
-                  name='Raditya Demas'
+                  name='Raditya Demas P.'
                   position='Vice President of SPE UP SC 2025/2026'
                   imageSrc='/about-us/face/raditya.webp'
-                  imageAlt='Raditya Demas - Vice President of SPE UP SC 2025/2026'
+                  imageAlt='Raditya Demas P. - Vice President of SPE UP SC 2025/2026'
                 />
               </div>
             </div>
@@ -666,25 +667,25 @@ function AboutPageContent() {
         <div className='relative left-1/2 w-screen max-w-none -translate-x-1/2 px-4 sm:px-6 lg:px-8'>
           <div className='mb-10 flex flex-col items-center sm:mb-14 lg:mb-16'>
             {/* Garis kiri–kanan sejajar baseline teks (bukan vertikal tengah) */}
-            <div className='mx-auto flex w-full max-w-6xl flex-nowrap items-baseline gap-3 sm:gap-5 lg:gap-8'>
+            <div className='mx-auto flex w-full max-w-6xl items-baseline justify-center gap-3 sm:flex-nowrap sm:gap-5 lg:gap-8'>
               <div
-                className='h-[3px] min-w-8 flex-1 bg-[#3C8C98]'
+                className='hidden h-[3px] min-w-8 flex-1 bg-[#3C8C98] sm:block'
                 aria-hidden='true'
               />
               <h2
                 id='year-over-year-heading'
-                className='shrink-0 text-4xl text-[#3C8C98] sm:text-5xl lg:text-6xl'
+                className='text-center text-2xl leading-tight text-[#3C8C98] sm:shrink-0 sm:text-4xl lg:text-6xl'
                 style={{fontFamily: 'Geller, serif', fontStyle: 'italic'}}
               >
                 Year over Year
               </h2>
               <div
-                className='h-[3px] min-w-8 flex-1 bg-[#3C8C98]'
+                className='hidden h-[3px] min-w-8 flex-1 bg-[#3C8C98] sm:block'
                 aria-hidden='true'
               />
             </div>
             <p
-              className='mt-3 w-full max-w-none text-balance text-center text-2xl tracking-tight text-[#3C8C98] sm:mt-4 sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl'
+              className='mt-3 w-full max-w-5xl text-balance text-center text-base leading-tight tracking-tight text-[#3C8C98] sm:mt-4 sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl'
               style={{fontFamily: 'Geller, serif'}}
             >
               President &amp; Vice President of SPE UP SC

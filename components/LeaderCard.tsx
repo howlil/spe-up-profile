@@ -46,12 +46,12 @@ export default function LeaderCard({
       {/* Name and Position */}
       <div className='w-full text-center'>
         <p
-          className='whitespace-nowrap text-lg leading-tight text-black sm:text-xl lg:text-2xl'
+          className='text-base leading-tight text-black sm:whitespace-nowrap sm:text-xl lg:text-2xl'
           style={{ fontFamily: 'Geller, serif', fontStyle: 'italic' }}
         >
           {name}
         </p>
-        <p className='mt-1 text-sm leading-tight text-neutral-500'>
+        <p className='mt-1 text-[11px] leading-tight text-neutral-500 sm:text-sm'>
           {positionLabel}
           {positionYear ? <span className='block'>{positionYear}</span> : null}
         </p>

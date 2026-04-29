@@ -108,7 +108,7 @@ export default function EventCard({
       </div>
 
       {/* Description Card - Folder Tab Shape, content contained */}
-      <div className='relative z-20 -mt-4 min-w-0 overflow-hidden sm:-mt-6 lg:-mt-8'>
+      <div className='relative z-20 -mt-10 min-w-0 overflow-hidden sm:-mt-6 lg:-mt-8'>
         <svg
           className='absolute inset-0 h-full w-full drop-shadow-lg'
           viewBox='14 0 980 350'
@@ -126,7 +126,7 @@ export default function EventCard({
           />
         </svg>
 
-        <div className='relative min-w-0 overflow-hidden p-5 pt-6 sm:p-6 sm:pt-8 lg:p-10 lg:pt-12'>
+        <div className='relative min-w-0 overflow-hidden p-5 pt-10 sm:p-6 sm:pt-8 lg:p-10 lg:pt-12'>
           <h3 className='mb-2 break-words bg-gradient-to-r from-[#09aac2] to-[#088395] bg-clip-text text-2xl font-bold leading-tight text-transparent sm:mb-3 sm:text-3xl lg:mb-4 lg:text-5xl'>
             {title}
           </h3>

@@ -154,9 +154,9 @@ export default function AlumnaePage() {
 
       {/* What Do Alumnae Say Section */}
       <section className='px-6 py-12 sm:px-12 sm:py-16 lg:px-24 lg:py-20'>
-        <SectionTitle variant='center' lineThickness='thick'>
+        {/* <SectionTitle variant='center' lineThickness='thick'>
           What Do Alumnae Say
-        </SectionTitle>
+        </SectionTitle> */}
 
         {/* Alumni Grid */}
         <div className='mt-8 grid grid-cols-2 gap-4 sm:mt-12 sm:grid-cols-3 sm:gap-5 lg:mt-16 lg:grid-cols-5 lg:gap-6'>
