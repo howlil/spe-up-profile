@@ -188,7 +188,7 @@ export default function ArticleDetailPage() {
 
           {/* Content */}
           <div
-            className='prose prose-lg max-w-none break-words prose-headings:text-gray-900 prose-headings:font-bold prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-[#3C8C98] prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl prose-img:shadow-lg'
+            className='article-content prose prose-lg max-w-none prose-headings:text-gray-900 prose-headings:font-bold prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-[#3C8C98] prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl prose-img:shadow-lg'
             dangerouslySetInnerHTML={{__html: article.content}}
           />
 

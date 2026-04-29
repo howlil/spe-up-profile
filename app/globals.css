@@ -107,12 +107,6 @@ body {
 .prose {
   color: #374151;
   max-width: none;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-.prose * {
-  max-width: 100%;
 }
 
 .prose h1 {
@@ -208,14 +202,31 @@ body {
   font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
 }
 
-.prose pre {
-  white-space: pre-wrap;
-  word-break: break-word;
+.article-content {
+  overflow-wrap: anywhere;
 }
 
-.prose table {
+.article-content :where(p, li, span, div) {
+  white-space: normal !important;
+}
+
+.article-content :where(img, video, iframe) {
+  max-width: 100%;
+  height: auto;
+}
+
+.article-content pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: auto;
+}
+
+.article-content table {
+  display: block;
   width: 100%;
-  table-layout: fixed;
+  max-width: 100%;
+  overflow-x: auto;
+  table-layout: auto;
 }
 
 /* Editor specific styles */
